@@ -99,6 +99,7 @@ function BeforeAfterSlider({
       style={{
         WebkitTapHighlightColor: 'transparent',
         WebkitUserSelect: 'none',
+        touchAction: 'none',
         userSelect: 'none',
       }}
       onClick={(event) => event.stopPropagation()}
@@ -114,6 +115,19 @@ function BeforeAfterSlider({
         event.preventDefault();
         event.stopPropagation();
         updateFromPointer(event);
+      }}
+      onPointerUp={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+          event.currentTarget.releasePointerCapture(event.pointerId);
+        }
+      }}
+      onPointerCancel={(event) => {
+        event.stopPropagation();
+        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+          event.currentTarget.releasePointerCapture(event.pointerId);
+        }
       }}
     >
       <img

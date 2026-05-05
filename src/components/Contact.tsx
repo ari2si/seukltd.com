@@ -350,7 +350,7 @@ export default function Contact() {
           </div>
 
           {/* Right - Form */}
-          <div className="bg-[#f3ead2]/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
+          <div id="contact-form" className="scroll-mt-24 bg-[#f3ead2]/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
             {sent ? (
               <div className="flex min-h-[520px] flex-col justify-center text-center">
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gold-500/10">

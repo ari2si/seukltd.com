@@ -12,7 +12,7 @@ export default function MobileQuoteBar() {
           Call
         </a>
         <a
-          href="#contact"
+          href="#contact-form"
           className="flex h-11 flex-[1.4] items-center justify-center gap-2 rounded-lg bg-gold-500 text-sm font-bold text-slate-950"
         >
           <MessageSquareText className="h-4 w-4" />

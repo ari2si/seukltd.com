@@ -30,8 +30,14 @@ export default function Navbar() {
     setOpen(false);
     setServicesOpen(false);
     setActiveService(null);
-    const el = document.querySelector(href);
-    el?.scrollIntoView({ behavior: 'smooth' });
+    window.requestAnimationFrame(() => {
+      const el = document.querySelector(href);
+      if (!el) return;
+
+      const headerOffset = window.innerWidth < 768 ? 92 : 88;
+      const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
   };
 
   const toggleService = (slug: string) => {
@@ -218,10 +224,10 @@ export default function Navbar() {
               )
             )}
             <a
-              href="#contact"
+              href="#contact-form"
               onClick={(e) => {
                 e.preventDefault();
-                handleClick('#contact');
+                handleClick('#contact-form');
               }}
               className="ml-4 px-5 py-2.5 bg-gold-500 text-slate-900 text-sm font-semibold rounded-lg hover:bg-gold-400 transition-all duration-200 shadow-lg shadow-gold-500/20"
             >
@@ -302,10 +308,10 @@ export default function Navbar() {
             )
           )}
           <a
-            href="#contact"
+            href="#contact-form"
             onClick={(e) => {
               e.preventDefault();
-              handleClick('#contact');
+              handleClick('#contact-form');
             }}
             className="block mt-2 px-4 py-3 bg-gold-500 text-slate-900 font-semibold rounded-lg text-center hover:bg-gold-400 transition-colors"
           >
