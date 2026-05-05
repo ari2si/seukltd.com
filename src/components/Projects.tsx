@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, MapPin, X } from 'lucide-react';
 import { featuredProjects, projectImages } from '../lib/siteData';
 
@@ -69,8 +69,12 @@ function BeforeAfterSlider({
   ariaLabel: string;
   className?: string;
 }) {
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
+
   const updateFromPointer = (event: React.PointerEvent<HTMLDivElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
+    if (!sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
     const value = ((event.clientX - rect.left) / rect.width) * 100;
     onRevealChange(Math.max(0, Math.min(100, Math.round(value))));
   };
@@ -89,6 +93,7 @@ function BeforeAfterSlider({
 
   return (
     <div
+      ref={sliderRef}
       role="slider"
       tabIndex={0}
       aria-label={ariaLabel}
@@ -99,36 +104,11 @@ function BeforeAfterSlider({
       style={{
         WebkitTapHighlightColor: 'transparent',
         WebkitUserSelect: 'none',
-        touchAction: 'none',
+        touchAction: 'pan-y',
         userSelect: 'none',
       }}
       onClick={(event) => event.stopPropagation()}
       onKeyDown={handleKeyDown}
-      onPointerDown={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        event.currentTarget.setPointerCapture(event.pointerId);
-        updateFromPointer(event);
-      }}
-      onPointerMove={(event) => {
-        if (event.buttons !== 1) return;
-        event.preventDefault();
-        event.stopPropagation();
-        updateFromPointer(event);
-      }}
-      onPointerUp={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-          event.currentTarget.releasePointerCapture(event.pointerId);
-        }
-      }}
-      onPointerCancel={(event) => {
-        event.stopPropagation();
-        if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-          event.currentTarget.releasePointerCapture(event.pointerId);
-        }
-      }}
     >
       <img
         src={afterSrc}
@@ -151,7 +131,36 @@ function BeforeAfterSlider({
         className="absolute inset-y-0 z-20 w-0.5 bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.25)]"
         style={{ left: `${reveal}%` }}
       >
-        <div className="absolute left-1/2 top-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-gold-500 text-white shadow-lg">
+        <div
+          className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 touch-none items-center justify-center rounded-full bg-gold-500 text-white shadow-lg"
+          onPointerDown={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            draggingRef.current = true;
+            event.currentTarget.setPointerCapture(event.pointerId);
+          }}
+          onPointerMove={(event) => {
+            if (!draggingRef.current || event.buttons !== 1) return;
+            event.preventDefault();
+            event.stopPropagation();
+            updateFromPointer(event);
+          }}
+          onPointerUp={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            draggingRef.current = false;
+            if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+              event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+          }}
+          onPointerCancel={(event) => {
+            event.stopPropagation();
+            draggingRef.current = false;
+            if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+              event.currentTarget.releasePointerCapture(event.pointerId);
+            }
+          }}
+        >
           <ChevronLeft className="h-4 w-4 -mr-1" strokeWidth={3} aria-hidden="true" />
           <ChevronRight className="h-4 w-4 -ml-1" strokeWidth={3} aria-hidden="true" />
         </div>
