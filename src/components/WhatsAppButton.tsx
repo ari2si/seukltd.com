@@ -1,5 +1,5 @@
 const whatsappUrl =
-  'https://wa.me/447473504040?text=Hello%20Smart%20Environment%2C%20I%27d%20like%20to%20discuss%20a%20project.';
+  'https://wa.me/447473504040?text=Hello%20Smart%20Environment%20Group%2C%20I%27d%20like%20to%20discuss%20a%20project.';
 
 export default function WhatsAppButton() {
   return (
@@ -7,7 +7,7 @@ export default function WhatsAppButton() {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Message Smart Environment on WhatsApp"
+      aria-label="Message Smart Environment Group on WhatsApp"
       className="fixed bottom-24 right-4 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-xl shadow-slate-950/25 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#1ebe5d] focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 focus:ring-offset-white sm:bottom-8 sm:right-6"
     >
       <svg

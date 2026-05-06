@@ -138,16 +138,16 @@ export default function Footer() {
                 className="h-16 w-16 flex-shrink-0 object-contain drop-shadow-[0_12px_18px_rgba(0,0,0,0.38)]"
               />
               <span className="flex -translate-y-0.5 flex-col justify-center gap-1 leading-[0.86]">
-                <span className="text-[0.8rem] font-bold uppercase tracking-[0.26em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.55)]">
+                <span className="text-[0.8rem] font-bold uppercase tracking-[0.26em] text-gold-500">
                   Smart
                 </span>
-                <span className="text-[0.8rem] font-bold uppercase tracking-[0.13em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.55)]">
+                <span className="text-[0.8rem] font-bold uppercase tracking-[0.13em] text-gold-500">
                   Environment
                 </span>
               </span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Smart Environment is an integrated building systems and engineering
+              Smart Environment Group is an integrated building systems and engineering
               contractor serving Greater London and surrounding areas.
             </p>
           </div>
@@ -220,7 +220,7 @@ export default function Footer() {
           <div className="mt-4 border-t border-slate-900 pt-3">
             <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-4 text-center text-xs text-slate-600 sm:flex-row sm:gap-10 sm:px-8">
               <p>
-                &copy; {new Date().getFullYear()} Smart Environment. All rights reserved.
+                &copy; {new Date().getFullYear()} Smart Environment Group. All rights reserved.
               </p>
               <p>Company registered in England & Wales.</p>
             </div>

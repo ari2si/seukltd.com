@@ -101,7 +101,7 @@ function CoverageMap() {
     <div
       ref={mapRef}
       className="relative min-h-[360px] overflow-hidden bg-[#f3ead2] sm:min-h-[440px] lg:min-h-[500px]"
-      aria-label="Map showing the Smart Environment Property Developments LTD office and 25 mile coverage area"
+      aria-label="Map showing the Smart Environment Group office and 25 mile coverage area"
     >
       <div className="absolute inset-0">
         {tiles.map((tile) => (
@@ -148,7 +148,7 @@ function CoverageMap() {
         <div className="flex items-center gap-2">
           <MapPin className="h-4 w-4 flex-shrink-0 fill-gold-500 text-gold-200" />
           <p className="text-sm font-semibold text-white">
-            Smart Environment Property Developments LTD
+            Smart Environment Group
           </p>
         </div>
         <p className="mt-1 pl-6 text-xs text-slate-400">25 miles coverage radius</p>
@@ -358,7 +358,7 @@ export default function Contact() {
                 </div>
                 <h3 className="mt-6 text-3xl font-bold text-white">Thank you</h3>
                 <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-slate-400">
-                  Your enquiry has been received. A member of the Smart Environment
+                  Your enquiry has been received. A member of the Smart Environment Group
                   team will review your message and respond within 1 business day.
                 </p>
                 <div className="mt-8 rounded-lg border border-slate-700 bg-[#f3ead2]/50 px-4 py-4 text-left">
@@ -461,7 +461,7 @@ export default function Contact() {
                       }
                     }}
                     className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:border-transparent transition-all"
-                    placeholder="07473504040"
+                    placeholder="07473......"
                   />
                 </div>
               </div>
@@ -497,7 +497,7 @@ export default function Contact() {
 
         <div
           className="relative mt-12 overflow-hidden rounded-2xl border border-slate-700/50 bg-[#f3ead2]/50 shadow-2xl shadow-black/20"
-          aria-label="Map showing the Smart Environment office in Elstree and a 25 mile coverage area"
+          aria-label="Map showing the Smart Environment Group office in Elstree and a 25 mile coverage area"
         >
           <div className="border-b border-slate-700/50 bg-[#f3ead2] px-5 py-5 sm:px-6">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">

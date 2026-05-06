@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1124 716" role="img" aria-labelledby="title">
-  <title>Smart Environment logo</title>
+  <title>Smart Environment Group logo</title>
   <defs>
     <filter id="goldify" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
       <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="alphaMask" />

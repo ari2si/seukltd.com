@@ -349,7 +349,7 @@ export default function Projects() {
                     afterAlt={`${project.title} after works`}
                     beforeSrc="/images/student-accommodation-before-crisp.jpeg"
                     beforeAlt={`${project.title} before works`}
-                    ariaLabel="Compare Student Acommodation before and after"
+                    ariaLabel="Compare Student Accommodation before and after"
                     className="h-full w-full"
                   />
                 ) : project.id === '9' ? (
@@ -505,7 +505,7 @@ export default function Projects() {
                   afterAlt={`${selectedProject.title} after works`}
                   beforeSrc="/images/student-accommodation-before-crisp.jpeg"
                   beforeAlt={`${selectedProject.title} before works`}
-                  ariaLabel="Compare Student Acommodation before and after"
+                  ariaLabel="Compare Student Accommodation before and after"
                   className="h-full w-full rounded-t-2xl"
                 />
               ) : selectedProject.id === '9' ? (

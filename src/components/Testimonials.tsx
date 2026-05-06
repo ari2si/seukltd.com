@@ -9,13 +9,13 @@ const testimonials = [
   },
   {
     quote:
-      'Smart Environment delivered our basement conversion on time and to an exceptional standard. Their attention to detail and professionalism throughout the project was outstanding.',
+      'Smart Environment Group delivered our basement conversion on time and to an exceptional standard. Their attention to detail and professionalism throughout the project was outstanding.',
     author: 'Private Client',
     role: 'Kensington Residence',
   },
   {
     quote:
-      'Working on our Grade II listed building required specialist knowledge and care. The Smart Environment team understood the heritage requirements perfectly while delivering modern living spaces.',
+      'Working on our Grade II listed building required specialist knowledge and care. The Smart Environment Group team understood the heritage requirements perfectly while delivering modern living spaces.',
     author: 'Estate Client',
     role: 'Mayfair Project',
   },

@@ -87,7 +87,7 @@ export const featuredProjects: Project[] = [
   },
   {
     id: '8',
-    title: 'Student Acommodation',
+    title: 'Student Accommodation',
     description:
       'Project description to be added. Before and after images will be updated once supplied.',
     category: 'Student Accommodation',
@@ -98,7 +98,7 @@ export const featuredProjects: Project[] = [
   },
   {
     id: '9',
-    title: 'Suburban Reidential Development Pipline 2026 -2027',
+    title: 'Suburban Residential Development Pipeline 2026-2027',
     description:
       'Project description to be added. Before and after images will be updated once supplied.',
     category: 'Residential Redevelopment',

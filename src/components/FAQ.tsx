@@ -103,12 +103,12 @@ const faqSections = [
   {
     category: 'Residential',
     icon: HardHat,
-    intro: 'High-spec homes, extensions, basements, HMOs and residential development.',
+    intro: 'High-spec homes, extensions, vertical extensions, loft conversions, basements, HMOs and residential development.',
     questions: [
       {
         question: 'What residential projects do you take on?',
         answer:
-          'We work across basements, extensions, refurbishments, new builds, HMO conversions, vertical extensions and high-spec fit-outs.',
+          'We work across basements, extensions, vertical extensions, loft conversions, refurbishments, new builds, HMO conversions and high-spec fit-outs.',
       },
       {
         question: 'Can you work with private clients and developers?',

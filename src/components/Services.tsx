@@ -59,7 +59,7 @@ export default function Services() {
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute left-1/2 top-20 h-56 w-[calc(100%-2rem)] -translate-x-1/2 overflow-hidden rounded-lg opacity-35 sm:top-14 sm:h-80 sm:w-[min(78rem,calc(100%-4rem))] sm:opacity-45"
+        className="pointer-events-none absolute left-1/2 top-8 h-52 w-[calc(100%-2rem)] -translate-x-1/2 overflow-hidden rounded-xl opacity-35 sm:top-8 sm:h-72 sm:w-[min(78rem,calc(100%-4rem))] sm:rounded-2xl sm:opacity-45"
         aria-hidden="true"
       >
         <img
@@ -71,19 +71,20 @@ export default function Services() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#f3ead2]/90 via-[#f3ead2]/34 to-[#f3ead2]/88" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-4 pt-2 sm:px-6 sm:pt-4 lg:px-8">
         <div className="mb-8 max-w-3xl">
-          <div>
+          <div className="pl-4 sm:pl-6 lg:pl-8">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-gold-500">
-              Construction services
+              Construction services in London & Hertfordshire
             </p>
             <h2 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
               Practical expertise for complex
               <span className="text-gold-500"> building projects</span>
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
-              From basement construction to listed building refurbishment, we coordinate
-              specialist teams, sequencing and finishes under one accountable route.
+              From basement construction and commercial refurbishment to listed building
+              projects, smart building systems and turnkey developments, we coordinate
+              specialist teams across Greater London, Hertfordshire and the Home Counties.
             </p>
           </div>
         </div>
@@ -95,18 +96,15 @@ export default function Services() {
               <button
                 key={service.id}
                 onClick={() => setSelected(service.id)}
-                className={`group relative overflow-hidden rounded-lg border border-white/10 bg-[#f3ead2]/80 p-6 text-left shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-gold-500/50 hover:bg-[#f3ead2] hover:shadow-gold-500/10 sm:block ${
+                className={`group relative overflow-hidden rounded-lg border border-slate-200 bg-white p-6 text-left shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50 hover:shadow-slate-500/10 sm:block ${
                   !showAllServices && index >= 4 ? 'hidden' : ''
                 }`}
               >
-                <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gold-500 transition-transform duration-300 group-hover:scale-x-100" />
-                <div className="mb-7 flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-gold-500/20 bg-gold-500/10 transition-colors duration-300 group-hover:bg-gold-500">
-                    <Icon className="h-6 w-6 text-gold-500 transition-colors duration-300 group-hover:text-slate-950" />
+                <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gold-500 shadow-[0_0_18px_rgba(216,163,22,0.75)] transition-transform duration-300 group-hover:scale-x-100" />
+                <div className="mb-7 flex items-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-200 bg-white transition-colors duration-300 group-hover:border-slate-300 group-hover:bg-white">
+                    <Icon className="h-6 w-6 text-gold-600 transition-colors duration-300 group-hover:text-gold-700" />
                   </div>
-                  <span className="text-sm font-bold text-slate-700 transition-colors duration-300 group-hover:text-gold-500">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
                 </div>
                 <h3 className="mb-3 text-xl font-bold leading-snug text-white transition-colors group-hover:text-gold-400">
                   {service.title}

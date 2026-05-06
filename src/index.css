@@ -89,9 +89,9 @@
   .gold-section {
     color: #111827;
     background:
-      radial-gradient(circle at 18% 8%, rgba(255, 250, 226, 0.72), transparent 28rem),
-      radial-gradient(circle at 86% 18%, rgba(212, 160, 23, 0.05), transparent 24rem),
-      linear-gradient(135deg, #fff4c9 0%, #f6e5a5 56%, #efd17c 100%);
+      radial-gradient(circle at 18% 8%, rgba(255, 255, 255, 0.72), transparent 28rem),
+      radial-gradient(circle at 86% 18%, rgba(120, 105, 150, 0.055), transparent 24rem),
+      linear-gradient(135deg, #f7f7fa 0%, #f0eff5 56%, #e8e7ef 100%);
   }
 
   .gold-section.bg-\[\#f3ead2\],
@@ -104,7 +104,7 @@
   .gold-section .bg-\[\#f3ead2\]\/50,
   .gold-section .bg-\[\#f3ead2\]\/40,
   .gold-section .bg-white {
-    background-color: rgba(255, 249, 230, 0.78);
+    background-color: rgba(235, 225, 207, 0.84);
   }
 
   .gold-section .text-white,
@@ -137,7 +137,7 @@
   .gold-section .border-slate-700\/50,
   .gold-section .border-slate-800,
   .gold-section .border-slate-700 {
-    border-color: rgba(77, 51, 6, 0.24);
+    border-color: rgba(116, 92, 132, 0.24);
   }
 
   .gold-section input,
@@ -158,7 +158,7 @@
     gap: 0.75rem;
   }
 
-  .gold-section .logo-contrast-lockup span span {
+  .gold-section .logo-contrast-lockup span span:not(.text-gold-500) {
     color: #071024;
   }
 }

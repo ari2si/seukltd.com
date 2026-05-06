@@ -27,10 +27,10 @@ export const services: Service[] = [
   },
   {
     id: '4',
-    title: 'Extensions & Vertical Extensions',
+    title: 'Extensions, Vertical Extensions & Loft Conversions',
     slug: 'extensions',
     description:
-      'Extensions and vertical extensions breathe a new lease of life into buildings. As well as adding value and additional floor space, they give the opportunity to modernise the building and add new features.',
+      'Extensions, vertical extensions and loft conversions breathe a new lease of life into buildings. As well as adding value and additional floor space, they give the opportunity to modernise the property through structural works, roof alterations, dormers, stair access, insulation, glazing, MEP coordination and high-quality internal finishes.',
     icon: 'MoveVertical',
   },
   {
@@ -46,7 +46,7 @@ export const services: Service[] = [
     title: 'Mixed-Use Developments',
     slug: 'mixed-use',
     description:
-      'As a prime main contractor in London, we construct many different types of mixed-use developments, delivering housing, retail, leisure and community facilities within one development.',
+      'As a prime main contractor in Greater London and surrounding areas, we construct many different types of mixed-use developments, delivering housing, retail, leisure and community facilities within one development.',
     icon: 'LayoutGrid',
   },
   {

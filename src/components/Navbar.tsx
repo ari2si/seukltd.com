@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react';
 import { engineeringServices, services } from '../lib/services';
 
@@ -18,6 +18,7 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [activeService, setActiveService] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const serviceDetailRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const selectedMenuService = serviceMenuItems.find((service) => service.slug === activeService);
 
   useEffect(() => {
@@ -43,6 +44,19 @@ export default function Navbar() {
   const toggleService = (slug: string) => {
     setActiveService((current) => (current === slug ? null : slug));
   };
+
+  useEffect(() => {
+    if (!activeService) return;
+
+    window.requestAnimationFrame(() => {
+      const activeDetail = serviceDetailRefs.current[activeService];
+      activeDetail?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest',
+      });
+    });
+  }, [activeService]);
 
   const closeServicesMenu = () => {
     setServicesOpen(false);
@@ -167,45 +181,47 @@ export default function Navbar() {
                     className={`${servicesOpen ? 'visible opacity-100' : 'invisible opacity-0'} absolute left-1/2 top-full z-50 w-[min(calc(100vw-2rem),72rem)] -translate-x-1/2 pt-3 transition-all duration-200`}
                     onClick={() => setActiveService(null)}
                   >
-                    <div
-                      className={`grid gap-3 rounded-xl border border-white/10 bg-[#020426]/95 p-4 shadow-2xl shadow-black/30 backdrop-blur-md ${
-                        selectedMenuService
-                          ? 'grid-cols-[minmax(0,1fr)_minmax(17rem,20rem)]'
-                          : 'grid-cols-1'
-                      }`}
-                    >
-                      <div className="grid min-w-0 grid-cols-2 gap-x-1 gap-y-1">
+                    <div className="max-h-[calc(100vh-7rem)] overflow-y-auto rounded-xl border border-white/10 bg-[#020426]/95 p-4 shadow-2xl shadow-black/30 backdrop-blur-md overscroll-contain">
+                      <div className="grid min-w-0 grid-cols-2 gap-x-3 gap-y-2">
                         {serviceMenuItems.map((service) => {
                           const isActive = activeService === service.slug;
 
                           return (
-                            <button
-                              key={service.slug}
-                              type="button"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                toggleService(service.slug);
-                              }}
-	                              className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg border px-2.5 py-2 text-left text-sm font-semibold transition-colors hover:border-gold-400/35 hover:bg-gold-500/14 hover:text-gold-50 ${
-	                                isActive
-                                      ? 'border-gold-400/40 bg-gold-500/18 text-gold-50'
-                                      : 'border-transparent text-slate-200'
-	                              }`}
-                              aria-expanded={isActive}
-                            >
-                              <span className="min-w-0 truncate">{service.title}</span>
-                              <ChevronRight
-                                className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${isActive ? 'text-gold-400' : 'text-slate-500'}`}
-                              />
-                            </button>
+                            <div key={service.slug}>
+                              <button
+                                type="button"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  toggleService(service.slug);
+                                }}
+                                className={`flex w-full cursor-pointer items-center justify-between gap-2 rounded-lg border px-2.5 py-2 text-left text-sm font-semibold transition-colors hover:border-gold-400/35 hover:bg-gold-500/14 hover:text-gold-50 ${
+                                  isActive
+                                    ? 'border-gold-400/40 bg-gold-500/18 text-gold-50'
+                                    : 'border-transparent text-slate-200'
+                                }`}
+                                aria-expanded={isActive}
+                              >
+                                <span className="min-w-0 truncate">{service.title}</span>
+                                <ChevronRight
+                                  className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${
+                                    isActive ? 'rotate-90 text-gold-400' : 'text-slate-500'
+                                  }`}
+                                />
+                              </button>
+                              {isActive && selectedMenuService && (
+                                <div
+                                  ref={(node) => {
+                                    serviceDetailRefs.current[service.slug] = node;
+                                  }}
+                                  className="mt-2 scroll-mb-4"
+                                >
+                                  {renderServiceDetails()}
+                                </div>
+                              )}
+                            </div>
                           );
                         })}
                       </div>
-                      {selectedMenuService && (
-                        <div>
-                          {renderServiceDetails()}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -249,7 +265,7 @@ export default function Navbar() {
           open ? 'max-h-none opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="bg-[#020426]/80 backdrop-blur-md border-t border-white/10 px-4 py-4 space-y-1">
+        <div className="max-h-[calc(100vh-5rem)] overflow-y-auto overscroll-contain bg-[#020426]/80 backdrop-blur-md border-t border-white/10 px-4 py-4 space-y-1">
           {navLinks.map((link) =>
             link.href === '#services' ? (
               <div key={link.href}>
@@ -288,6 +304,16 @@ export default function Navbar() {
                             className={`h-4 w-4 flex-shrink-0 transition-transform duration-200 ${isActive ? 'text-gold-400' : 'text-slate-500'}`}
                           />
                         </button>
+                        {isActive && selectedMenuService && (
+                          <div
+                            ref={(node) => {
+                              serviceDetailRefs.current[service.slug] = node;
+                            }}
+                            className="mt-2 mb-3 scroll-mb-6"
+                          >
+                            {renderServiceDetails()}
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -319,15 +345,6 @@ export default function Navbar() {
           </a>
         </div>
       </div>
-
-      {open && servicesOpen && selectedMenuService && (
-        <div
-          className="fixed inset-x-4 top-24 z-[60] md:hidden"
-          onClick={() => setActiveService(null)}
-        >
-          {renderServiceDetails()}
-        </div>
-      )}
       </nav>
     </>
   );

@@ -26,7 +26,7 @@ export default function About() {
             <div className="relative overflow-hidden rounded-[24px] shadow-2xl shadow-slate-900/10">
               <img
                 src="/images/about-main.jpg"
-                alt="Smart Environment construction and development site"
+                alt="Smart Environment Group construction and development site"
                 className="h-[340px] w-full object-cover object-[center_88%] sm:h-[430px] lg:h-[460px]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020426]/18 via-transparent to-transparent" />
@@ -46,7 +46,7 @@ export default function About() {
           <div>
             <h2 className="mb-5 text-4xl font-bold leading-[1.02] text-slate-900 sm:text-5xl md:text-6xl">
               Smart Environment
-              <span className="block text-gold-500">Construction &amp; Development</span>
+              <span className="block text-gold-500">Group</span>
             </h2>
 
             <p className="mb-5 max-w-2xl text-lg leading-8 text-slate-600 sm:text-[19px] sm:leading-[1.75]">

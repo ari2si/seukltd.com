@@ -48,8 +48,11 @@ export default function Hero() {
             </h1>
 
             <p className="text-lg sm:text-xl text-slate-100 max-w-xl mb-10 leading-relaxed animate-fade-in-up-delay drop-shadow-[0_2px_10px_rgba(0,0,0,0.84)]">
-              Integrated building systems and engineering contractors delivering
-              electrical, security, data, AV, automation and construction services.
+              Building, transforming, and delivering exceptional residential and
+              commercial spaces across London &amp; the Home Counties. From
+              construction and refurbishment to smart building systems and turnkey
+              developments, every project is delivered with precision, quality,
+              and attention to detail.
             </p>
 
             <div className="flex flex-wrap gap-4 animate-fade-in-up-delay-2">
