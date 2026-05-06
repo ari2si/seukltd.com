@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 export default function Hero() {
-  const heroVideo = '/videos/prestige-house-hero.mp4';
+  const heroVideo = 'https://res.cloudinary.com/dvdqtewmz/video/upload/v1778086911/prestige-house-hero_lueszt.mp4';
   const heroPoster = '/images/prestige-house-after-card-smooth.jpeg';
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -36,7 +36,7 @@ export default function Hero() {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#020426]/30 border border-gold-500/35 rounded-full mb-8 animate-fade-in shadow-lg shadow-slate-950/20 backdrop-blur-[2px]">
               <div className="w-2 h-2 bg-gold-500 rounded-full animate-pulse" />
               <span className="text-gold-400 text-sm font-semibold tracking-wide drop-shadow-[0_1px_5px_rgba(0,0,0,0.8)]">
-                15+ Years of Excellence
+                More than 50 Years of Excellence
               </span>
             </div>
 

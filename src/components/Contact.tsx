@@ -16,6 +16,9 @@ type MapSize = {
   height: number;
 };
 
+const NETLIFY_FORM_NAME = 'get-in-touch';
+const NETLIFY_FORM_ENDPOINT = '/__netlify-form-handler.html';
+
 const encodeFormData = (data: Record<string, string>) =>
   new URLSearchParams(data).toString();
 
@@ -222,7 +225,8 @@ export default function Contact() {
     }
 
     const payload = {
-      'form-name': 'get-in-touch',
+      'form-name': NETLIFY_FORM_NAME,
+      'bot-field': '',
       name: trimmedForm.name,
       email: trimmedForm.email,
       phone: trimmedForm.phone,
@@ -237,7 +241,7 @@ export default function Contact() {
     }
 
     try {
-      const response = await fetch('/', {
+      const response = await fetch(NETLIFY_FORM_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encodeFormData(payload),
@@ -381,7 +385,8 @@ export default function Contact() {
               <>
                 <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
                 <form
-                  name="get-in-touch"
+                  name={NETLIFY_FORM_NAME}
+                  action={NETLIFY_FORM_ENDPOINT}
                   method="POST"
                   data-netlify="true"
                   netlify-honeypot="bot-field"
@@ -389,7 +394,7 @@ export default function Contact() {
                   onSubmit={handleSubmit}
                   className="space-y-5"
                 >
-              <input type="hidden" name="form-name" value="get-in-touch" />
+              <input type="hidden" name="form-name" value={NETLIFY_FORM_NAME} />
               <input
                 type="hidden"
                 name="subject"

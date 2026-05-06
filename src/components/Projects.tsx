@@ -345,9 +345,9 @@ export default function Projects() {
                   <BeforeAfterSlider
                     reveal={studentAccommodationReveal}
                     onRevealChange={setStudentAccommodationReveal}
-                    afterSrc="/images/student-accommodation-after-crisp.jpeg"
+                    afterSrc="/images/student-accommodation-after-card-smooth.jpeg"
                     afterAlt={`${project.title} after works`}
-                    beforeSrc="/images/student-accommodation-before-crisp.jpeg"
+                    beforeSrc="/images/student-accommodation-before-card-smooth.jpeg"
                     beforeAlt={`${project.title} before works`}
                     ariaLabel="Compare Student Accommodation before and after"
                     className="h-full w-full"
@@ -501,9 +501,9 @@ export default function Projects() {
                 <BeforeAfterSlider
                   reveal={modalStudentAccommodationReveal}
                   onRevealChange={setModalStudentAccommodationReveal}
-                  afterSrc="/images/student-accommodation-after-crisp.jpeg"
+                  afterSrc="/images/student-accommodation-after-modal-smooth.jpeg"
                   afterAlt={`${selectedProject.title} after works`}
-                  beforeSrc="/images/student-accommodation-before-crisp.jpeg"
+                  beforeSrc="/images/student-accommodation-before-modal-smooth.jpeg"
                   beforeAlt={`${selectedProject.title} before works`}
                   ariaLabel="Compare Student Accommodation before and after"
                   className="h-full w-full rounded-t-2xl"

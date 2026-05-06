@@ -1,9 +1,9 @@
 import { Award, Clock, Shield, Users } from 'lucide-react';
 
 const stats = [
-  { icon: Clock, value: '15+', label: 'Years Experience' },
+  { icon: Clock, value: '50+', label: 'More Than 50 Years Experience' },
   { icon: Award, value: '200+', label: 'Projects Completed' },
-  { icon: Users, value: '50+', label: 'Expert Team Members' },
+  { icon: Users, value: '60+', label: 'Expert Team Members' },
   { icon: Shield, value: '100%', label: 'Client Satisfaction' },
 ];
 
@@ -25,16 +25,16 @@ export default function About() {
             <div className="absolute -bottom-10 left-8 hidden h-28 w-28 rounded-full border border-slate-900/10 sm:block" aria-hidden="true" />
             <div className="relative overflow-hidden rounded-[24px] shadow-2xl shadow-slate-900/10">
               <img
-                src="/images/about-main.jpg"
+                src="https://res.cloudinary.com/dvdqtewmz/image/upload/f_auto,q_auto:good/v1778087091/About_njqtjt.png"
                 alt="Smart Environment Group construction and development site"
                 className="h-[340px] w-full object-cover object-[center_88%] sm:h-[430px] lg:h-[460px]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#020426]/18 via-transparent to-transparent" />
             </div>
 
             <div className="absolute -bottom-8 right-3 rounded-3xl bg-gold-500 px-6 py-7 text-slate-900 shadow-2xl shadow-gold-500/25 sm:-right-5 sm:px-7 sm:py-8">
-              <div className="text-4xl font-bold leading-none sm:text-5xl">15+</div>
-              <div className="mt-3 text-sm font-semibold leading-6 sm:text-[15px]">
+              <div className="text-sm font-bold uppercase leading-5 tracking-wide">More than</div>
+              <div className="mt-1 text-4xl font-bold leading-none sm:text-5xl">50</div>
+              <div className="mt-2 text-sm font-semibold leading-5 sm:text-[15px]">
                 Years of
                 <br />
                 Excellence
@@ -52,7 +52,7 @@ export default function About() {
             <p className="mb-5 max-w-2xl text-lg leading-8 text-slate-600 sm:text-[19px] sm:leading-[1.75]">
               As a leading development and construction company in central London and its surroundings,
               we have one single aim: to <strong className="font-semibold text-slate-900">build to perfection</strong>.
-              For over 10 years, we continue to achieve our aim with professionalism,
+              For more than 50 years, we continue to achieve our aim with professionalism,
               care and dedication.
             </p>
 
