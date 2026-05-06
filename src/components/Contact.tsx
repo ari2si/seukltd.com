@@ -231,8 +231,7 @@ export default function Contact() {
     };
 
     if (isLocalPreview()) {
-      setSent(true);
-      setForm({ name: '', email: '', phone: '', message: '', botField: '' });
+      setError('Local preview cannot send emails. Please test the form on your Netlify live site or Deploy Preview.');
       setSubmitting(false);
       return;
     }
