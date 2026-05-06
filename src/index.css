@@ -124,8 +124,16 @@
     color: #071024;
   }
 
+  .site-palette-gold {
+    color: #d4a017 !important;
+  }
+
   .gold-section .text-gold-500,
   .gold-section .text-gold-400 {
+    color: #d4a017;
+  }
+
+  .gold-section .logo-contrast-lockup .text-gold-500 {
     color: #6f4b05;
   }
 

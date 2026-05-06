@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronRight, Menu, X } from 'lucide-react';
+import { CheckCircle2, ChevronDown, ChevronRight, Menu, X } from 'lucide-react';
 import { engineeringServices, services } from '../lib/services';
 
 const navLinks = [
@@ -18,6 +18,7 @@ export default function Navbar() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const [activeService, setActiveService] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const servicesMenuRef = useRef<HTMLDivElement | null>(null);
   const serviceDetailRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const selectedMenuService = serviceMenuItems.find((service) => service.slug === activeService);
 
@@ -26,6 +27,21 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!servicesOpen) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (target instanceof Node && servicesMenuRef.current?.contains(target)) return;
+
+      setServicesOpen(false);
+      setActiveService(null);
+    };
+
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, [servicesOpen]);
 
   const handleClick = (href: string) => {
     setOpen(false);
@@ -97,10 +113,11 @@ export default function Navbar() {
                   <p className="font-medium text-slate-200">
                     {subcategory.name}
                   </p>
-                  <ul className="mt-2 space-y-1.5 pl-3 text-sm font-normal text-slate-400">
+                  <ul className="mt-2 space-y-2 text-sm font-normal text-slate-400">
                     {subcategory.items.map((item) => (
-                      <li key={item} className="leading-snug">
-                        {item}
+                      <li key={item} className="flex gap-2 leading-snug">
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-gold-400" />
+                        <span>{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -159,7 +176,7 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) =>
               link.href === '#services' ? (
-                <div key={link.href} className="relative">
+                <div key={link.href} ref={servicesMenuRef} className="relative">
                   <button
                     type="button"
                     onClick={(e) => {

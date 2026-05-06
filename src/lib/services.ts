@@ -6,39 +6,155 @@ export const services: Service[] = [
     title: 'Basement Construction',
     slug: 'basement-construction',
     description:
-      'Converting or extending basements or building them from scratch is a specialist and unique form of construction. We have enormous experience from excavation and structural works to the final finishes. We build watertight, dry, warm, air and light-filled luxury basements with kitchens, pools, gyms or cinema rooms.',
+      'Design and construction of new basements, basement extensions and below-ground spaces, including excavation, structure, waterproofing, drainage, services and internal fit-out.',
     icon: 'ArrowDownToLine',
+    subcategories: [
+      {
+        name: 'Excavation & Structure',
+        items: [
+          'Basement excavation and underpinning',
+          'Temporary works and structural propping',
+          'Retaining walls, concrete works and structural slabs',
+          'Structural openings and steelwork',
+        ],
+      },
+      {
+        name: 'Waterproofing & Drainage',
+        items: [
+          'Waterproofing and tanking systems',
+          'Cavity drain membranes',
+          'Drainage and sump pump systems',
+          'Below-ground services coordination',
+        ],
+      },
+      {
+        name: 'Fit-Out & Finishes',
+        items: [
+          'Light wells, access openings and ventilation',
+          'MEP installation and internal fit-out',
+          'Cinema rooms, gyms, kitchens, bathrooms and utility areas',
+          'Decoration, flooring, joinery and final finishes',
+        ],
+      },
+    ],
   },
   {
     id: '2',
     title: 'Commercial Refurbishment',
     slug: 'commercial-refurbishment',
     description:
-      'As an experienced main contractor for commercial projects, our work includes retail, office fit-out, hotel and leisure refurbishment, construction and finishing works. Our dedicated commercial team provide structural works, CAT A and CAT B fit out, dilapidations works and light industrial projects.',
+      'Refurbishment and fit-out of commercial buildings, including offices, retail, hospitality and leisure spaces, with structural works, services coordination, finishes and handover.',
     icon: 'Building2',
+    subcategories: [
+      {
+        name: 'Commercial Fit-Out',
+        items: [
+          'Office, retail, hotel and leisure refurbishment',
+          'CAT A and CAT B fit-out works',
+          'Partitions, ceilings, flooring and finishes',
+          'Reception, workspace and customer-facing areas',
+        ],
+      },
+      {
+        name: 'Building Works',
+        items: [
+          'Strip-out, enabling works and dilapidations',
+          'Structural alterations and builders work',
+          'Fire stopping and compliance works',
+          'Phased works in occupied or live commercial premises',
+        ],
+      },
+      {
+        name: 'Services & Systems',
+        items: [
+          'Mechanical, electrical and data coordination',
+          'Lighting, small power and distribution',
+          'Access control and security interfaces',
+          'Testing, commissioning and handover',
+        ],
+      },
+    ],
   },
   {
     id: '3',
     title: 'Design & Build',
     slug: 'design-build',
     description:
-      'Design & Build is an increasingly popular method of construction as it offers complete security on price and timeframe. Working with a client preferred Architect or one of our own, we offer a complete service where we as the principal contractor are the single point of responsibility from design to finish.',
+      'Design and construction delivery under one managed route, coordinating consultants, pricing, programme, procurement, construction, finishes and handover from concept to completion.',
     icon: 'Compass',
+    subcategories: [
+      {
+        name: 'Design Coordination',
+        items: [
+          'Initial brief review and feasibility advice',
+          'Design coordination with architects and consultants',
+          'Planning and building control coordination',
+          'Structural, MEP and specification coordination',
+        ],
+      },
+      {
+        name: 'Cost & Programme',
+        items: [
+          'Budget development and value engineering',
+          'Programme planning and procurement',
+          'Scope clarification and package planning',
+          'Risk review and buildability advice',
+        ],
+      },
+      {
+        name: 'Construction Delivery',
+        items: [
+          'Main contractor project management',
+          'Site setup and subcontractor coordination',
+          'Construction, finishing and quality checks',
+          'Handover documentation and aftercare',
+        ],
+      },
+    ],
   },
   {
     id: '4',
     title: 'Extensions, Vertical Extensions & Loft Conversions',
     slug: 'extensions',
     description:
-      'Extensions, vertical extensions and loft conversions breathe a new lease of life into buildings. As well as adding value and additional floor space, they give the opportunity to modernise the property through structural works, roof alterations, dormers, stair access, insulation, glazing, MEP coordination and high-quality internal finishes.',
+      'Construction of home extensions, vertical extensions and loft conversions, including structural alterations, roof works, dormers, glazing, services, insulation and internal finishes.',
     icon: 'MoveVertical',
+    subcategories: [
+      {
+        name: 'Extensions',
+        items: [
+          'Single-storey and double-storey extensions',
+          'Vertical extensions and additional floor construction',
+          'Steelwork, structural openings and load-bearing alterations',
+          'Windows, doors, glazing and external finishes',
+        ],
+      },
+      {
+        name: 'Loft Conversions',
+        items: [
+          'Loft conversions and roof space conversions',
+          'Dormers, mansards, roof alterations and roof lights',
+          'Staircase access, insulation and fire protection',
+          'Roof structure alterations and strengthening',
+        ],
+      },
+      {
+        name: 'Internal Works',
+        items: [
+          'Electrical, plumbing, heating and internal fit-out works',
+          'Bathrooms, bedrooms and storage areas',
+          'Plastering, decorating, flooring and joinery',
+          'Final finishes, snagging and handover',
+        ],
+      },
+    ],
   },
   {
     id: '5',
     title: 'Listed Buildings',
     slug: 'listed-buildings',
     description:
-      'Because of our considerable experience in renovating and refurbishing Grade I and Grade II Listed Buildings, we are regularly contracted to work on historic buildings.',
+      'Careful refurbishment and alteration of listed and sensitive buildings, coordinating protection, sequencing, structural works, services upgrades and heritage-conscious finishes.',
     icon: 'Landmark',
   },
   {
@@ -46,32 +162,148 @@ export const services: Service[] = [
     title: 'Mixed-Use Developments',
     slug: 'mixed-use',
     description:
-      'As a prime main contractor in Greater London and surrounding areas, we construct many different types of mixed-use developments, delivering housing, retail, leisure and community facilities within one development.',
+      'Construction and coordination of mixed-use developments, combining residential, retail, leisure, commercial and community spaces within one managed building project.',
     icon: 'LayoutGrid',
+    subcategories: [
+      {
+        name: 'Mixed-Use Shell & Core',
+        items: [
+          'Residential, retail, leisure and commercial building areas',
+          'Structural frame, envelope and compartmentation works',
+          'Shared cores, stairs, lifts and circulation spaces',
+          'Fire strategy, access routes and compliance coordination',
+        ],
+      },
+      {
+        name: 'Services & Interfaces',
+        items: [
+          'Separate utilities, metering and landlord services',
+          'MEP coordination across different occupancy types',
+          'Plant rooms, risers, data routes and life safety systems',
+          'Acoustic, ventilation and drainage interface management',
+        ],
+      },
+      {
+        name: 'Fit-Out & Handover',
+        items: [
+          'Commercial unit fit-out and residential internal finishes',
+          'Public realm, entrances and communal amenity areas',
+          'Phased access, logistics and neighbour coordination',
+          'Testing, commissioning and staged handover packages',
+        ],
+      },
+    ],
   },
   {
     id: '7',
     title: 'New Design & Build',
     slug: 'new-build',
     description:
-      'From single family homes to housing developments, we work on a wide range of new build projects for property developers and private clients.',
+      'Construction of new homes, apartments and residential developments, including groundworks, structure, envelope, services, internal fit-out, commissioning and handover.',
     icon: 'Home',
+    subcategories: [
+      {
+        name: 'Site & Groundworks',
+        items: [
+          'New build houses, apartments and small developments',
+          'Site setup, enabling works and groundworks',
+          'Foundations, drainage and utility connections',
+          'External works and access routes',
+        ],
+      },
+      {
+        name: 'Superstructure',
+        items: [
+          'Structural frame, masonry and roof construction',
+          'Windows, doors, external envelope and facades',
+          'Insulation, weatherproofing and airtightness works',
+          'Internal walls, stairs and structural elements',
+        ],
+      },
+      {
+        name: 'Completion',
+        items: [
+          'Mechanical, electrical and plumbing installation',
+          'Internal partitions, plastering, flooring and finishes',
+          'Final commissioning, snagging and handover',
+          'Client walkthrough and aftercare support',
+        ],
+      },
+    ],
   },
   {
     id: '8',
     title: 'Residential Refurbishment',
     slug: 'residential-refurbishment',
     description:
-      'We have extensive expertise in high-end house renovations and extensions, delivering complex structural works and premium finishes for prime residential properties.',
+      'Refurbishment and renovation of residential properties, including layout changes, structural works, services upgrades, kitchens, bathrooms, flooring, joinery and final finishes.',
     icon: 'PaintBucket',
+    subcategories: [
+      {
+        name: 'Structural & Layout Works',
+        items: [
+          'Full house refurbishment and renovation',
+          'Structural alterations and layout reconfiguration',
+          'Open-plan living conversions',
+          'Wall removals, steelwork and builders work',
+        ],
+      },
+      {
+        name: 'Services Upgrades',
+        items: [
+          'Electrical rewiring and lighting upgrades',
+          'Plumbing, heating and bathroom installation',
+          'Insulation, windows, doors and energy upgrades',
+          'Smart controls and data cabling coordination',
+        ],
+      },
+      {
+        name: 'Internal Finishes',
+        items: [
+          'Kitchen, bathroom and bedroom refurbishment',
+          'Plastering, decorating, flooring and joinery',
+          'High-end finishes, detailing and final snagging',
+          'Fixtures, fittings and final presentation',
+        ],
+      },
+    ],
   },
   {
     id: '9',
     title: 'Student Accommodation',
     slug: 'student-accommodation',
     description:
-      'We deliver high specification, high quality, comfortable and aesthetically pleasing purpose built student accommodation with a focus on safe, timely delivery.',
+      'Refurbishment, conversion and fit-out of student accommodation, including bedrooms, en-suites, shared kitchens, fire safety works, building services and handover-ready finishes.',
     icon: 'GraduationCap',
+    subcategories: [
+      {
+        name: 'Accommodation Layouts',
+        items: [
+          'Student accommodation refurbishment and conversion',
+          'Bedroom, en-suite and shared kitchen layouts',
+          'Bathroom pods, sanitaryware and plumbing installation',
+          'Communal areas, circulation spaces and laundry rooms',
+        ],
+      },
+      {
+        name: 'Safety & Services',
+        items: [
+          'Fire safety upgrades and compartmentation works',
+          'Mechanical, electrical, data and access control systems',
+          'Emergency lighting, alarms and compliance works',
+          'Ventilation, heating and hot water systems',
+        ],
+      },
+      {
+        name: 'Fit-Out & Handover',
+        items: [
+          'Flooring, decoration, furniture coordination and finishes',
+          'Programme-led delivery for occupation deadlines',
+          'Snagging, cleaning and handover preparation',
+          'Landlord and operator handover support',
+        ],
+      },
+    ],
   },
 ];
 

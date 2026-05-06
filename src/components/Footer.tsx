@@ -189,12 +189,13 @@ export default function Footer() {
             {trustItems.map(({ icon: Icon, title, text }) => (
               <div
                 key={title}
-                className="rounded-lg border border-slate-800 bg-[#f3ead2]/40 p-4"
+                className="group relative overflow-hidden rounded-lg border border-slate-200 bg-[#f3ead2] p-4 shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50 hover:shadow-slate-500/10"
               >
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-gold-500/10">
-                  <Icon className="h-5 w-5 text-gold-500" />
+                <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gold-500 shadow-[0_0_18px_rgba(216,163,22,0.75)] transition-transform duration-300 group-hover:scale-x-100" />
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-[#f3ead2] transition-colors duration-300 group-hover:border-slate-300 group-hover:bg-[#f3ead2]">
+                  <Icon className="h-5 w-5 text-gold-600 transition-colors duration-300 group-hover:text-gold-700" />
                 </div>
-                <p className="text-sm font-semibold text-white">{title}</p>
+                <p className="text-sm font-semibold text-white transition-colors group-hover:text-gold-400">{title}</p>
                 <p className="mt-1 text-sm leading-relaxed text-slate-400">{text}</p>
               </div>
             ))}

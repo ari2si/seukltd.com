@@ -45,41 +45,28 @@ export default function Services() {
   const selectedService = services.find((s) => s.id === selected);
 
   return (
-    <section id="services" className="gold-section relative overflow-hidden bg-[#f3ead2] py-16 sm:py-20">
+    <section id="services" className="gold-section relative overflow-hidden bg-[#f3ead2] pb-16 sm:pb-20">
       <div
         className="absolute inset-x-0 top-0 h-72 bg-[linear-gradient(180deg,rgba(148,163,184,0.18),rgba(15,23,42,0))]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute -left-28 -top-28 hidden h-72 w-72 rounded-full bg-white/[0.045] md:block"
+        className="pointer-events-none absolute -left-28 -top-28 hidden h-72 w-72 rounded-full bg-[#f3ead2]/[0.045] md:block"
         aria-hidden="true"
       />
       <div
         className="pointer-events-none absolute -right-24 bottom-24 hidden h-56 w-56 rounded-full border border-gold-500/10 lg:block"
         aria-hidden="true"
       />
-      <div
-        className="pointer-events-none absolute left-1/2 top-8 h-52 w-[calc(100%-2rem)] -translate-x-1/2 overflow-hidden rounded-xl opacity-35 sm:top-8 sm:h-72 sm:w-[min(78rem,calc(100%-4rem))] sm:rounded-2xl sm:opacity-45"
-        aria-hidden="true"
-      >
-        <img
-          src="/images/office-2-services-bg.jpeg"
-          alt=""
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-[#f3ead2]/38" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#f3ead2]/90 via-[#f3ead2]/34 to-[#f3ead2]/88" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 pt-2 sm:px-6 sm:pt-4 lg:px-8">
-        <div className="mb-8 max-w-3xl">
-          <div className="pl-4 sm:pl-6 lg:pl-8">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-gold-500">
-              Construction services in London & Hertfordshire
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative min-h-[21rem] sm:min-h-72">
+          <div className="relative max-w-3xl px-6 py-7 sm:px-8 sm:py-8 lg:px-10">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] site-palette-gold">
+              Construction services in Greater London & Hertfordshire
             </p>
-            <h2 className="max-w-3xl text-4xl font-bold leading-tight text-white sm:text-5xl">
+            <h2 className="max-w-3xl text-4xl font-bold leading-[1.12] text-white sm:text-5xl">
               Practical expertise for complex
-              <span className="text-gold-500"> building projects</span>
+              <span className="site-palette-gold"> building projects</span>
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
               From basement construction and commercial refurbishment to listed building
@@ -96,13 +83,13 @@ export default function Services() {
               <button
                 key={service.id}
                 onClick={() => setSelected(service.id)}
-                className={`group relative overflow-hidden rounded-lg border border-slate-200 bg-white p-6 text-left shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50 hover:shadow-slate-500/10 sm:block ${
+                className={`group relative overflow-hidden rounded-lg border border-slate-200 bg-[#f3ead2] p-6 text-left shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50 hover:shadow-slate-500/10 sm:block ${
                   !showAllServices && index >= 4 ? 'hidden' : ''
                 }`}
               >
                 <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gold-500 shadow-[0_0_18px_rgba(216,163,22,0.75)] transition-transform duration-300 group-hover:scale-x-100" />
                 <div className="mb-7 flex items-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-200 bg-white transition-colors duration-300 group-hover:border-slate-300 group-hover:bg-white">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-200 bg-[#f3ead2] transition-colors duration-300 group-hover:border-slate-300 group-hover:bg-[#f3ead2]">
                     <Icon className="h-6 w-6 text-gold-600 transition-colors duration-300 group-hover:text-gold-700" />
                   </div>
                 </div>
@@ -146,7 +133,7 @@ export default function Services() {
           onClick={() => setSelected(null)}
         >
           <div
-            className="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-8 shadow-2xl animate-scale-in"
+            className="bg-[#f3ead2] rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-8 shadow-2xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between mb-6">

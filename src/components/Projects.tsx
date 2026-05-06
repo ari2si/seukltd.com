@@ -107,7 +107,6 @@ function BeforeAfterSlider({
         touchAction: 'pan-y',
         userSelect: 'none',
       }}
-      onClick={(event) => event.stopPropagation()}
       onKeyDown={handleKeyDown}
     >
       <img
@@ -133,6 +132,7 @@ function BeforeAfterSlider({
       >
         <div
           className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 touch-none items-center justify-center rounded-full bg-gold-500 text-white shadow-lg"
+          onClick={(event) => event.stopPropagation()}
           onPointerDown={(event) => {
             event.preventDefault();
             event.stopPropagation();

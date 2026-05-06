@@ -227,6 +227,7 @@ export default function Contact() {
       email: trimmedForm.email,
       phone: trimmedForm.phone,
       message: trimmedForm.message,
+      subject: 'New Smart Environment enquiry from %{formName} (%{submissionId})',
     };
 
     if (isLocalPreview()) {
@@ -390,6 +391,12 @@ export default function Contact() {
                   className="space-y-5"
                 >
               <input type="hidden" name="form-name" value="get-in-touch" />
+              <input
+                type="hidden"
+                name="subject"
+                data-remove-prefix
+                value="New Smart Environment enquiry from %{formName} (%{submissionId})"
+              />
               <p className="hidden">
                 <label>
                   Don&apos;t fill this out if you&apos;re human:
