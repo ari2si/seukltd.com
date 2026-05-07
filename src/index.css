@@ -7,12 +7,14 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scrollbar-color: #d4a017 #f5edd7;
+    scrollbar-width: thin;
   }
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     caret-color: transparent;
-    user-select: none;
+    user-select: text;
   }
 
   input,
@@ -26,7 +28,7 @@
   a,
   button {
     caret-color: transparent;
-    user-select: none;
+    user-select: text;
   }
 
   a:focus:not(:focus-visible),
@@ -38,6 +40,24 @@
   ::selection {
     background-color: #d4a017;
     color: #0f172a;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f5edd7;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d4a017, #b88a12);
+    border: 2px solid #f5edd7;
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #e0ad22, #d4a017);
   }
 }
 

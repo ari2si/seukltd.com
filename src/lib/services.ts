@@ -1,6 +1,6 @@
 import type { Service } from './types';
 
-export const services: Service[] = [
+export const constructionServices: Service[] = [
   {
     id: '1',
     title: 'Basement Construction',
@@ -307,7 +307,7 @@ export const services: Service[] = [
   },
 ];
 
-export const engineeringServices: Service[] = [
+export const propertyServices: Service[] = [
   {
     id: '1',
     title: 'Pre-Construction & Design',
@@ -627,14 +627,168 @@ export const engineeringServices: Service[] = [
     icon: 'Building2',
     subcategories: [
       {
+        name: 'Planned Preventative Maintenance',
+        description:
+          'Proactive maintenance planning designed to preserve asset condition, minimise risk, and optimise operational efficiency.',
+        items: ['Maintenance schedules', 'Condition-led planning', 'Servicing coordination', 'Risk reduction'],
+      },
+      {
+        name: 'Reactive Maintenance',
+        description:
+          'Responsive repair and maintenance services supporting residential, commercial, and mixed-use assets.',
+        items: ['Repair response coordination', 'Fault reporting', 'Contractor attendance', 'Issue close-out'],
+      },
+      {
         name: 'Building Maintenance',
-        items: ['Planned maintenance', 'Reactive maintenance', 'System servicing', 'Compliance checks'],
+        items: ['System servicing', 'Compliance checks', 'Condition monitoring', 'Asset care planning'],
       },
       {
         name: 'Support Services',
         items: ['Fault diagnostics', 'System upgrades', 'Technical support', 'Emergency callouts'],
       },
     ],
+  },
+];
+
+const developmentSubcategories = [
+  {
+    name: 'Site Acquisition & Appraisal',
+    description:
+      'Identification, assessment, and acquisition of development opportunities with a focus on long-term value creation, planning potential, and investment viability.',
+    items: [
+      'Off-market and market-led opportunity review',
+      'Planning potential and development-risk assessment',
+      'Acquisition due diligence and value strategy',
+      'Exit planning, yield review and long-term asset positioning',
+    ],
+  },
+  {
+    name: 'Planning Strategy & Development Feasibility',
+    description:
+      'Comprehensive planning support, feasibility analysis, development optimisation, and project viability assessments for residential and commercial schemes.',
+    items: [
+      'Planning route, consultant briefing and authority coordination',
+      'Massing, layout, use-class and density appraisal',
+      'Budget, programme and risk-led feasibility reporting',
+      'Development optimisation before capital commitment',
+    ],
+  },
+  {
+    name: 'Joint Venture Development',
+    description:
+      'Strategic partnerships delivering development opportunities through collaborative investment structures, shared expertise, and aligned project execution.',
+    items: [
+      'Landowner, investor and private-client joint venture structures',
+      'Aligned acquisition, planning and delivery strategy',
+      'Transparent scope, cost and programme governance',
+      'Partner-led reporting from feasibility to handover',
+    ],
+  },
+  {
+    name: 'Private Portfolio Development',
+    description:
+      'Development and enhancement of privately held property portfolios through refurbishment, repositioning, expansion, and long-term asset growth strategies.',
+    items: [
+      'Portfolio review and asset-by-asset development planning',
+      'Refurbishment, repositioning and change-of-use strategy',
+      'Phased works across occupied or operational assets',
+      'Capital improvement planning for long-term value growth',
+    ],
+  },
+  {
+    name: 'Residential Development',
+    description:
+      'Design and delivery of high-quality residential developments including private homes, apartment schemes, luxury refurbishments, and multi-unit projects.',
+    items: [
+      'Private homes, apartment schemes and multi-unit delivery',
+      'Premium refurbishment, extension and conversion projects',
+      'Design coordination, specification and finishes management',
+      'Turnkey delivery from planning through completion',
+    ],
+  },
+  {
+    name: 'Commercial & Mixed-Use Development',
+    description:
+      'Integrated commercial and mixed-use developments designed to maximise functionality, investment performance, and long-term occupier value.',
+    items: [
+      'Commercial, residential and mixed-use development strategy',
+      'Shell, core, fit-out and occupier interface planning',
+      'Services, access, compliance and operational coordination',
+      'Value-led delivery for investor and end-user outcomes',
+    ],
+  },
+  {
+    name: 'Value-Add Refurbishment Projects',
+    description:
+      'Strategic refurbishment and redevelopment projects focused on unlocking property potential, increasing asset value, and improving operational performance.',
+    items: [
+      'Asset repositioning through targeted refurbishment works',
+      'Layout improvement, specification upgrade and services renewal',
+      'Costed improvement plans with clear value objectives',
+      'Delivery sequencing for live, vacant or phased properties',
+    ],
+  },
+  {
+    name: 'Turnkey Development Delivery',
+    description:
+      'Complete end-to-end development delivery from acquisition and planning through to construction, fit-out, commissioning, and final handover.',
+    items: [
+      'Acquisition, feasibility, planning and consultant coordination',
+      'Procurement, construction, fit-out and commissioning management',
+      'Single accountable route from concept to completion',
+      'Handover, aftercare and long-term asset enhancement planning',
+    ],
+  },
+  {
+    name: 'Investment-Led Property Development',
+    description:
+      'Development solutions tailored for investors, private clients, and strategic partnerships with a focus on sustainable growth and long-term returns.',
+    items: [
+      'Investor-focused project strategy and value planning',
+      'Development risk, cost and programme governance',
+      'Private client, portfolio and partnership-led delivery',
+      'Long-term return, resilience and asset performance focus',
+    ],
+  },
+];
+
+const asCategorySubcategory = (service: Service) => ({
+  name: service.title,
+  description: service.description,
+  items: service.subcategories?.length
+    ? service.subcategories.map((subcategory) => subcategory.name)
+    : [service.description],
+});
+
+export const engineeringServices = propertyServices;
+
+export const services: Service[] = [
+  {
+    id: 'property-development',
+    title: 'Property Development',
+    slug: 'property-development',
+    description:
+      'End-to-end property development solutions spanning acquisition, planning, investment strategy, design coordination, construction delivery, and long-term asset enhancement across residential, commercial, and mixed-use developments.',
+    icon: 'Compass',
+    subcategories: developmentSubcategories,
+  },
+  {
+    id: 'construction',
+    title: 'Construction',
+    slug: 'construction',
+    description:
+      'Integrated construction delivery covering design and build, commercial refurbishment, basements, extensions, listed buildings, mixed-use schemes, new builds and residential refurbishment.',
+    icon: 'HardHat',
+    subcategories: constructionServices.map(asCategorySubcategory),
+  },
+  {
+    id: 'property-services',
+    title: 'Property Services',
+    slug: 'property-services',
+    description:
+      'Multidisciplinary property services covering pre-construction, groundworks, structural works, interiors, MEP, electrical, security, data, smart systems, external works and aftercare.',
+    icon: 'Building2',
+    subcategories: propertyServices.map(asCategorySubcategory),
   },
 ];
 

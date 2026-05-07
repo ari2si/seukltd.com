@@ -11,33 +11,33 @@ import {
 } from 'lucide-react';
 
 const whyChooseUsItems = [
-  'End-to-End Turnkey Project Delivery',
-  'Integrated MEP & Smart Systems',
+  'End-to-End Development & Turnkey Delivery',
+  'Integrated Property Services, MEP & Smart Systems',
   'High-Spec Residential & Commercial Expertise',
   'Fast Turnaround & Execution',
-  'London & Hertfordshire Coverage',
+  'London & Home Counties Coverage',
 ];
 
 const trustItems = [
   {
     icon: ShieldCheck,
     title: 'Insured Works',
-    text: 'Project delivery supported by appropriate contractor insurance.',
+    text: 'Development, construction and property service delivery supported by appropriate insurance.',
   },
   {
     icon: HardHat,
     title: 'Site Safety',
-    text: 'Health and safety planning built into every active site.',
+    text: 'Health and safety planning built into every active project and managed site.',
   },
   {
     icon: FileCheck2,
     title: 'Building Control',
-    text: 'Coordination with consultants, inspectors and statutory approvals.',
+    text: 'Coordination with consultants, inspectors, planning teams and statutory approvals.',
   },
   {
     icon: ClipboardCheck,
     title: 'Managed Delivery',
-    text: 'Clear scope, programme control and responsible project management.',
+    text: 'Clear scope, programme control and responsible property project management.',
   },
 ];
 
@@ -147,8 +147,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Smart Environment Group is an integrated building systems and engineering
-              contractor serving Greater London and surrounding areas.
+              Smart Environment Group is a multidisciplinary property development, construction
+              and property services group serving London and the Home Counties.
             </p>
           </div>
 
@@ -177,7 +177,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3 text-slate-400">
                 <MapPin className="w-4 h-4 text-gold-500 flex-shrink-0 mt-0.5" />
-                720 Centennial Court, Centennial Park, Elstree, Herts WD6 3SY
+                720 Centennial Court, Centennial Park, Elstree WD6 3SY
               </li>
             </ul>
           </div>

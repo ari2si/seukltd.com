@@ -3,6 +3,7 @@ import {
   ArrowDownToLine,
   ArrowRight,
   Building2,
+  CheckCircle2,
   Compass,
   GraduationCap,
   HardHat,
@@ -62,16 +63,16 @@ export default function Services() {
         <div className="relative min-h-[21rem] sm:min-h-72">
           <div className="relative max-w-3xl px-6 py-7 sm:px-8 sm:py-8 lg:px-10">
             <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] site-palette-gold">
-              Construction services in Greater London & Hertfordshire
+              Property development, construction and property services
             </p>
             <h2 className="max-w-3xl text-4xl font-bold leading-[1.12] text-white sm:text-5xl">
-              Practical expertise for complex
-              <span className="site-palette-gold"> building projects</span>
+              Complete expertise for complex
+              <span className="site-palette-gold"> property projects</span>
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
-              From basement construction and commercial refurbishment to listed building
-              projects, smart building systems and turnkey developments, we coordinate
-              specialist teams across Greater London, Hertfordshire and the Home Counties.
+              From acquisition, planning and development strategy to construction,
+              refurbishment, smart building systems and long-term property services,
+              we coordinate specialist teams across London and the Home Counties.
             </p>
           </div>
         </div>
@@ -83,23 +84,23 @@ export default function Services() {
               <button
                 key={service.id}
                 onClick={() => setSelected(service.id)}
-                className={`group relative overflow-hidden rounded-lg border border-slate-200 bg-[#f3ead2] p-6 text-left shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50 hover:shadow-slate-500/10 sm:block ${
+                className={`group relative overflow-hidden rounded-lg border border-slate-200 bg-[#f3ead2] p-4 text-left shadow-xl shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:bg-slate-50 hover:shadow-slate-500/10 sm:block sm:p-6 ${
                   !showAllServices && index >= 4 ? 'hidden' : ''
                 }`}
               >
                 <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gold-500 shadow-[0_0_18px_rgba(216,163,22,0.75)] transition-transform duration-300 group-hover:scale-x-100" />
-                <div className="mb-7 flex items-center">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-slate-200 bg-[#f3ead2] transition-colors duration-300 group-hover:border-slate-300 group-hover:bg-[#f3ead2]">
-                    <Icon className="h-6 w-6 text-gold-600 transition-colors duration-300 group-hover:text-gold-700" />
+                <div className="mb-4 flex items-center sm:mb-7">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-[#f3ead2] transition-colors duration-300 group-hover:border-slate-300 group-hover:bg-[#f3ead2] sm:h-12 sm:w-12">
+                    <Icon className="h-5 w-5 text-gold-600 transition-colors duration-300 group-hover:text-gold-700 sm:h-6 sm:w-6" />
                   </div>
                 </div>
-                <h3 className="mb-3 text-xl font-bold leading-snug text-white transition-colors group-hover:text-gold-400">
+                <h3 className="mb-2 text-lg font-bold leading-snug text-white transition-colors group-hover:text-gold-400 sm:mb-3 sm:text-xl">
                   {service.title}
                 </h3>
-                <p className="line-clamp-3 text-sm leading-relaxed text-slate-400">
+                <p className="line-clamp-3 text-[0.82rem] leading-relaxed text-slate-400 sm:text-sm">
                   {service.description}
                 </p>
-                <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-gold-500">
+                <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-gold-500 sm:mt-6">
                   View scope
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </div>
@@ -158,6 +159,28 @@ export default function Services() {
             <p className="text-slate-600 leading-relaxed text-lg">
               {selectedService.description}
             </p>
+            {selectedService.subcategories?.length ? (
+              <div className="mt-7 grid gap-4">
+                {selectedService.subcategories.map((subcategory) => (
+                  <div key={subcategory.name} className="rounded-xl border border-slate-100 bg-white/45 p-4">
+                    <p className="font-semibold text-slate-900">{subcategory.name}</p>
+                    {subcategory.description && (
+                      <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                        {subcategory.description}
+                      </p>
+                    )}
+                    <ul className="mt-3 grid gap-2 text-sm text-slate-500">
+                      {subcategory.items.map((item) => (
+                        <li key={item} className="flex items-start gap-2 leading-snug">
+                          <CheckCircle2 className="mt-0.5 h-4 w-4 flex-shrink-0 text-gold-600" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : null}
             <div className="mt-8 pt-6 border-t border-slate-100">
               <a
                 href="#contact"

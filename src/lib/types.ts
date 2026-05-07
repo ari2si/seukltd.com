@@ -21,6 +21,7 @@ export interface Service {
   };
   subcategories?: {
     name: string;
+    description?: string;
     items: string[];
   }[];
 }

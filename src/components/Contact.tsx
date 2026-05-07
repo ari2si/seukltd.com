@@ -17,13 +17,10 @@ type MapSize = {
 };
 
 const NETLIFY_FORM_NAME = 'get-in-touch';
-const NETLIFY_FORM_ENDPOINT = '/__netlify-form-handler.html';
+const NETLIFY_FORM_ENDPOINT = '/';
 
 const encodeFormData = (data: Record<string, string>) =>
   new URLSearchParams(data).toString();
-
-const isLocalPreview = () =>
-  window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
 const isValidEmail = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -104,7 +101,7 @@ function CoverageMap() {
     <div
       ref={mapRef}
       className="relative min-h-[360px] overflow-hidden bg-[#f3ead2] sm:min-h-[440px] lg:min-h-[500px]"
-      aria-label="Map showing the Smart Environment Group office and 25 mile coverage area"
+      aria-label="Map showing the Smart Environment Group office and London and Home Counties coverage"
     >
       <div className="absolute inset-0">
         {tiles.map((tile) => (
@@ -154,7 +151,7 @@ function CoverageMap() {
             Smart Environment Group
           </p>
         </div>
-        <p className="mt-1 pl-6 text-xs text-slate-400">25 miles coverage radius</p>
+        <p className="mt-1 pl-6 text-xs text-slate-400">London and Home Counties coverage</p>
       </div>
 
       <a
@@ -231,14 +228,7 @@ export default function Contact() {
       email: trimmedForm.email,
       phone: trimmedForm.phone,
       message: trimmedForm.message,
-      subject: 'New Smart Environment enquiry from %{formName} (%{submissionId})',
     };
-
-    if (isLocalPreview()) {
-      setError('Local preview cannot send emails. Please test the form on your Netlify live site or Deploy Preview.');
-      setSubmitting(false);
-      return;
-    }
 
     try {
       const response = await fetch(NETLIFY_FORM_ENDPOINT, {
@@ -289,9 +279,9 @@ export default function Contact() {
               <span className="text-gold-500"> Together</span>
             </h2>
             <p className="text-slate-400 text-lg leading-relaxed mb-8">
-              Whether you're planning a basement conversion, a listed building
-              refurbishment, or a new build project, our team is ready to bring
-              your vision to life. Contact us to discuss your requirements.
+              Whether you're planning a development opportunity, refurbishment, construction project,
+              asset upgrade or long-term property service requirement, our team is ready
+              to bring your vision to life. Contact us to discuss your requirements.
             </p>
 
             <div className="space-y-5">
@@ -334,7 +324,7 @@ export default function Contact() {
                   <div className="text-white font-semibold">
                     720 Centennial Court, Centennial Park
                     <br />
-                    Elstree, Herts WD6 3SY UK
+                    Elstree WD6 3SY UK
                   </div>
                 </div>
               </div>
@@ -395,12 +385,6 @@ export default function Contact() {
                   className="space-y-5"
                 >
               <input type="hidden" name="form-name" value={NETLIFY_FORM_NAME} />
-              <input
-                type="hidden"
-                name="subject"
-                data-remove-prefix
-                value="New Smart Environment enquiry from %{formName} (%{submissionId})"
-              />
               <p className="hidden">
                 <label>
                   Don&apos;t fill this out if you&apos;re human:
@@ -508,18 +492,18 @@ export default function Contact() {
 
         <div
           className="relative mt-12 overflow-hidden rounded-2xl border border-slate-700/50 bg-[#f3ead2]/50 shadow-2xl shadow-black/20"
-          aria-label="Map showing the Smart Environment Group office in Elstree and a 25 mile coverage area"
+          aria-label="Map showing the Smart Environment Group office and core London and Home Counties coverage"
         >
           <div className="border-b border-slate-700/50 bg-[#f3ead2] px-5 py-5 sm:px-6">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h3 className="text-xl font-bold text-gold-500">London & Hertfordshire Coverage</h3>
+                <h3 className="text-xl font-bold text-gold-500">London & Home Counties Coverage</h3>
                 <p className="mt-1 text-sm leading-relaxed text-slate-400">
-                  Serving London, Hertfordshire and surrounding areas within approximately
-                  25 miles of our Elstree office.
+                  Serving property development, construction and property service clients across
+                  London and the Home Counties.
                 </p>
               </div>
-              <p className="text-sm font-semibold text-gold-500">25 mile radius</p>
+              <p className="text-sm font-semibold text-gold-500">Core coverage</p>
             </div>
           </div>
           <CoverageMap />

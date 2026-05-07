@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { ArrowRight, CheckCircle2, ChevronLeft, ChevronRight, MapPin, X } from 'lucide-react';
-import { featuredProjects, projectImages } from '../lib/siteData';
+import { featuredProjects } from '../lib/siteData';
 
 const projectDetails: Record<string, { scope: string; challenge: string; result: string }> = {
   '1': {
@@ -240,8 +240,8 @@ export default function Projects() {
             <span className="text-gold-500"> Projects</span>
           </h2>
           <p className="text-slate-600 text-lg">
-            A selection of our recent construction and development projects across
-            London and the South East.
+            A selection of our recent property development, construction and property service projects across
+            London and the Home Counties.
           </p>
         </div>
 
@@ -365,7 +365,7 @@ export default function Projects() {
                   />
                 ) : (
                   <img
-                    src={projectImages[project.id] || projectImages['1']}
+                    src="/images/basement-after-card-smooth.jpeg"
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
@@ -397,11 +397,11 @@ export default function Projects() {
             <button
               type="button"
               onClick={() => setShowAllProjects((value) => !value)}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#020426] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-slate-900/15"
+              className="flex w-full items-center justify-center gap-2 rounded-lg bg-gold-500 px-5 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-gold-500/25 transition-colors hover:bg-gold-400"
             >
               {showAllProjects ? 'Show fewer projects' : 'Show all sample projects'}
               <ArrowRight
-                className={`h-4 w-4 text-gold-500 transition-transform ${
+                className={`h-4 w-4 text-slate-900 transition-transform ${
                   showAllProjects ? '-rotate-90' : 'rotate-90'
                 }`}
               />
@@ -521,7 +521,7 @@ export default function Projects() {
                 />
               ) : (
                 <img
-                  src={projectImages[selectedProject.id] || projectImages['1']}
+                  src="/images/basement-after-card-smooth.jpeg"
                   alt={selectedProject.title}
                   className="h-full w-full object-cover"
                 />

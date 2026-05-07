@@ -1,12 +1,5 @@
 import type { Project } from './types';
 
-export const heroSlides = [
-  '/images/hero-1.jpg',
-  '/images/hero-2.jpg',
-  '/images/hero-3.jpg',
-  '/images/hero-4.jpg',
-];
-
 export const featuredProjects: Project[] = [
   {
     id: '1',
@@ -25,7 +18,7 @@ export const featuredProjects: Project[] = [
     description:
       'A high-quality double storey side extension combined with a full internal refurbishment, transforming the property into a modern, spacious home. The project included structural expansion, redesigned layouts, upgraded electrics and plumbing, and premium finishes throughout.',
     category: 'Design & Build',
-    location: 'Elstree, Hertfordshire',
+    location: 'Elstree',
     featured: true,
     sort_order: 1,
     created_at: '',
@@ -102,21 +95,9 @@ export const featuredProjects: Project[] = [
     description:
       'Project description to be added. Before and after images will be updated once supplied.',
     category: 'Residential Redevelopment',
-    location: 'St Albans, Hertfordshire',
+    location: 'St Albans',
     featured: false,
     sort_order: 8,
     created_at: '',
   },
 ];
-
-export const projectImages: Record<string, string> = {
-  '1': '/images/hero-2.jpg',
-  '2': '/images/hero-3.jpg',
-  '3': '/images/hero-4.jpg',
-  '4': '/images/hero-1.jpg',
-  '5': '/images/project-5.jpg',
-  '6': '/images/project-6.jpg',
-  '7': '/images/hmo-conversion-after-hmo3-card-smooth.jpeg',
-  '8': '/images/student-accommodation-after-card-smooth.jpeg',
-  '9': '/images/suburban-redevelopment-after-card-smooth.jpeg',
-};
