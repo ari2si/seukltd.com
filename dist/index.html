@@ -338,21 +338,51 @@
       <label>Message <textarea name="message"></textarea></label>
     </form>
 
+    
+
     <script id="seuk-mobile-contact-scroll-fix">
       (function () {
-        document.addEventListener('click', function (event) {
-          var link = event.target && event.target.closest && event.target.closest('a[href="#contact-form"], .seuk-mobile-contact-cta');
-          if (!link) return;
-          event.preventDefault();
-          event.stopPropagation();
+        function textContentClean(node) {
+          return (node && node.textContent || '').replace(/s+/g, ' ').trim();
+        }
+        function renameOldButtons() {
+          document.querySelectorAll('a, button').forEach(function (node) {
+            if (textContentClean(node) === 'Get a Quote') {
+              node.childNodes.forEach(function (child) {
+                if (child.nodeType === 3 && child.nodeValue.indexOf('Get a Quote') !== -1) child.nodeValue = child.nodeValue.replace('Get a Quote', 'Get in touch');
+              });
+              if (textContentClean(node) === 'Get a Quote') node.appendChild(document.createTextNode(''));
+            }
+          });
+        }
+        function goToContact(event) {
           var target = document.getElementById('contact-form') || document.getElementById('contact');
           if (!target) return;
+          if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
           if (history && history.replaceState) history.replaceState(null, '', '#contact-form');
+        }
+        document.addEventListener('click', function (event) {
+          var node = event.target && event.target.closest && event.target.closest('a, button');
+          if (!node) return;
+          var label = textContentClean(node);
+          var href = node.getAttribute && node.getAttribute('href');
+          if (href === '#contact-form' || label === 'Get a Quote' || label === 'Get in touch') goToContact(event);
         }, true);
+        renameOldButtons();
+        window.setInterval(renameOldButtons, 500);
+        if (window.MutationObserver) new MutationObserver(renameOldButtons).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
       })();
     </script>
     <div id="root"></div>
+    <nav id="seuk-hard-mobile-cta" aria-label="Mobile contact actions">
+      <a class="seuk-hard-mobile-call" href="tel:+441727270713">Call</a>
+      <a class="seuk-hard-mobile-touch" href="#contact-form">Get in touch</a>
+    </nav>
+
     <noscript>
       <main>
         <h1>Smart Environment Group | Construction, Development & Property Services</h1>
