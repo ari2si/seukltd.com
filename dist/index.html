@@ -185,8 +185,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/assets/index-BXZhlidY.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CMVOoris.css">
+    <script type="module" crossorigin src="/assets/index-SEUK-20260509-formfix.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-SEUK-20260509.css">
   </head>
   <body>
     <iframe name="netlify-hidden-frame" style="display:none" title="Form submission"></iframe>
@@ -222,7 +222,8 @@
 
         window.addEventListener('submit', function (event) {
           var form = event.target;
-          if (!form || form.getAttribute('name') !== 'website-enquiry' || form.id === 'netlify-website-enquiry') return;
+          if (!form || !form.elements || form.id === 'netlify-website-enquiry') return;
+          if (!form.elements.name || !form.elements.email || !form.elements.phone || !form.elements.message) return;
           event.preventDefault();
           event.stopImmediatePropagation();
           if (form.dataset.seukSubmitting === 'true') return;
@@ -308,6 +309,14 @@
         });
       })();
     </script>
+
+    <form id="netlify-visible-fallback-form" name="website-enquiry" method="POST" action="/" data-netlify="true" target="netlify-hidden-frame" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true" tabindex="-1">
+      <input type="hidden" name="form-name" value="website-enquiry" />
+      <label>Name <input type="text" name="name" /></label>
+      <label>Email <input type="email" name="email" /></label>
+      <label>Phone <input type="tel" name="phone" /></label>
+      <label>Message <textarea name="message"></textarea></label>
+    </form>
     <div id="root"></div>
     <noscript>
       <main>
