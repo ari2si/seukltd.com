@@ -199,6 +199,7 @@
     </form>
 
 
+
     <script>
       (function () {
         function showInlineSuccess() {
@@ -218,15 +219,43 @@
           container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function showInlineError(form) {
-          var existing = form.querySelector('[data-form-error="true"]');
-          if (existing) existing.remove();
-          var error = document.createElement('p');
-          error.setAttribute('data-form-error', 'true');
-          error.setAttribute('role', 'alert');
-          error.className = 'rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700';
-          error.textContent = 'Sorry, we could not send your message just now. Please try again or email info@seukltd.com.';
-          form.appendChild(error);
+        function submitNativeToNetlify(form) {
+          var iframeName = 'netlify-form-target-' + Date.now();
+          var iframe = document.createElement('iframe');
+          iframe.name = iframeName;
+          iframe.style.display = 'none';
+          document.body.appendChild(iframe);
+
+          var nativeForm = document.createElement('form');
+          nativeForm.method = 'POST';
+          nativeForm.action = '/';
+          nativeForm.target = iframeName;
+          nativeForm.style.display = 'none';
+          nativeForm.setAttribute('data-netlify', 'true');
+          nativeForm.setAttribute('name', 'get-in-touch');
+
+          function add(name, value) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            input.value = value || '';
+            nativeForm.appendChild(input);
+          }
+
+          add('form-name', 'get-in-touch');
+          add('bot-field', form.elements['bot-field'] ? form.elements['bot-field'].value : '');
+          add('name', form.elements.name.value.trim());
+          add('email', form.elements.email.value.trim());
+          add('phone', form.elements.phone.value.trim());
+          add('message', form.elements.message.value.trim());
+
+          document.body.appendChild(nativeForm);
+          nativeForm.submit();
+          window.setTimeout(showInlineSuccess, 350);
+          window.setTimeout(function () {
+            nativeForm.remove();
+            iframe.remove();
+          }, 5000);
         }
 
         window.addEventListener('submit', function (event) {
@@ -243,25 +272,7 @@
           if (!name || !email || !phone || !message || message.length < 50) return;
 
           form.dataset.seukSubmitting = 'true';
-          var payload = new URLSearchParams();
-          payload.append('form-name', 'get-in-touch');
-          payload.append('bot-field', form.elements['bot-field'] ? form.elements['bot-field'].value : '');
-          payload.append('name', name);
-          payload.append('email', email);
-          payload.append('phone', phone);
-          payload.append('message', message);
-
-          fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: payload.toString()
-          }).then(function (response) {
-            if (!response.ok) throw new Error('Netlify form submission failed');
-            showInlineSuccess();
-          }).catch(function () {
-            form.dataset.seukSubmitting = 'false';
-            showInlineError(form);
-          });
+          submitNativeToNetlify(form);
         }, true);
       })();
     </script>
