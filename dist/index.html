@@ -189,14 +189,15 @@
     <link rel="stylesheet" crossorigin href="/assets/index-CMVOoris.css">
   </head>
   <body>
-    <form name="get-in-touch" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-      <input type="hidden" name="form-name" value="get-in-touch" />
-      <input type="text" name="bot-field" />
+    <iframe name="netlify-hidden-frame" style="display:none" title="Form submission"></iframe>
+    <form id="netlify-website-enquiry" name="website-enquiry" method="POST" action="/" data-netlify="true" target="netlify-hidden-frame" hidden>
+      <input type="hidden" name="form-name" value="website-enquiry" />
       <input type="text" name="name" />
       <input type="email" name="email" />
       <input type="tel" name="phone" />
       <textarea name="message"></textarea>
     </form>
+
 
 
 
@@ -219,51 +220,15 @@
           container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function submitNativeToNetlify(form) {
-          var iframeName = 'netlify-form-target-' + Date.now();
-          var iframe = document.createElement('iframe');
-          iframe.name = iframeName;
-          iframe.style.display = 'none';
-          document.body.appendChild(iframe);
-
-          var nativeForm = document.createElement('form');
-          nativeForm.method = 'POST';
-          nativeForm.action = '/';
-          nativeForm.target = iframeName;
-          nativeForm.style.display = 'none';
-          nativeForm.setAttribute('data-netlify', 'true');
-          nativeForm.setAttribute('name', 'get-in-touch');
-
-          function add(name, value) {
-            var input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = name;
-            input.value = value || '';
-            nativeForm.appendChild(input);
-          }
-
-          add('form-name', 'get-in-touch');
-          add('bot-field', form.elements['bot-field'] ? form.elements['bot-field'].value : '');
-          add('name', form.elements.name.value.trim());
-          add('email', form.elements.email.value.trim());
-          add('phone', form.elements.phone.value.trim());
-          add('message', form.elements.message.value.trim());
-
-          document.body.appendChild(nativeForm);
-          nativeForm.submit();
-          window.setTimeout(showInlineSuccess, 350);
-          window.setTimeout(function () {
-            nativeForm.remove();
-            iframe.remove();
-          }, 5000);
-        }
-
         window.addEventListener('submit', function (event) {
           var form = event.target;
-          if (!form || form.getAttribute('name') !== 'get-in-touch') return;
+          if (!form || form.getAttribute('name') !== 'website-enquiry' || form.id === 'netlify-website-enquiry') return;
           event.preventDefault();
           event.stopImmediatePropagation();
           if (form.dataset.seukSubmitting === 'true') return;
+
+          var netlifyForm = document.getElementById('netlify-website-enquiry');
+          if (!netlifyForm) return;
 
           var name = form.elements.name && form.elements.name.value.trim();
           var email = form.elements.email && form.elements.email.value.trim();
@@ -272,8 +237,75 @@
           if (!name || !email || !phone || !message || message.length < 50) return;
 
           form.dataset.seukSubmitting = 'true';
-          submitNativeToNetlify(form);
+          netlifyForm.elements.name.value = name;
+          netlifyForm.elements.email.value = email;
+          netlifyForm.elements.phone.value = phone;
+          netlifyForm.elements.message.value = message;
+          HTMLFormElement.prototype.submit.call(netlifyForm);
+          window.setTimeout(showInlineSuccess, 350);
         }, true);
+      })();
+    </script>
+
+    <script>
+      (function () {
+        var storageKey = 'seuk_cookie_consent';
+        var version = 1;
+
+        function hasConsent() {
+          try {
+            var saved = window.localStorage.getItem(storageKey);
+            if (!saved) return false;
+            var parsed = JSON.parse(saved);
+            return parsed && parsed.version === version && parsed.necessary === true;
+          } catch (error) {
+            return false;
+          }
+        }
+
+        function saveConsent(options) {
+          var consent = {
+            necessary: true,
+            functional: !!options.functional,
+            analytics: !!options.analytics,
+            advertisement: !!options.advertisement,
+            consentedAt: new Date().toISOString(),
+            version: version
+          };
+          try {
+            window.localStorage.setItem(storageKey, JSON.stringify(consent));
+            document.cookie = storageKey + '=' + encodeURIComponent(JSON.stringify(consent)) + '; Max-Age=15552000; Path=/; SameSite=Lax';
+          } catch (error) {}
+          var fallback = document.getElementById('seuk-cookie-fallback');
+          if (fallback) fallback.remove();
+        }
+
+        function renderFallback() {
+          if (hasConsent()) return;
+          if (document.querySelector('[aria-label="Cookie consent"]') || document.getElementById('seuk-cookie-fallback')) return;
+
+          var wrapper = document.createElement('section');
+          wrapper.id = 'seuk-cookie-fallback';
+          wrapper.setAttribute('aria-label', 'Cookie consent');
+          wrapper.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:2147483647;border-top:1px solid rgba(212,160,23,.35);background:rgba(2,4,38,.97);color:#fff;padding:20px 24px;box-shadow:0 -18px 45px rgba(0,0,0,.28);font-family:Inter,system-ui,-apple-system,sans-serif;';
+          wrapper.innerHTML = '<div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap">' +
+            '<p style="margin:0;max-width:760px;font-size:15px;line-height:1.55;color:#f8fafc">By clicking “Accept all Cookies”, you agree to the storing of cookies on your device to enhance site navigation, analyse site usage, and assist in our marketing efforts.</p>' +
+            '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">' +
+            '<button type="button" data-cookie-reject style="border:0;background:transparent;color:#fff;text-decoration:underline;text-decoration-color:#d4a017;text-underline-offset:7px;padding:12px 6px;font-weight:600;cursor:pointer">Reject optional</button>' +
+            '<button type="button" data-cookie-accept style="border:0;background:#d4a017;color:#0f172a;padding:12px 22px;border-radius:8px;font-weight:800;cursor:pointer">Accept all Cookies</button>' +
+            '</div></div>';
+          document.body.appendChild(wrapper);
+          wrapper.querySelector('[data-cookie-accept]').addEventListener('click', function () {
+            saveConsent({ functional: true, analytics: true, advertisement: true });
+          });
+          wrapper.querySelector('[data-cookie-reject]').addEventListener('click', function () {
+            saveConsent({ functional: false, analytics: false, advertisement: false });
+          });
+        }
+
+        window.addEventListener('load', function () {
+          window.setTimeout(renderFallback, 900);
+        });
       })();
     </script>
     <div id="root"></div>
