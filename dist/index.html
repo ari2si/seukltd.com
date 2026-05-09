@@ -337,6 +337,21 @@
       <label>Phone <input type="tel" name="phone" /></label>
       <label>Message <textarea name="message"></textarea></label>
     </form>
+
+    <script id="seuk-mobile-contact-scroll-fix">
+      (function () {
+        document.addEventListener('click', function (event) {
+          var link = event.target && event.target.closest && event.target.closest('a[href="#contact-form"], .seuk-mobile-contact-cta');
+          if (!link) return;
+          event.preventDefault();
+          event.stopPropagation();
+          var target = document.getElementById('contact-form') || document.getElementById('contact');
+          if (!target) return;
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (history && history.replaceState) history.replaceState(null, '', '#contact-form');
+        }, true);
+      })();
+    </script>
     <div id="root"></div>
     <noscript>
       <main>

@@ -22,3 +22,15 @@
     color: #ffffff !important;
   }
 }
+
+@media (max-width: 767px) {
+  .seuk-mobile-cta-bar {
+    z-index: 2147483600 !important;
+    pointer-events: auto !important;
+  }
+  .seuk-mobile-contact-cta {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 1;
+  }
+}
