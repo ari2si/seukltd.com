@@ -190,7 +190,7 @@
   </head>
   <body>
     <iframe name="netlify-hidden-frame" style="display:none" title="Form submission"></iframe>
-    <form id="netlify-website-enquiry" name="website-enquiry" method="POST" action="/" data-netlify="true" target="netlify-hidden-frame" hidden>
+    <form id="netlify-website-enquiry" name="website-enquiry" method="POST" action="/" data-netlify="true" hidden>
       <input type="hidden" name="form-name" value="website-enquiry" />
       <input type="text" name="name" />
       <input type="email" name="email" />
@@ -220,30 +220,50 @@
           container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        function showInlineError(form) {
+          var existing = form.querySelector('[data-seuk-form-error]');
+          if (!existing) {
+            existing = document.createElement('p');
+            existing.setAttribute('data-seuk-form-error', 'true');
+            existing.className = 'rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700';
+            form.insertBefore(existing, form.firstChild);
+          }
+          existing.textContent = 'Sorry, we could not send your message just now. Please try again in a moment.';
+        }
+
         window.addEventListener('submit', function (event) {
           var form = event.target;
-          if (!form || !form.elements || form.id === 'netlify-website-enquiry') return;
+          if (!form || !form.elements || form.id === 'netlify-website-enquiry' || form.id === 'netlify-visible-fallback-form') return;
           if (!form.elements.name || !form.elements.email || !form.elements.phone || !form.elements.message) return;
           event.preventDefault();
           event.stopImmediatePropagation();
           if (form.dataset.seukSubmitting === 'true') return;
 
-          var netlifyForm = document.getElementById('netlify-website-enquiry');
-          if (!netlifyForm) return;
-
-          var name = form.elements.name && form.elements.name.value.trim();
-          var email = form.elements.email && form.elements.email.value.trim();
-          var phone = form.elements.phone && form.elements.phone.value.trim();
-          var message = form.elements.message && form.elements.message.value.trim();
+          var name = form.elements.name.value.trim();
+          var email = form.elements.email.value.trim();
+          var phone = form.elements.phone.value.trim();
+          var message = form.elements.message.value.trim();
           if (!name || !email || !phone || !message || message.length < 50) return;
 
           form.dataset.seukSubmitting = 'true';
-          netlifyForm.elements.name.value = name;
-          netlifyForm.elements.email.value = email;
-          netlifyForm.elements.phone.value = phone;
-          netlifyForm.elements.message.value = message;
-          HTMLFormElement.prototype.submit.call(netlifyForm);
-          window.setTimeout(showInlineSuccess, 350);
+          var payload = new URLSearchParams();
+          payload.set('form-name', 'website-enquiry');
+          payload.set('name', name);
+          payload.set('email', email);
+          payload.set('phone', phone);
+          payload.set('message', message);
+
+          fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload.toString()
+          }).then(function (response) {
+            if (!response.ok) throw new Error('Netlify form submission failed');
+            showInlineSuccess();
+          }).catch(function () {
+            form.dataset.seukSubmitting = 'false';
+            showInlineError(form);
+          });
         }, true);
       })();
     </script>
