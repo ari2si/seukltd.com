@@ -198,6 +198,73 @@
       <textarea name="message"></textarea>
     </form>
 
+
+    <script>
+      (function () {
+        function showInlineSuccess() {
+          var container = document.getElementById('contact-form');
+          if (!container) return;
+          container.innerHTML = '<div class="flex min-h-[520px] flex-col justify-center text-center">' +
+            '<div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">' +
+            '<svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 text-green-700" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>' +
+            '</div>' +
+            '<h3 class="mt-6 text-3xl font-bold text-green-700">Thank you</h3>' +
+            '<p class="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-green-800">Your enquiry has been received. A member of our team will review your message and respond within 1 business day.</p>' +
+            '<div class="mt-8 rounded-lg border border-green-300 bg-green-50 px-4 py-4 text-left">' +
+            '<p class="text-sm font-semibold text-green-900">What happens next</p>' +
+            '<ul class="mt-3 space-y-2 text-sm text-green-800"><li>We review your project brief and contact details.</li><li>We may ask for drawings, photos or a site address.</li><li>We agree the most useful next step for your project.</li></ul>' +
+            '</div>' +
+            '</div>';
+          container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showInlineError(form) {
+          var existing = form.querySelector('[data-form-error="true"]');
+          if (existing) existing.remove();
+          var error = document.createElement('p');
+          error.setAttribute('data-form-error', 'true');
+          error.setAttribute('role', 'alert');
+          error.className = 'rounded-lg border border-red-300 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700';
+          error.textContent = 'Sorry, we could not send your message just now. Please try again or email info@seukltd.com.';
+          form.appendChild(error);
+        }
+
+        window.addEventListener('submit', function (event) {
+          var form = event.target;
+          if (!form || form.getAttribute('name') !== 'get-in-touch') return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          if (form.dataset.seukSubmitting === 'true') return;
+
+          var name = form.elements.name && form.elements.name.value.trim();
+          var email = form.elements.email && form.elements.email.value.trim();
+          var phone = form.elements.phone && form.elements.phone.value.trim();
+          var message = form.elements.message && form.elements.message.value.trim();
+          if (!name || !email || !phone || !message || message.length < 50) return;
+
+          form.dataset.seukSubmitting = 'true';
+          var payload = new URLSearchParams();
+          payload.append('form-name', 'get-in-touch');
+          payload.append('bot-field', form.elements['bot-field'] ? form.elements['bot-field'].value : '');
+          payload.append('name', name);
+          payload.append('email', email);
+          payload.append('phone', phone);
+          payload.append('message', message);
+
+          fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: payload.toString()
+          }).then(function (response) {
+            if (!response.ok) throw new Error('Netlify form submission failed');
+            showInlineSuccess();
+          }).catch(function () {
+            form.dataset.seukSubmitting = 'false';
+            showInlineError(form);
+          });
+        }, true);
+      })();
+    </script>
     <div id="root"></div>
     <noscript>
       <main>
