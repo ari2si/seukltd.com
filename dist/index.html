@@ -189,7 +189,48 @@
     <link rel="stylesheet" crossorigin href="/assets/index-CMVOoris.css">
   </head>
   <body>
-    <form name='get-in-touch' method='POST' data-netlify='true' hidden><input type='hidden' name='form-name' value='get-in-touch' /><input type='text' name='name' /><input type='email' name='email' /><textarea name='message'></textarea></form>
+    <form name="get-in-touch" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="get-in-touch" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <textarea name="message"></textarea>
+    </form>
+
+    <script>
+      window.addEventListener('submit', function (event) {
+        var form = event.target;
+        if (!form || form.getAttribute('name') !== 'get-in-touch' || form.dataset.seukNetlifyHandled === 'true') return;
+        var required = ['name', 'email', 'phone', 'message'];
+        for (var i = 0; i < required.length; i += 1) {
+          var field = form.elements[required[i]];
+          if (!field || !String(field.value || '').trim()) return;
+        }
+        if (form.elements.message.value.trim().length < 50) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        form.dataset.seukNetlifyHandled = 'true';
+        var payload = new URLSearchParams();
+        payload.append('form-name', 'get-in-touch');
+        payload.append('bot-field', form.elements['bot-field'] ? form.elements['bot-field'].value : '');
+        payload.append('name', form.elements.name.value.trim());
+        payload.append('email', form.elements.email.value.trim());
+        payload.append('phone', form.elements.phone.value.trim());
+        payload.append('message', form.elements.message.value.trim());
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload.toString()
+        }).then(function (response) {
+          if (!response.ok) throw new Error('Netlify form submission failed');
+          window.location.href = '/__netlify-form-handler.html';
+        }).catch(function () {
+          form.dataset.seukNetlifyHandled = 'false';
+          window.location.href = 'mailto:info@seukltd.com?subject=Website%20enquiry';
+        });
+      }, true);
+    </script>
     <div id="root"></div>
     <noscript>
       <main>

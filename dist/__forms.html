@@ -5,6 +5,13 @@
     <title>Netlify Forms</title>
   </head>
   <body>
-    <form name='get-in-touch' method='POST' data-netlify='true' hidden><input type='hidden' name='form-name' value='get-in-touch' /><input type='text' name='name' /><input type='email' name='email' /><textarea name='message'></textarea></form>
+    <form name="get-in-touch" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="get-in-touch" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <textarea name="message"></textarea>
+    </form>
   </body>
 </html>
