@@ -5,12 +5,14 @@
     <title>Netlify Forms</title>
   </head>
   <body>
-    <form name="website-enquiry" method="POST" data-netlify="true" hidden>
+    <form name="website-enquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="hidden" name="form-name" value="website-enquiry" />
+      <input type="text" name="bot-field" />
       <input type="text" name="name" />
       <input type="email" name="email" />
       <input type="tel" name="phone" />
       <textarea name="message"></textarea>
+      <input type="text" name="human-check" />
     </form>
   </body>
 </html>

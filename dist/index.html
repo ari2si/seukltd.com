@@ -59,7 +59,7 @@
         "url": "https://seukltd.com/",
         "logo": "https://seukltd.com/branding/final-logo-golden-wide-transparent.png",
         "image": ["https://res.cloudinary.com/dvdqtewmz/image/upload/f_auto,q_auto:good/v1778087091/About_njqtjt.png", "https://seukltd.com/images/prestige-house-after-card-smooth.jpeg", "https://seukltd.com/images/basement-after-card-smooth.jpeg", "https://seukltd.com/images/mixed-use-after-card-smooth.jpeg", "https://seukltd.com/images/office-after-card-smooth.jpeg"],
-        "telephone": "+44 1727 270713",
+        "telephone": "+44 20 8163 4044",
         "email": "info@seukltd.com",
         "address": {
           "@type": "PostalAddress",
@@ -190,12 +190,14 @@
   </head>
   <body>
     <iframe name="netlify-hidden-frame" style="display:none" title="Form submission"></iframe>
-    <form id="netlify-website-enquiry" name="website-enquiry" method="POST" action="/" data-netlify="true" hidden>
+    <form id="netlify-website-enquiry" name="website-enquiry" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="hidden" name="form-name" value="website-enquiry" />
+      <input type="text" name="bot-field" />
       <input type="text" name="name" />
       <input type="email" name="email" />
       <input type="tel" name="phone" />
       <textarea name="message"></textarea>
+      <input type="text" name="human-check" />
     </form>
 
 
@@ -220,7 +222,7 @@
           container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function showInlineError(form) {
+        function showInlineError(form, message) {
           var existing = form.querySelector('[data-seuk-form-error]');
           if (!existing) {
             existing = document.createElement('p');
@@ -228,7 +230,7 @@
             existing.className = 'rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700';
             form.insertBefore(existing, form.firstChild);
           }
-          existing.textContent = 'Sorry, we could not send your message just now. Please try again in a moment.';
+          existing.textContent = message || 'Sorry, we could not send your message just now. Please try again in a moment.';
         }
 
         window.addEventListener('submit', function (event) {
@@ -243,15 +245,21 @@
           var email = form.elements.email.value.trim();
           var phone = form.elements.phone.value.trim();
           var message = form.elements.message.value.trim();
+          var botField = form.elements['bot-field'] ? form.elements['bot-field'].value.trim() : '';
+          var humanCheck = form.elements['human-check'] ? form.elements['human-check'].value.trim().toLowerCase() : '';
+          if (botField) return;
           if (!name || !email || !phone || !message || message.length < 50) return;
+          if (humanCheck !== '7' && humanCheck !== 'build') { showInlineError(form, 'Please complete the quick anti-spam check.'); return; }
 
           form.dataset.seukSubmitting = 'true';
           var payload = new URLSearchParams();
           payload.set('form-name', 'website-enquiry');
+          payload.set('bot-field', '');
           payload.set('name', name);
           payload.set('email', email);
           payload.set('phone', phone);
           payload.set('message', message);
+          payload.set('human-check', 'passed');
 
           fetch('/', {
             method: 'POST',
@@ -330,12 +338,14 @@
       })();
     </script>
 
-    <form id="netlify-visible-fallback-form" name="website-enquiry" method="POST" action="/" data-netlify="true" target="netlify-hidden-frame" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true" tabindex="-1">
+    <form id="netlify-visible-fallback-form" name="website-enquiry" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" target="netlify-hidden-frame" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden" aria-hidden="true" tabindex="-1">
       <input type="hidden" name="form-name" value="website-enquiry" />
+      <label>Do not fill this in <input type="text" name="bot-field" /></label>
       <label>Name <input type="text" name="name" /></label>
       <label>Email <input type="email" name="email" /></label>
       <label>Phone <input type="tel" name="phone" /></label>
-      <label>Message <textarea name="message"></textarea></label>
+      <label>Message <textarea name="message"></textarea>
+      <input type="text" name="human-check" /></label>
     </form>
 
     
@@ -379,7 +389,7 @@
     </script>
     <div id="root"></div>
     <nav id="seuk-hard-mobile-cta" aria-label="Mobile contact actions">
-      <a class="seuk-hard-mobile-call" href="tel:+441727270713">Call</a>
+      <a class="seuk-hard-mobile-call" href="tel:+442081634044">Call</a>
       <a class="seuk-hard-mobile-touch" href="#contact-form">Get in touch</a>
     </nav>
 
@@ -396,7 +406,7 @@
         </p>
         <p>
           Contact Smart Environment Group at
-          info@seukltd.com or +44 (0) 172 7270 713.
+          info@seukltd.com or 020 8163 4044.
         </p>
       </main>
     </noscript>
