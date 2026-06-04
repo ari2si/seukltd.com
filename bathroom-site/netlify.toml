@@ -1,0 +1,8 @@
+# Smart Environment Bathrooms — standalone static site
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/home"
+  to = "/"
+  status = 301
