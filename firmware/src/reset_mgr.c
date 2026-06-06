@@ -46,10 +46,13 @@ void reset_mgr_task(void)
             led_set(LED_FLASH_SUCCESS);     /* confirm the wipe                 */
         }
 
-        /* SEC-04: held alone for 10 s -> force Bluetooth back ON.             */
+        /* §8.3 lost-remote override: held alone 10 s -> force Bluetooth ON and
+         * open the pairing window, so the app can re-link and authorise a new
+         * remote even when all fobs are lost and BLE had been switched off.   */
         if (!s_emergency_fired && held >= RST_EMERGENCY_HOLD_MS) {
             s_emergency_fired = true;
             ble_sec_set_enabled(true);
+            ble_sec_open_pairing_window();
             led_set(LED_FLASH_SUCCESS);
         }
     }

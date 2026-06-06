@@ -42,7 +42,9 @@
 #define DP_BATTERY_STATE    111   /* enum  : 0 ok / 1 low / 2 lockout (§7)    */
 
 /* RM-01: management DPs are unlocked only after a correct PIN this session.  */
-static bool s_session_pin_ok;
+static bool     s_session_pin_ok;
+static bool     s_app_connected;     /* §2: an app link is currently open       */
+static uint32_t s_connect_ms;        /* §2: when it connected (PIN-auth timeout) */
 
 /* ----------------------------------------------------------------------- */
 /*  RM-03 factory pre-pairing  >>> FACTORY: program these 2 fob serials <<<  */
@@ -182,6 +184,9 @@ static void handle_dp(const uint8_t *p, uint16_t len)
 
     case DP_BOLLARD_CTRL:                                   /* §4/§9 control   */
         if (default_pin) break;          /* SW-03: no control on default PIN    */
+        /* §9.5 / §2: every command requires a validated PIN this session. An
+         * un-authenticated control attempt drops the link instantly (§2).      */
+        if (!s_session_pin_ok) { hal_ble_disconnect(); break; }
         if (dlen >= 1) {
             if      (d[0] == 1) bollard_command(BOLLARD_UP);
             else if (d[0] == 2) bollard_command(BOLLARD_DOWN);
@@ -221,6 +226,8 @@ void app_on_ble_connected(void)
 {
     power_mgr_notify_activity();
     s_session_pin_ok = false;            /* RM-01: must re-verify each session  */
+    s_app_connected  = true;
+    s_connect_ms     = hal_millis();     /* §2: start the PIN-auth timeout       */
     ble_sec_on_connected();              /* SW-02 success flash                 */
     report_status_snapshot();            /* SW-04 + §7/§9 state to the app      */
 }
@@ -228,6 +235,7 @@ void app_on_ble_connected(void)
 void app_on_ble_disconnected(void)
 {
     s_session_pin_ok = false;
+    s_app_connected  = false;
     ble_sec_on_disconnected();
 }
 
@@ -303,6 +311,14 @@ static void app_loop_once(void)
     reset_mgr_task();
     ble_sec_task();
     battery_task();
+
+    /* §2: a connection that does not authenticate with the saved custom PIN
+     * within the timeout is dropped.                                          */
+    if (s_app_connected && ble_sec_is_initialized() && !s_session_pin_ok &&
+        (hal_millis() - s_connect_ms) >= APP_AUTH_TIMEOUT_MS) {
+        hal_ble_disconnect();
+        s_app_connected = false;
+    }
 
     app_publish_changes();
     app_update_led();

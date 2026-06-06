@@ -146,11 +146,12 @@ uint16_t hal_motor_current_ma(void)
 void hal_configure_wake_sources(void)
 {
     /* >>> FACTORY: configure as deep-sleep wake sources:
-     *   - PIN_RF_INT          (a >=1 s remote press)               §7
-     *   - the BLE controller  (an app connection handshake)        §7
-     *   - PIN_LIMIT_UP edge   (upper microswitch OPENs = tamper)   §8
+     *   - PIN_RF_INT          (a remote press; qualify it as a >= 1 s press
+     *                          using WAKE_RF_MIN_PRESS_MS before acting)   §7
+     *   - the BLE controller  (an app connection handshake)               §7
+     *   - PIN_LIMIT_UP edge   (upper microswitch OPENs = tamper)          §8
      * On the Tuya SDK this uses the low-power / pin-wake API so the CPU
-     * resumes within WAKE_LATENCY_MAX_MS.                                   */
+     * resumes within WAKE_LATENCY_MAX_MS (1000 ms).                         */
 }
 
 void hal_enter_deep_sleep(void)

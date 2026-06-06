@@ -22,18 +22,29 @@ custom app built on the Tuya BLE SDK) reads/writes. IDs here match
 
 ## App flows
 
-### First connection (SW-03 forced PIN change)
+### First connection (§2 forced PIN change)
 1. App connects during the pairing window (opened by triple middle-press).
-2. Device reports `pin_is_default = 1`.
-3. App **must** call `change_pin` with `"123456,<new 6 digits>"`.
-   Until then every control DP (incl. `bollard_ctrl`) is rejected by firmware.
+2. Device reports `pin_is_default = 1` (i.e. `is_initialized == 0`).
+3. While `is_initialized == 0` the firmware accepts **only** the default
+   passcode `123456`; any other handshake string drops the link.
+4. App **must** call `change_pin` with `"123456,<new 6 digits>"`. On success the
+   firmware sets `is_initialized = 1` and **closes the pairing window**.
+   Until the PIN is changed, every control DP (incl. `bollard_ctrl`) is rejected.
 
-### Adding a remote (RM-01, app-authorised)
+### Every later session (§2 / §9)
+1. App connects and **must** call `verify_pin` with the saved custom PIN.
+2. A wrong PIN, or no valid PIN within ~15 s, **drops the link** immediately.
+3. `bollard_ctrl` and all management DPs are honoured **only** after a correct
+   `verify_pin` this session — each command is PIN-gated (§9). Multiple phones
+   may each connect using the **same** custom PIN (§3, many-to-one).
+
+### Adding a remote (RM-01 / §3, app-authorised)
 1. App calls `verify_pin` with the current custom PIN → session unlocked.
-2. App calls `add_remote = 1` → device opens a 30 s learn window (LED solid).
+2. App enters *Manage Remotes* and calls `add_remote = 1` → device opens a 30 s
+   learn window (LED solid).
 3. User presses any button on the new fob → firmware authenticates the rolling
-   code, saves it, flashes the LED, and reports the new `remote_count`.
-   Foreign/un-authorised presses outside this window are ignored.
+   code, saves it to the whitelist (up to 10), flashes the LED, and reports the
+   new `remote_count`. Foreign/un-authorised presses are ignored (SEC-02).
 
 ### Removing a remote (RM-02)
 `verify_pin` first, then `remove_remote = <serial>`.
@@ -52,5 +63,16 @@ the app must show "Battery Depleted – Operation Locked" and disable the UP
 toggle, because the firmware already refuses upward travel below 18 V.
 
 ### Wrong PIN (spec §2)
-If `verify_pin` is wrong the firmware drops the BLE link immediately; the app
-must reconnect and retry with the correct custom PIN.
+If `verify_pin` is wrong — or a connection sends control/management DPs without
+authenticating, or never authenticates within ~15 s — the firmware drops the
+BLE link immediately; the app must reconnect and retry with the correct PIN.
+
+### Lost-remote recovery (spec §8)
+Holding the physical RST button for 10 s both **re-enables Bluetooth** and
+**opens the pairing window**, so the app can re-link and authorise a new remote
+even when BLE was switched off and all fobs were lost.
+
+> Concurrent multi-phone access (§3): the firmware imposes no single-phone
+> binding — any phone presenting the correct custom PIN is admitted. *Truly
+> simultaneous* BLE links additionally depend on the Tuya BLE connection
+> configuration for the BT3L (confirm the max-connections setting with Tuya).

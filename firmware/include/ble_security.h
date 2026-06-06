@@ -16,6 +16,7 @@ void ble_sec_task(void);
 
 /* ---- advertising / pairing window (SW-01, SW-02) ---------------------- */
 void ble_sec_open_pairing_window(void);   /* 3-min timed, LED solid          */
+void ble_sec_close_pairing_window(void);  /* §2: stop advertising            */
 bool ble_sec_pairing_window_open(void);
 
 /* ---- master BLE on/off (RM-04, SEC-04) -------------------------------- */
@@ -25,6 +26,7 @@ void ble_sec_toggle(void);
 
 /* ---- PIN lifecycle (SW-01, SW-03, SEC-01) ----------------------------- */
 bool ble_sec_pin_is_default(void);                  /* SW-03 force-change flag */
+bool ble_sec_is_initialized(void);                  /* §1/§2: is_initialized   */
 bool ble_sec_verify_pin(const char *pin);           /* RM-01 gate             */
 bool ble_sec_change_pin(const char *old_pin,
                         const char *new_pin);        /* SW-03                  */

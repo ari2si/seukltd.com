@@ -92,8 +92,10 @@
 /* ------------------------------------------------------------------------- */
 /*  Deep sleep (spec §7)                                                      */
 /* ------------------------------------------------------------------------- */
-#define DEEP_SLEEP_IDLE_MS          10000u  /* idle time before sleeping       */
-#define WAKE_LATENCY_MAX_MS         1000u   /* informational target            */
+#define DEEP_SLEEP_IDLE_MS          10000u  /* §7: idle time before sleeping   */
+#define WAKE_LATENCY_MAX_MS         1000u   /* §7: must be awake within 1000 ms */
+#define WAKE_RF_MIN_PRESS_MS        1000u   /* §7: an elongated 1 s remote      */
+                                            /*     press is what triggers wake   */
 
 /* ------------------------------------------------------------------------- */
 /*  RF rolling-code (KeeLoq) parameters   >>> FACTORY <<<                     */
@@ -129,6 +131,7 @@
 #define PIN_LEN                     6
 #define BLE_PAIRING_WINDOW_MS       180000u    /* SW-02: 3-minute open window   */
 #define BLE_SUCCESS_FLASH_MS        2000u      /* SW-02: 2 s flash on success   */
+#define APP_AUTH_TIMEOUT_MS         15000u     /* §2: drop link if no valid PIN */
 
 /* ------------------------------------------------------------------------- */
 /*  LED-strip timing profiles (spec §6)   milliseconds                       */

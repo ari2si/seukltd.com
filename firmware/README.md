@@ -58,20 +58,22 @@ detailed 9-section specification (and the original HW/SW/RM/SEC list).
 | §2   | BLE dormant until triggered | adv stays off until `ble_sec_open_pairing_window` |
 | §2   | 3× middle-press → solid LED, 3-min window | `on_pairing_window`, `ble_security.c`, `led.c` |
 | §2   | MAC/SN shown in scan | `apply_adv_name` + `device_info` DP |
-| §2   | Reject all but `123456` until init; force custom PIN; `is_initialized=1`; drop link on wrong PIN | `handle_dp` gate + `ble_sec_change_pin` + `hal_ble_disconnect` |
-| §3   | App-authorised learn (PIN → learn window → fob) | `verify_pin`/`add_remote` + `rf_remote.c` |
+| §2   | Reject all but `123456` until init; force custom PIN; `is_initialized=1`; **close window on PIN set** | `handle_dp` gate + `ble_sec_change_pin` (calls `ble_sec_close_pairing_window`) |
+| §2   | Later sessions must send custom PIN; **wrong/absent PIN (≤15 s) drops link** | `verify_pin` + `hal_ble_disconnect` + `APP_AUTH_TIMEOUT_MS` in `app_loop_once` |
+| §3   | App-authorised learn (PIN → Manage Remotes → learn window → fob) | `verify_pin`/`add_remote` + `rf_remote.c` |
 | §3   | Hold RST 5 s → wipe all fobs | `reset_mgr.c` |
-| §3   | 8–10 fob whitelist; many-to-one / one-to-many / many-to-app | `MAX_REMOTES=10`, `remote_store.*`, Tuya cloud |
+| §3   | 8–10 fob whitelist; one-to-many; many-to-one (multi-phone, same PIN) | `MAX_REMOTES=10`, `remote_store.*`, per-connection `verify_pin` |
 | §4   | Polarity relays, limit switches, 1 s de-energise pad | `bollard.c` (`PH_LIMIT_PAD`) |
 | §5   | Shunt current >3 A ±0.3 A / 1 s → cut, 500 ms pause, auto-retract | `obstruction_tripped` + `PH_OBSTR_PAUSE` (`bollard.c`) |
 | §6   | LED: moving 0.5/1.0, pairing solid, fault 0.2/0.2 | `led.c` + `app_update_led` |
 | §7   | Under-load voltage, SoC table, <19 V warn, <18 V UP-lockout, DP alert | `battery.*`, `app_main.c` |
 | §7   | Deep sleep 10 s idle (≤0.2 mA) + RF/BLE INT wake | `power_mgr.*`, `board_hal.c` |
-| §8   | Middle-hold 10 s → BLE off; RST 10 s → BLE on | `rf_remote.c`, `reset_mgr.c` |
+| §8   | Middle-hold 10 s toggles BLE off **and** on | `rf_remote.c` → `on_ble_toggle` |
+| §8   | Lost-remote override: RST 10 s → BLE on **+ open pairing window** | `reset_mgr.c` → `ble_sec_set_enabled` + `ble_sec_open_pairing_window` |
 | §8   | RST + paired fob → PIN→`123456`, `is_initialized=0`; unpaired rejected | `reset_mgr.c` |
 | §8   | Installer master serial override | `INSTALLER_MASTER_SERIAL`, `reset_mgr.c` |
 | §8   | Anti-tamper hold-up (push-down INT → re-drive UP → re-sleep) | `bollard.c` (`PH_IDLE`), `board_hal.c` wake |
-| §9   | Rolling-code RX, A/B/C buttons, app PIN control, real-time status DP | `rf_remote.c`, `bollard_status` DP |
+| §9   | Rolling-code RX, A/B/C buttons, **per-command PIN-gated** app control, real-time status DP | `rf_remote.c`, `handle_dp`, `bollard_status` DP |
 
 Original ID cross-reference: SW-01→§2, SW-02→§2, SW-03→§2, SW-04→§2;
 RM-01→§3, RM-02→§3, RM-03→§1, RM-04→§8; SEC-01..04→§8; HW-01..04→§1.

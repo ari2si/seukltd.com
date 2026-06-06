@@ -72,6 +72,15 @@ void ble_sec_open_pairing_window(void)
 
 bool ble_sec_pairing_window_open(void) { return s_window_open; }
 
+/* §2: safely close the pairing window (stop advertising). */
+void ble_sec_close_pairing_window(void)
+{
+    if (!s_window_open) return;
+    hal_ble_adv_stop();
+    s_window_open = false;
+    if (led_get() == LED_SOLID) led_set(LED_OFF);
+}
+
 void ble_sec_task(void)
 {
     uint32_t now = hal_millis();
@@ -107,6 +116,11 @@ void ble_sec_toggle(void)     { ble_sec_set_enabled(!ble_sec_is_enabled()); }
 /* ---- PIN lifecycle ---------------------------------------------------- */
 bool ble_sec_pin_is_default(void) { return s_nv.pin_is_default != 0; }
 
+/* §1/§2/§8: is_initialized == 0 while the factory default PIN is in force,
+ * 1 once a custom PIN has been written. (Stored as the inverse of
+ * pin_is_default so a blank/erased flash reads as not-initialised.)          */
+bool ble_sec_is_initialized(void) { return s_nv.pin_is_default == 0; }
+
 bool ble_sec_verify_pin(const char *pin)
 {
     if (!pin) return false;
@@ -122,8 +136,9 @@ bool ble_sec_change_pin(const char *old_pin, const char *new_pin)
     if (new_pin[PIN_LEN] != '\0') return false;
     strncpy(s_nv.pin, new_pin, PIN_LEN);
     s_nv.pin[PIN_LEN]   = '\0';
-    s_nv.pin_is_default = 0;
+    s_nv.pin_is_default = 0;             /* §2: is_initialized = 1               */
     persist();
+    ble_sec_close_pairing_window();      /* §2: safely close the pairing window  */
     return true;
 }
 
