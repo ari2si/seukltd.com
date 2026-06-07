@@ -1,0 +1,26 @@
+BLOC Bollard — interactive simulator
+====================================
+
+No install, no internet needed. Just double-click the HTML file; it opens in any
+web browser (Chrome / Edge / Safari / Firefox) and runs fully offline.
+
+  index.html      Full single-bollard simulator — every feature:
+                  - Remote (pebble): A=Up, B=Down, middle=STOP; x3 opens pairing;
+                    hold 10s toggles Bluetooth.
+                  - App pairing (default 123456 -> set custom PIN), 3-state control.
+                  - Add/remove remotes; limit switches; obstruction auto-reverse;
+                    battery monitor + lockout; deep-sleep cues; anti-tamper.
+                  - PCB pair/RST controls: hold 5s = wipe fobs, hold 10s = BLE recovery.
+
+  topology.html   System topology scenes:
+                  - 1 remote + 1 app account -> many bollards
+                  - many remotes + many phones -> 1 bollard
+
+Useful URL options for index.html (paste after the file path):
+  ?pin=482922&fobs=0&ble=off   Start "already set up, all remotes lost" — then use
+                               the PCB "RST hold 10s -> BLE recovery" button and the
+                               app to program a brand-new remote.
+
+NOTE: the simulator is a VISUAL MODEL of the firmware behaviour for testing/illustration.
+It is not the Tuya firmware running on hardware. The actual C source is in ../src and
+../include — see ../docs/INTEGRATION-GUIDE-YET.md.
