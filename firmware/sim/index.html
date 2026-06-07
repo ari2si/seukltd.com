@@ -683,6 +683,17 @@ holdButton('btnRstWipe', ()=>{ fobs=0; updateConnKv();                     // §
 holdButton('btnRstRecover', ()=>{ setBle(true); openPairing();             // §8 PCB 10 s recovery
     logLine('PCB RST held 10 s → BLE forced ON + pairing window opened (§8 recovery)','ok'); });
 
+/* Optional starting state via URL (used by the "lost all remotes" demo):
+   ?pin=482922  -> device already initialised with this custom PIN
+   ?fobs=0      -> number of paired remotes
+   ?ble=off     -> Bluetooth radio starts OFF/hidden                         */
+(function initFromURL(){
+  const q=new URLSearchParams(location.search);
+  if(q.has('pin')){ customPin=q.get('pin'); isInit=true; }
+  if(q.has('fobs')){ fobs=parseInt(q.get('fobs'),10)||0; }
+  if(q.get('ble')==='off'){ blePower=false; }
+})();
+
 renderScreen('scan');
 updateConnKv();
 
