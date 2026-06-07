@@ -18,12 +18,12 @@
     display:flex; align-items:stretch; justify-content:center; gap:0;
     min-height:100vh;
   }
-  .wrap{display:flex; width:100%; max-width:1100px}
+  .wrap{display:flex; width:100%; max-width:1460px}
   @media (max-width:820px){ .wrap{flex-direction:column} }
 
   /* ---------- App panel (mirrors the BLOC screenshot) ---------- */
   .app{
-    width:360px; flex:0 0 360px; padding:22px 26px 30px;
+    width:440px; flex:0 0 440px; padding:22px 26px 26px;
     background:
       radial-gradient(circle at 20% 12%, rgba(255,255,255,.6), transparent 40%),
       repeating-linear-gradient(60deg, var(--hex) 0 2px, transparent 2px 26px),
@@ -82,7 +82,7 @@
   .banner.show{display:block}
 
   .scene{
-    position:relative; flex:1; min-height:420px; border-radius:16px; overflow:hidden;
+    position:relative; flex:1; min-height:540px; border-radius:16px; overflow:hidden;
     background:linear-gradient(#cfe8f5 0%, #e9f4fb 55%, #eef0ee 56%);
     border:1px solid #dcdedb;
   }
@@ -179,14 +179,20 @@
   .blepill.pairing{background:#d4ecff;color:#1f6fb0}
   .pcb{margin-top:6px;padding:8px 10px;border:1px dashed #c7ccd1;border-radius:10px;background:#fafbfa}
   .pcb b{font-size:11px;color:#6b7177;text-transform:uppercase;letter-spacing:.4px}
-  .log{margin-top:12px; height:130px; overflow:auto; background:#0f1217; color:#cfe3d6;
-    border-radius:10px; padding:10px 12px; font-family:ui-monospace,monospace; font-size:11.5px; line-height:1.5}
+  /* Firmware event console (left column) */
+  .console{width:100%; flex:1 1 auto; display:flex; flex-direction:column; align-self:stretch; margin:16px 0 4px}
+  .console-title{font-size:12px; letter-spacing:.6px; color:#6b7177; text-transform:uppercase;
+    margin-bottom:8px; display:flex; align-items:center; gap:8px; font-weight:700}
+  .console-title:before{content:""; width:9px; height:9px; border-radius:50%; background:#37d39a; box-shadow:0 0 9px #37d39a}
+  .log{flex:1 1 auto; min-height:420px; overflow:auto; background:#0f1217; color:#cfe3d6;
+    border-radius:12px; padding:14px 16px; font-family:ui-monospace,monospace; font-size:13px; line-height:1.65;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 10px 24px rgba(20,26,40,.18)}
   .log .t{color:#5f6b75}
   .log .ok{color:#5fe0a0}
   .log .warn{color:#ffb35a}
 
   /* phone mock */
-  .phone{width:210px; height:430px; border-radius:30px; background:#0f1217; padding:12px;
+  .phone{width:248px; height:508px; border-radius:34px; background:#0f1217; padding:13px;
     box-shadow:0 12px 30px rgba(20,26,40,.35)}
   .phone-screen{width:100%; height:100%; border-radius:20px; background:#f3f5f7; overflow:hidden;
     display:flex; flex-direction:column; position:relative}
@@ -231,16 +237,9 @@
       <span class="pct" id="battPct">76%</span>
     </div>
 
-    <div class="pad">
-      <button class="hexbtn" id="btnUp" title="Up">
-        <span class="face"><svg viewBox="0 0 48 48"><polyline points="10,30 24,14 38,30"/></svg></span>
-      </button>
-      <button class="hexbtn" id="btnStop" title="Stop">
-        <span class="face"><svg viewBox="0 0 48 48"><line x1="19" y1="13" x2="19" y2="35"/><line x1="29" y1="13" x2="29" y2="35"/></svg></span>
-      </button>
-      <button class="hexbtn" id="btnDown" title="Down">
-        <span class="face"><svg viewBox="0 0 48 48"><polyline points="10,18 24,34 38,18"/></svg></span>
-      </button>
+    <div class="console">
+      <div class="console-title">Firmware event log · live</div>
+      <div class="log" id="log"></div>
     </div>
 
     <div class="brand">
@@ -259,7 +258,7 @@
     <div class="banner" id="banner">Battery Depleted — Operation Locked (UP disabled below 18&nbsp;V)</div>
 
     <div class="scene" id="scene">
-      <div class="sky-hint">Press ▲ / ▌▌ / ▼ on the app</div>
+      <div class="sky-hint">Control from the phone app or a remote →</div>
       <div class="well"  id="well"></div>
       <div class="post"  id="post">
         <div class="cap"></div>
@@ -335,7 +334,6 @@
               </div>
             </div>
           </div>
-          <div class="log" id="log"></div>
         </div>
 
         <div class="conn-right">
@@ -512,18 +510,13 @@ function render(now){
   if(windowWasOpen && !pairingOpen()){ windowWasOpen=false; logLine('Pairing window closed','warn'); }
   if(pairingOpen()) windowWasOpen=true;
 
-  // disable UP when locked; push only meaningful when there's height to push
-  el('btnUp').disabled = !battAllowedUp();
+  // push only meaningful when there's height to push
   const pb=el('pushBtn');
   pb.disabled = !(pos>0.1);
   pb.classList.toggle('held', pushing);
 }
 
 /* ---------- wiring ---------- */
-function hot(btn){ btn.classList.add('hot'); setTimeout(()=>btn.classList.remove('hot'),180); }
-el('btnUp').onclick   =()=>{hot(el('btnUp'));   command('UP');};
-el('btnStop').onclick =()=>{hot(el('btnStop')); command('STOP');};
-el('btnDown').onclick =()=>{hot(el('btnDown')); command('DOWN');};
 el('obsToggle').onchange=e=>{ obstacleOn=e.target.checked; obstacleEl.classList.toggle('show',obstacleOn); };
 el('battSlider').oninput=e=>{ battMv=parseInt(e.target.value,10); };
 
