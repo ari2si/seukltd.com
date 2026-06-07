@@ -125,9 +125,13 @@ static void on_frame(uint64_t raw, uint8_t nbits)
     bool new_press = (cr == CTR_NEW) && !is_repeat_tx;
 
     if (f.buttons & FOB_BTN_MIDDLE) {
-        if (new_press) middle_on_new_press(now);
-        else           middle_on_repeat(now);
-        return;                                /* middle is BLE-control only    */
+        if (new_press) {
+            bollard_command(BOLLARD_STOP);     /* §9: middle button = STOP       */
+            middle_on_new_press(now);          /* also feeds the BLE gestures:   */
+        } else {                               /*   ×3 -> pairing, 10 s -> toggle */
+            middle_on_repeat(now);
+        }
+        return;
     }
 
     /* A non-middle press cancels any half-finished middle gesture.           */

@@ -113,10 +113,11 @@
 /*  Remote (fob) button codes  >>> FACTORY: match fob encoder <<<            */
 /*  4-bit button field carried in the KeeLoq frame.                          */
 /* ------------------------------------------------------------------------- */
-#define FOB_BTN_UP                  0x1   /* raise bollard                    */
-#define FOB_BTN_DOWN               0x2   /* lower bollard                    */
-#define FOB_BTN_MIDDLE              0x4   /* multifunction / BLE control      */
-#define FOB_BTN_STOP                0x8   /* stop (optional 4th button)       */
+#define FOB_BTN_UP                  0x1   /* Button A: raise bollard          */
+#define FOB_BTN_DOWN               0x2   /* Button B: lower bollard          */
+#define FOB_BTN_MIDDLE              0x4   /* Middle: STOP (single press) +     */
+                                          /*  ×3 -> pairing, 10 s hold -> BLE  */
+#define FOB_BTN_STOP                0x8   /* optional dedicated STOP button    */
 
 /* ------------------------------------------------------------------------- */
 /*  Remote storage limits                                                    */

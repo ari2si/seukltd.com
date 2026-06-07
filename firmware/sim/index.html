@@ -143,18 +143,42 @@
   .conn-grid{display:flex; gap:18px; flex-wrap:wrap}
   .conn-left{flex:1 1 320px; min-width:300px}
   .conn-right{flex:0 0 240px; display:flex; justify-content:center}
-  .fobs{display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start}
-  .fob{width:84px; text-align:center}
-  .fob-body{background:linear-gradient(160deg,#2a2f37,#15191f); border-radius:16px; padding:10px 8px;
-    display:flex; flex-direction:column; gap:8px; box-shadow:0 6px 14px rgba(20,26,40,.3)}
-  .fob.new .fob-body{background:linear-gradient(160deg,#5a4036,#34201a)}
-  .fbtn{border:0; border-radius:9px; padding:9px 0; font-size:15px; font-weight:700; cursor:pointer;
-    background:#3b424c; color:#fff}
-  .fbtn:active{transform:scale(.94)}
-  .fbtn.mid{background:#7cc7ff; color:#0a2233}
-  .fbtn.mid.flash{box-shadow:0 0 12px 2px #7cc7ff}
-  .fob-label{font-size:11px; color:#8a9097; margin-top:6px}
+  .fobs{display:flex; gap:22px; flex-wrap:wrap; align-items:flex-start}
+  .fob{width:96px; text-align:center}
+  /* glossy black "pebble" key fob (matches the reference fob) */
+  .pebble{position:relative; width:84px; height:128px; margin:0 auto;
+    border-radius:46px/52px;
+    background:
+      radial-gradient(120% 60% at 50% 8%, rgba(255,255,255,.55), rgba(255,255,255,0) 38%),
+      radial-gradient(140% 120% at 50% 120%, #2a2f37 0%, #0c0e12 70%);
+    box-shadow:0 10px 20px rgba(10,12,16,.45), inset 0 2px 3px rgba(255,255,255,.25),
+      inset 0 -10px 16px rgba(0,0,0,.6);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
+    border:1px solid #000}
+  .pebble .pled{position:absolute; top:12px; left:50%; transform:translateX(-50%);
+    width:7px; height:7px; border-radius:50%; background:#11151b; box-shadow:0 0 0 1px #000 inset}
+  .pebble.new{filter:hue-rotate(-18deg) saturate(.6) brightness(.95)}
+  .pbtn{border:0; cursor:pointer; color:#e9eef5; background:rgba(255,255,255,.06);
+    width:46px; height:30px; border-radius:8px; font-size:14px; font-weight:800;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.25), inset 0 -2px 4px rgba(0,0,0,.5)}
+  .pbtn:active{transform:scale(.93); background:rgba(124,199,255,.25)}
+  .pbtn.mid{width:46px; height:46px; border-radius:50%; font-size:13px; color:#fff;
+    background:radial-gradient(circle at 40% 35%, #4a525e, #1a1e25);
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.35), inset 0 -3px 6px rgba(0,0,0,.6)}
+  .pbtn.mid.flash{box-shadow:0 0 14px 3px #7cc7ff, inset 0 -3px 6px rgba(0,0,0,.6)}
+  .fob-label{font-size:11px; color:#8a9097; margin-top:8px}
   .conn-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:12px 0}
+  /* hold-to-act pill with progress fill */
+  .holdpill{position:relative; overflow:hidden; padding:6px 12px; border-radius:8px; border:1px solid #d3d8dd;
+    background:#eef0ee; font-family:ui-monospace,monospace; font-size:12px; cursor:pointer; color:#3a3f45}
+  .holdpill .fillbar{position:absolute; left:0; top:0; bottom:0; width:0%; background:rgba(124,199,255,.45); z-index:0}
+  .holdpill span{position:relative; z-index:1}
+  .blepill{padding:3px 9px;border-radius:6px;font-family:ui-monospace,monospace;font-size:12px;font-weight:700}
+  .blepill.on{background:#d8f5e6;color:#1d885c}
+  .blepill.off{background:#ffd9d4;color:#b23527}
+  .blepill.pairing{background:#d4ecff;color:#1f6fb0}
+  .pcb{margin-top:6px;padding:8px 10px;border:1px dashed #c7ccd1;border-radius:10px;background:#fafbfa}
+  .pcb b{font-size:11px;color:#6b7177;text-transform:uppercase;letter-spacing:.4px}
   .log{margin-top:12px; height:130px; overflow:auto; background:#0f1217; color:#cfe3d6;
     border-radius:10px; padding:10px 12px; font-family:ui-monospace,monospace; font-size:11.5px; line-height:1.5}
   .log .t{color:#5f6b75}
@@ -277,25 +301,38 @@
         <div class="conn-left">
           <div class="fobs">
             <div class="fob">
-              <div class="fob-body">
-                <button class="fbtn" id="fobUp">▲</button>
-                <button class="fbtn mid" id="fobMid" title="middle">●</button>
-                <button class="fbtn" id="fobDown">▼</button>
+              <div class="pebble">
+                <span class="pled"></span>
+                <button class="pbtn" id="fobUp" title="A · Up">▲</button>
+                <button class="pbtn mid" id="fobMid" title="Middle · STOP">STOP</button>
+                <button class="pbtn" id="fobDown" title="B · Down">▼</button>
               </div>
               <div class="fob-label">Paired remote</div>
             </div>
-            <div class="fob new">
-              <div class="fob-body">
-                <button class="fbtn" id="fobNew" style="font-size:11px">NEW<br>fob</button>
+            <div class="fob">
+              <div class="pebble new">
+                <span class="pled"></span>
+                <button class="pbtn" id="fobNew" style="height:46px;font-size:10px">NEW<br>fob</button>
               </div>
               <div class="fob-label">Unpaired remote</div>
             </div>
-            <div style="flex:1">
+            <div style="flex:1; min-width:230px">
               <div class="conn-row">
-                <button class="pill" id="btnTriple" style="cursor:pointer">▶ Middle&nbsp;×3 → open pairing</button>
+                <span class="kv">BLE:</span> <span class="blepill off" id="blePill">OFF</span>
+                <span class="kv">PIN: <span id="pinState">default 123456</span></span>
+                <span class="kv">Fobs: <span id="fobCount">2</span>/10</span>
               </div>
-              <div class="kv">Paired fobs: <span id="fobCount">2</span> / 10 &nbsp;·&nbsp;
-                BLE: <span id="bleState">hidden</span> &nbsp;·&nbsp; PIN: <span id="pinState">default 123456</span></div>
+              <div class="conn-row">
+                <button class="pill" id="btnTriple" style="cursor:pointer">● ×3 → open pairing</button>
+                <button class="holdpill" id="btnBleHold"><span class="fillbar"></span><span>● hold 10&nbsp;s → BLE on/off</span></button>
+              </div>
+              <div class="pcb">
+                <b>PCB internal RST/pair button</b>
+                <div class="conn-row" style="margin:8px 0 0">
+                  <button class="holdpill" id="btnRstWipe"><span class="fillbar"></span><span>RST hold 5&nbsp;s → wipe fobs</span></button>
+                  <button class="holdpill" id="btnRstRecover"><span class="fillbar"></span><span>RST hold 10&nbsp;s → BLE recovery</span></button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="log" id="log"></div>
@@ -466,8 +503,11 @@ function render(now){
   el('battKv').textContent=(battMv/1000).toFixed(2)+' V';
   el('phaseKv').textContent='phase: '+phase;
 
-  // connectivity live updates
-  if(el('bleState')) el('bleState').textContent = !bleEnabled?'OFF':(pairingOpen()?'pairing':'hidden');
+  // connectivity live updates — BLE state pill
+  const bp=el('blePill');
+  if(bp){ const st = !blePower?'off':(pairingOpen()?'pairing':'on');
+    bp.className='blepill '+st;
+    bp.textContent = st==='off'?'OFF':(st==='pairing'?'PAIRING':'ON (hidden)'); }
   const ps=el('phStatus'); if(ps) ps.textContent=label[status];
   if(windowWasOpen && !pairingOpen()){ windowWasOpen=false; logLine('Pairing window closed','warn'); }
   if(pairingOpen()) windowWasOpen=true;
@@ -503,7 +543,7 @@ el('pushBtn').addEventListener('pointercancel', endPush);
    =================================================================== */
 const PAIR_WINDOW_MS  = 30000;   // demo (real BLE_PAIRING_WINDOW_MS = 180000 = 3 min)
 const LEARN_WINDOW_MS = 30000;
-let bleEnabled=true, isInit=false, customPin=null;
+let blePower=true, isInit=false, customPin=null;    // §8 BLE radio master on/off (ships ON, hidden)
 let pairUntil=0, learnUntil=0, fobs=2, screen='scan';
 let midCount=0, midT0=0, windowWasOpen=false;
 const MAC='SEUK-Bollard A1B2', MACFULL='DC:0D:30:A1:B2:7F';
@@ -519,7 +559,7 @@ function logLine(msg, cls){
 }
 
 function openPairing(){
-  if(!bleEnabled){ logLine('BLE is OFF — cannot open pairing','warn'); return; }
+  if(!blePower){ logLine('BLE is OFF — cannot open pairing','warn'); return; }
   pairUntil=performance.now()+PAIR_WINDOW_MS;
   logLine('Middle ×3 → 3-min pairing window OPEN · LED solid (§2)','ok');
 }
@@ -527,6 +567,14 @@ function midPress(){
   const now=performance.now();
   if(midCount===0 || now-midT0>1500){ midCount=1; midT0=now; } else midCount++;
   if(midCount>=3){ midCount=0; openPairing(); }
+}
+/* §8 BLE radio on/off (remote 10 s hold, or PCB recovery) */
+function setBle(on){
+  if(blePower===on) return;
+  blePower=on;
+  if(!on){ pairUntil=0; logLine('BLE radio OFF (middle held 10 s) — app link blocked','warn');
+           if(screen!=='scan') setScreen('scan'); }
+  else   { logLine('BLE radio ON (middle held 10 s)','ok'); }
 }
 function setScreen(s){ screen=s; renderScreen(s); }
 
@@ -572,8 +620,8 @@ function renderScreen(s){
   }
   S.innerHTML=h+'<div class="ph-toast" id="phToast"></div>';
   const on=(id,fn)=>{ const e=el(id); if(e) e.onclick=fn; };
-  on('phScan',()=>{ if(pairingOpen()){ logLine('App scan → found '+MAC,'ok'); setScreen('found'); }
-                    else { logLine('App scan → no devices (window closed)','warn'); setScreen('scan-empty'); } });
+  on('phScan',()=>{ if(blePower && pairingOpen()){ logLine('App scan → found '+MAC,'ok'); setScreen('found'); }
+                    else { logLine(blePower?'App scan → no devices (window closed)':'App scan → BLE is OFF','warn'); setScreen('scan-empty'); } });
   on('phConnect',()=>{ logLine('App connecting to '+MAC); setScreen('pin'); });
   on('phPinOk',()=>{ const v=(el('phPin').value||'').trim();
     if(!isInit){ if(v==='123456'){ logLine('Default PIN 123456 accepted (is_initialized=0)','ok'); setScreen('setpin'); }
@@ -605,11 +653,35 @@ function updateConnKv(){
   el('pinState').textContent = isInit?('custom '+customPin):'default 123456';
 }
 
-el('fobUp').onclick   =()=>{ command('UP');   logLine('Remote ▲ Up'); };
-el('fobDown').onclick =()=>{ command('DOWN'); logLine('Remote ▼ Down'); };
-el('fobMid').onclick  =()=>{ const m=el('fobMid'); m.classList.add('flash'); setTimeout(()=>m.classList.remove('flash'),150); midPress(); };
+el('fobUp').onclick   =()=>{ command('UP');   logLine('Remote ▲ Up (button A)'); };
+el('fobDown').onclick =()=>{ command('DOWN'); logLine('Remote ▼ Down (button B)'); };
+el('fobMid').onclick  =()=>{ const m=el('fobMid'); m.classList.add('flash'); setTimeout(()=>m.classList.remove('flash'),150);
+                             command('STOP'); logLine('Remote ■ STOP (middle button)'); midPress(); };
 el('btnTriple').onclick=()=>{ midPress(); midPress(); midPress(); };
 el('fobNew').onclick  = learnNewFob;
+
+/* ----- hold-to-act buttons (BLE toggle + PCB recovery/wipe) -------------
+   Labelled "10 s"/"5 s" but completed in HOLD_DEMO_MS for the demo. */
+const HOLD_DEMO_MS=2200;
+function holdButton(id, onComplete){
+  const b=el(id); if(!b) return; const bar=b.querySelector('.fillbar');
+  let t0=0, raf=0, done=false;
+  const step=()=>{ const p=Math.min(1,(performance.now()-t0)/HOLD_DEMO_MS);
+    bar.style.width=(p*100)+'%';
+    if(p>=1 && !done){ done=true; onComplete(); reset(); return; }
+    raf=requestAnimationFrame(step); };
+  const start=e=>{ e.preventDefault(); done=false; t0=performance.now(); raf=requestAnimationFrame(step); };
+  const reset=()=>{ cancelAnimationFrame(raf); bar.style.width='0%'; };
+  b.addEventListener('pointerdown', start);
+  b.addEventListener('pointerup',   reset);
+  b.addEventListener('pointerleave',reset);
+  b.addEventListener('pointercancel',reset);
+}
+holdButton('btnBleHold', ()=> setBle(!blePower));                          // §8 remote 10 s toggle
+holdButton('btnRstWipe', ()=>{ fobs=0; updateConnKv();                     // §3 RST 5 s wipe
+    logLine('PCB RST held 5 s → all paired fobs wiped (§3)','warn'); });
+holdButton('btnRstRecover', ()=>{ setBle(true); openPairing();             // §8 PCB 10 s recovery
+    logLine('PCB RST held 10 s → BLE forced ON + pairing window opened (§8 recovery)','ok'); });
 
 renderScreen('scan');
 updateConnKv();

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>BLOC — Topology scenarios</title>
+<style>
+  :root{--bg:#eef0ee;--ink:#2b2f33;--muted:#9aa0a6;--accent:#7cc7ff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);padding:18px 22px}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+  .tabs{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{padding:9px 14px;border-radius:10px;border:1px solid #d7dbdf;background:#fff;cursor:pointer;font-size:13px;font-weight:600;color:#3a3f45}
+  .tab.active{background:#1c2230;color:#fff;border-color:#1c2230}
+  .scene{display:none}
+  .scene.active{display:block}
+  .scene-title{font-size:15px;font-weight:700;margin:4px 0 12px}
+  .stage{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+  .controllers{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+  .bollards{display:flex;gap:26px;flex-wrap:wrap}
+
+  /* mini bollard */
+  .mini{width:150px;text-align:center}
+  .mscene{position:relative;height:220px;border-radius:14px;overflow:hidden;border:1px solid #dcdedb;
+    background:linear-gradient(#cfe8f5 0%, #e9f4fb 55%, #eef0ee 56%)}
+  .mpost{position:absolute;left:50%;transform:translateX(-50%);width:46px;border-radius:10px 10px 4px 4px;
+    background:linear-gradient(90deg,#6b7480,#aab4c0 18%,#e8eef4 42%,#aab4c0 70%,#727b87 100%);
+    box-shadow:inset 0 2px 3px rgba(255,255,255,.6),inset 0 -8px 14px rgba(0,0,0,.25);transition:top .02s linear}
+  .mpost .mstripe{position:absolute;left:5px;right:5px;top:30px;height:8px;border-radius:3px;
+    background:repeating-linear-gradient(45deg,#f4c20d 0 8px,#222 8px 16px);opacity:.9}
+  .mground{position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(#c9cdc9,#a9ada9);z-index:5}
+  .mslot{position:absolute;left:50%;transform:translateX(-50%);top:-3px;width:64px;height:9px;background:#0c0f14;border-radius:50%/100%;z-index:6}
+  .mlabel{font-size:12px;color:#566069;margin-top:7px;font-weight:600}
+  .mstate{font-size:11px;color:#8a9097}
+
+  /* glossy pebble remote (matches reference fob) */
+  .fob{width:104px;text-align:center}
+  .pebble{position:relative;width:84px;height:128px;margin:0 auto;border-radius:46px/52px;
+    background:radial-gradient(120% 60% at 50% 8%,rgba(255,255,255,.55),rgba(255,255,255,0) 38%),
+      radial-gradient(140% 120% at 50% 120%,#2a2f37 0%,#0c0e12 70%);
+    box-shadow:0 10px 20px rgba(10,12,16,.45),inset 0 2px 3px rgba(255,255,255,.25),inset 0 -10px 16px rgba(0,0,0,.6);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border:1px solid #000}
+  .pebble .pled{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:#11151b;box-shadow:0 0 0 1px #000 inset}
+  .pebble .pled.tx{background:var(--accent);box-shadow:0 0 10px 2px var(--accent)}
+  .pbtn{border:0;cursor:pointer;color:#e9eef5;background:rgba(255,255,255,.06);width:46px;height:28px;border-radius:8px;font-size:13px;font-weight:800;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.25),inset 0 -2px 4px rgba(0,0,0,.5)}
+  .pbtn:active{transform:scale(.93);background:rgba(124,199,255,.25)}
+  .pbtn.mid{width:46px;height:44px;border-radius:50%;font-size:12px;color:#fff;
+    background:radial-gradient(circle at 40% 35%,#4a525e,#1a1e25);box-shadow:inset 0 1px 2px rgba(255,255,255,.35),inset 0 -3px 6px rgba(0,0,0,.6)}
+  .flabel{font-size:11px;color:#8a9097;margin-top:8px}
+
+  /* phone mock */
+  .phone{width:172px;height:330px;border-radius:26px;background:#0f1217;padding:10px;box-shadow:0 12px 26px rgba(20,26,40,.3)}
+  .pscreen{width:100%;height:100%;border-radius:18px;background:#f3f5f7;overflow:hidden;display:flex;flex-direction:column}
+  .pbar{height:30px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#3a3f45;border-bottom:1px solid #e7e9ec}
+  .pbody{flex:1;padding:10px;display:flex;flex-direction:column;gap:8px;font-size:12px}
+  .ptitle{font-size:12px;font-weight:700}
+  .pdev{background:#fff;border:1px solid #e6e9ec;border-radius:9px;padding:6px 8px;font-size:11px;display:flex;justify-content:space-between}
+  .pdev b{font-weight:700}
+  .p3{display:flex;gap:6px;margin-top:auto}
+  .p3 button{flex:1;border:0;border-radius:9px;padding:10px 0;font-size:15px;cursor:pointer;background:#1c2230;color:#fff}
+  .pnote{font-size:10.5px;color:#9aa0a6}
+  .log{margin-top:16px;height:120px;overflow:auto;background:#0f1217;color:#cfe3d6;border-radius:10px;padding:10px 12px;font-family:ui-monospace,monospace;font-size:11.5px;line-height:1.5}
+  .log .t{color:#5f6b75}.log .ok{color:#5fe0a0}
+  .pill{display:inline-block;padding:2px 8px;border-radius:6px;background:#e7eaed;font-size:11px;font-family:ui-monospace,monospace}
+</style>
+</head>
+<body>
+  <h1>BLOC — System topology demonstrations</h1>
+  <div class="sub">How remotes, app accounts and bollards map together (spec §3).</div>
+  <div class="tabs">
+    <button class="tab active" data-s="s1">1 remote + 1 app → many bollards</button>
+    <button class="tab" data-s="s2">many remotes + many phones → 1 bollard</button>
+  </div>
+
+  <!-- Scenario 1 -->
+  <div class="scene active" id="s1">
+    <div class="scene-title">One-to-many: a single remote serial and a single Tuya account control three BLOC bollards together.</div>
+    <div class="stage">
+      <div class="controllers">
+        <div class="fob">
+          <div class="pebble"><span class="pled" id="s1led"></span>
+            <button class="pbtn" id="s1up">▲</button>
+            <button class="pbtn mid" id="s1stop">STOP</button>
+            <button class="pbtn" id="s1down">▼</button></div>
+          <div class="flabel">Remote #A1<br>(learned by all 3)</div>
+        </div>
+        <div class="phone"><div class="pscreen"><div class="pbar">📶 Tuya account</div>
+          <div class="pbody"><div class="ptitle">My devices</div>
+            <div class="pdev"><span>Bollard · Gate 1</span><b id="s1d0">—</b></div>
+            <div class="pdev"><span>Bollard · Gate 2</span><b id="s1d1">—</b></div>
+            <div class="pdev"><span>Bollard · Gate 3</span><b id="s1d2">—</b></div>
+            <div class="pnote">Each managed by its own PIN.</div>
+            <div class="p3"><button id="s1aup">▲</button><button id="s1astop">▌▌</button><button id="s1adown">▼</button></div>
+          </div></div></div>
+      </div>
+      <div class="bollards" id="s1bollards"></div>
+    </div>
+  </div>
+
+  <!-- Scenario 2 -->
+  <div class="scene" id="s2">
+    <div class="scene-title">Many-to-one: three remotes and two phones (all using the same custom PIN) operate one shared BLOC bollard.</div>
+    <div class="stage">
+      <div class="controllers" id="s2remotes"></div>
+      <div class="bollards" id="s2bollards"></div>
+      <div class="controllers" id="s2phones"></div>
+    </div>
+  </div>
+
+  <div class="log" id="log"></div>
+
+<script>
+const TRAVEL=2500, SURFACE=0.58, VIS=110;
+const el=id=>document.getElementById(id);
+function logLine(m,c){const L=el('log');const t=new Date().toLocaleTimeString('en-GB');
+  L.insertAdjacentHTML('afterbegin',`<div><span class="t">${t}</span> <span class="${c||''}">${m}</span></div>`);}
+
+function makeBollard(mount,label){
+  const root=document.createElement('div');root.className='mini';
+  root.innerHTML=`<div class="mscene"><div class="mpost"><div class="mstripe"></div></div>
+    <div class="mground"><div class="mslot"></div></div></div>
+    <div class="mlabel">${label}</div><div class="mstate">Lowered</div>`;
+  mount.appendChild(root);
+  return {pos:0,dir:0,post:root.querySelector('.mpost'),scene:root.querySelector('.mscene'),
+          state:root.querySelector('.mstate')};
+}
+const bset=[];
+function cmd(list,d){ list.forEach(b=>{ b.dir=d; }); }
+
+function tickB(b,dt){
+  if(b.dir>0){ b.pos=Math.min(1,b.pos+dt/TRAVEL); if(b.pos>=1)b.dir=0; }
+  if(b.dir<0){ b.pos=Math.max(0,b.pos-dt/TRAVEL); if(b.pos<=0)b.dir=0; }
+  const H=b.scene.clientHeight, sY=H*SURFACE, top=sY-VIS*b.pos;
+  b.post.style.top=top+'px'; b.post.style.height=(H-top)+'px';
+  b.state.textContent = b.dir>0?'Rising':b.dir<0?'Lowering':(b.pos>0.99?'Raised':b.pos<0.01?'Lowered':'Stopped');
+}
+let last=performance.now();
+function loop(now){ const dt=Math.min(now-last,50);last=now; bset.forEach(b=>tickB(b,dt)); requestAnimationFrame(loop); }
+
+/* ---- Scenario 1: 1 remote + 1 app -> 3 bollards ---- */
+const s1=[];
+for(let i=0;i<3;i++){ const b=makeBollard(el('s1bollards'),'Gate '+(i+1)); s1.push(b); bset.push(b); }
+function s1update(){ ['s1d0','s1d1','s1d2'].forEach((id,i)=>{ el(id).textContent=s1[i].state.textContent; }); }
+function s1flash(){ el('s1led').classList.add('tx'); setTimeout(()=>el('s1led').classList.remove('tx'),200); }
+el('s1up').onclick   =()=>{ s1flash(); cmd(s1, 1); logLine('Remote #A1 ▲ → all 3 bollards rise','ok'); };
+el('s1stop').onclick =()=>{ s1flash(); cmd(s1, 0); logLine('Remote #A1 ■ STOP → all 3 bollards stop','ok'); };
+el('s1down').onclick =()=>{ s1flash(); cmd(s1,-1); logLine('Remote #A1 ▼ → all 3 bollards lower','ok'); };
+el('s1aup').onclick  =()=>{ cmd(s1, 1); logLine('App account ▲ → all 3 devices rise'); };
+el('s1astop').onclick=()=>{ cmd(s1, 0); logLine('App account ▌▌ → all 3 devices stop'); };
+el('s1adown').onclick=()=>{ cmd(s1,-1); logLine('App account ▼ → all 3 devices lower'); };
+setInterval(s1update,150);
+
+/* ---- Scenario 2: 3 remotes + 2 phones -> 1 bollard ---- */
+const shared=[ makeBollard(el('s2bollards'),'Shared bollard') ]; bset.push(shared[0]);
+['A1','B2','C3'].forEach(name=>{
+  const wrap=document.createElement('div'); wrap.className='fob';
+  wrap.innerHTML=`<div class="pebble"><span class="pled"></span>
+    <button class="pbtn up">▲</button><button class="pbtn mid">STOP</button><button class="pbtn down">▼</button></div>
+    <div class="flabel">Remote #${name}</div>`;
+  el('s2remotes').appendChild(wrap);
+  const led=wrap.querySelector('.pled');
+  const fl=()=>{ led.classList.add('tx'); setTimeout(()=>led.classList.remove('tx'),200); };
+  wrap.querySelector('.up').onclick  =()=>{ fl(); cmd(shared, 1); logLine('Remote #'+name+' ▲ → shared bollard rises','ok'); };
+  wrap.querySelector('.mid').onclick =()=>{ fl(); cmd(shared, 0); logLine('Remote #'+name+' ■ STOP → shared bollard stops','ok'); };
+  wrap.querySelector('.down').onclick=()=>{ fl(); cmd(shared,-1); logLine('Remote #'+name+' ▼ → shared bollard lowers','ok'); };
+});
+['Phone 1 (PIN 482922)','Phone 2 (PIN 482922)'].forEach(name=>{
+  const ph=document.createElement('div'); ph.className='phone';
+  ph.innerHTML=`<div class="pscreen"><div class="pbar">📶 ${name.split(' (')[0]}</div>
+    <div class="pbody"><div class="ptitle">升降机 · Connected</div>
+      <div class="pnote">${name.match(/\(.*\)/)[0]}</div>
+      <div class="p3"><button class="up">▲</button><button class="stop">▌▌</button><button class="down">▼</button></div></div></div>`;
+  el('s2phones').appendChild(ph);
+  ph.querySelector('.up').onclick  =()=>{ cmd(shared, 1); logLine(name.split(' (')[0]+' ▲ → shared bollard rises (same PIN)'); };
+  ph.querySelector('.stop').onclick=()=>{ cmd(shared, 0); logLine(name.split(' (')[0]+' ▌▌ → shared bollard stops'); };
+  ph.querySelector('.down').onclick=()=>{ cmd(shared,-1); logLine(name.split(' (')[0]+' ▼ → shared bollard lowers'); };
+});
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.scene').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active'); el(t.dataset.s).classList.add('active');
+});
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
