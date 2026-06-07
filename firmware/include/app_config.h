@@ -135,6 +135,24 @@
 #define APP_AUTH_TIMEOUT_MS         15000u     /* §2: drop link if no valid PIN */
 
 /* ------------------------------------------------------------------------- */
+/*  Security hardening                                                       */
+/* ------------------------------------------------------------------------- */
+/* PIN brute-force lockout: after THRESHOLD wrong tries, reject PIN attempts  */
+/* for a backoff that grows with each further failure (persisted count).      */
+#define PIN_FAIL_LOCK_THRESHOLD     5
+#define PIN_LOCK_BASE_MS            30000u     /* first lockout = 30 s          */
+#define PIN_LOCK_MAX_SHIFT          5          /* cap backoff at base<<5 (~16m) */
+
+/* Hashed PIN at rest: stored as salt + iterated SHA-256, never plaintext.    */
+#define PIN_SALT_LEN                8
+#define PIN_HASH_LEN                32
+#define PIN_HASH_ITERS              2048u      /* slows online + offline guessing */
+
+/* Tamper event reasons reported to the app (DP_TAMPER).                      */
+#define TAMPER_FORCED_PUSHDOWN      1
+#define TAMPER_ENCLOSURE_RST        2
+
+/* ------------------------------------------------------------------------- */
 /*  LED-strip timing profiles (spec §6)   milliseconds                       */
 /* ------------------------------------------------------------------------- */
 #define LED_MOVING_ON_MS            500u       /* §6: moving 0.5 s ON           */

@@ -13,6 +13,7 @@
  */
 #include "bollard.h"
 #include "battery.h"
+#include "events.h"
 #include "app_config.h"
 #include "board_hal.h"
 
@@ -161,6 +162,7 @@ void bollard_task(void)
          * edge is what woke us from deep sleep.                               */
         if (s_status == BST_RAISED && !limit_up_hit() && battery_up_allowed()) {
             s_obstructing = false;
+            events_post_tamper(TAMPER_FORCED_PUSHDOWN);   /* notify the app      */
             begin_move(BOLLARD_UP);
         }
 #endif

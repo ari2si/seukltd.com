@@ -25,6 +25,10 @@ void     hal_gpio_init(void);
 bool     hal_nv_read(uint16_t key, void *buf, uint16_t len);
 bool     hal_nv_write(uint16_t key, const void *buf, uint16_t len);
 
+/* ---- entropy ---------------------------------------------------------- */
+/* Fill buf with hardware-random bytes (used for the per-device PIN salt).    */
+void     hal_rand_fill(uint8_t *buf, uint16_t len);
+
 /* ---- device identity -------------------------------------------------- */
 /* Fills 6-byte BLE MAC (SW-04). Big-endian, mac[0] = MSB.                   */
 void     hal_get_mac(uint8_t mac[6]);

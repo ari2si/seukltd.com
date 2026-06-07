@@ -75,6 +75,16 @@ bool hal_nv_write(uint16_t key, const void *buf, uint16_t len)
 }
 
 /* ----------------------------------------------------------------------- */
+/*  Entropy                                                                 */
+/* ----------------------------------------------------------------------- */
+void hal_rand_fill(uint8_t *buf, uint16_t len)
+{
+    /* >>> FACTORY: use the SoC TRNG (Tuya SDK tuya_ble_rand_generator or the
+     * platform RNG). The stub below is NOT random — replace it.             */
+    for (uint16_t i = 0; i < len; i++) buf[i] = (uint8_t)(0xA5 ^ i);
+}
+
+/* ----------------------------------------------------------------------- */
 /*  Identity                                                                */
 /* ----------------------------------------------------------------------- */
 void hal_get_mac(uint8_t mac[6])

@@ -19,6 +19,8 @@ custom app built on the Tuya BLE SDK) reads/writes. IDs here match
 | 109   | bollard_status  | enum   | r     | `0`lowered `1`raised `2`rising `3`lowering `4`stopped `5`obstructed `6`locked | §9 |
 | 110   | battery_pct     | value  | r     | State-of-Charge 0..100 %                | §7          |
 | 111   | battery_state   | enum   | r     | `0`ok `1`low(<19V) `2`lockout(<18V)     | §7          |
+| 112   | pin_locked      | bool   | r     | `1` while PIN entry is locked out       | hardening   |
+| 113   | tamper          | enum   | r     | `1`forced push-down `2`enclosure/RST    | hardening   |
 
 ## App flows
 
@@ -71,6 +73,18 @@ BLE link immediately; the app must reconnect and retry with the correct PIN.
 Holding the physical RST button for 10 s both **re-enables Bluetooth** and
 **opens the pairing window**, so the app can re-link and authorise a new remote
 even when BLE was switched off and all fobs were lost.
+
+### Security hardening
+- **Brute-force lockout:** after 5 wrong PIN attempts the firmware locks PIN
+  entry for an increasing back-off (30 s, doubling up to ~16 min). The fail
+  count is persisted so a reboot can't grant a fresh guessing window. The app
+  is told via `pin_locked`.
+- **PIN stored hashed:** the custom PIN is kept as a per-device salted, 2048-round
+  SHA-256 hash — never in plaintext. (For full protection against a physical
+  flash dump, also enable the SoC's flash read-out protection at production.)
+- **Tamper alerts:** `tamper` is pushed when the anti-tamper re-drive fires
+  (forced push-down) or the enclosure/RST button is pressed, so the owner gets
+  an intrusion notification.
 
 > Concurrent multi-phone access (§3): the firmware imposes no single-phone
 > binding — any phone presenting the correct custom PIN is admitted. *Truly

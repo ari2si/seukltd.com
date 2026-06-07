@@ -16,6 +16,7 @@
 #include "reset_mgr.h"
 #include "battery.h"
 #include "power_mgr.h"
+#include "events.h"
 
 #include <string.h>
 
@@ -40,6 +41,8 @@
 #define DP_BOLLARD_STATUS   109   /* enum  : real-time state (spec §9)        */
 #define DP_BATTERY_PCT      110   /* value : 0..100 SoC (spec §7)             */
 #define DP_BATTERY_STATE    111   /* enum  : 0 ok / 1 low / 2 lockout (§7)    */
+#define DP_PIN_LOCKED       112   /* bool  : PIN locked (brute-force defence) */
+#define DP_TAMPER           113   /* enum  : 1 forced push-down / 2 enclosure */
 
 /* RM-01: management DPs are unlocked only after a correct PIN this session.  */
 static bool     s_session_pin_ok;
@@ -113,6 +116,7 @@ static void report_status_snapshot(void)
     dp_report_bool(DP_BLE_SWITCH, ble_sec_is_enabled());
     dp_report_value(DP_REMOTE_COUNT, (uint32_t)remote_store_count());
     dp_report_enum(DP_BOLLARD_STATUS, (uint8_t)bollard_status());
+    dp_report_bool(DP_PIN_LOCKED, ble_sec_pin_locked());
     report_battery();
 }
 
@@ -151,11 +155,18 @@ static void handle_dp(const uint8_t *p, uint16_t len)
     }
 
     case DP_VERIFY_PIN: {                                   /* RM-01 gate / §2 */
+        if (ble_sec_pin_locked()) {        /* brute-force lockout active        */
+            dp_report_bool(DP_PIN_LOCKED, true);
+            hal_ble_disconnect();
+            break;
+        }
         char tmp[16]; uint16_t n = dlen < 15 ? dlen : 15;
         memcpy(tmp, d, n); tmp[n] = '\0';
         s_session_pin_ok = ble_sec_verify_pin(tmp);
-        if (!s_session_pin_ok)
+        if (!s_session_pin_ok) {
+            dp_report_bool(DP_PIN_LOCKED, ble_sec_pin_locked());
             hal_ble_disconnect();          /* §2: wrong PIN -> drop the link    */
+        }
         break;
     }
 
@@ -271,6 +282,10 @@ static void app_publish_changes(void)
         dp_report_enum(DP_BOLLARD_STATUS, (uint8_t)bollard_status());
     if (battery_state_changed())
         report_battery();                            /* §7 app alert            */
+
+    uint8_t reason;
+    if (events_get_tamper(&reason))                  /* intrusion / anti-tamper */
+        dp_report_enum(DP_TAMPER, reason);
 }
 
 /* ----------------------------------------------------------------------- */
@@ -279,6 +294,7 @@ static void app_publish_changes(void)
 static void app_init(void)
 {
     hal_gpio_init();
+    events_init();
     led_init();
     battery_init();
     bollard_init();

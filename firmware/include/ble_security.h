@@ -31,6 +31,7 @@ bool ble_sec_verify_pin(const char *pin);           /* RM-01 gate             */
 bool ble_sec_change_pin(const char *old_pin,
                         const char *new_pin);        /* SW-03                  */
 void ble_sec_reset_pin_to_default(void);            /* SEC-01                 */
+bool ble_sec_pin_locked(void);                      /* brute-force lockout     */
 
 /* ---- app-authorised remote add (RM-01) -------------------------------- */
 /* The app, after a correct PIN, authorises a fob serial. The next learned

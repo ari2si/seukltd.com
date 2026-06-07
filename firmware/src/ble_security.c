@@ -4,25 +4,57 @@
  */
 #include "ble_security.h"
 #include "led.h"
+#include "sha256.h"
 #include "app_config.h"
 #include "board_hal.h"
 
 #include <string.h>
 #include <stdio.h>
 
-#define NV_KEY_SEC   0x0020
+#define NV_KEY_SEC   0x0021    /* bumped: PIN now stored hashed, not plaintext  */
 
 typedef struct {
-    char    pin[PIN_LEN + 1];
-    uint8_t pin_is_default;     /* SW-03: forces a change on first connect     */
-    uint8_t ble_enabled;        /* RM-04 master switch                         */
-    uint8_t magic;              /* 0xA5 once initialised                       */
+    uint8_t salt[PIN_SALT_LEN];     /* per-device random salt                  */
+    uint8_t hash[PIN_HASH_LEN];     /* iterated SHA-256 of (salt||PIN)         */
+    uint8_t pin_is_default;         /* SW-03: forces a change on first connect */
+    uint8_t ble_enabled;            /* RM-04 master switch                     */
+    uint8_t fail_count;             /* consecutive wrong-PIN attempts          */
+    uint8_t magic;                  /* 0xA6 once initialised                   */
 } sec_nv_t;
 
 static sec_nv_t  s_nv;
 static bool      s_window_open;
 static uint32_t  s_window_start;
 static bool      s_connected;
+
+/* PIN brute-force lockout (RAM; fail_count is persisted so a reboot can't
+ * grant a free guessing window).                                             */
+static bool      s_lockout_set;
+static uint32_t  s_lockout_until;
+
+/* ---- hashed-PIN helpers ----------------------------------------------- */
+static void pin_hash(const uint8_t salt[PIN_SALT_LEN], const char *pin,
+                     uint8_t out[PIN_HASH_LEN])
+{
+    sha256_ctx c;
+    sha256_init(&c);
+    sha256_update(&c, salt, PIN_SALT_LEN);
+    sha256_update(&c, (const uint8_t *)pin, strlen(pin));
+    sha256_final(&c, out);
+    for (uint32_t i = 1; i < PIN_HASH_ITERS; i++) {   /* slow down guessing    */
+        sha256_init(&c);
+        sha256_update(&c, out, PIN_HASH_LEN);
+        sha256_update(&c, salt, PIN_SALT_LEN);
+        sha256_final(&c, out);
+    }
+}
+
+static bool ct_equal(const uint8_t *a, const uint8_t *b, uint16_t n)
+{
+    uint8_t d = 0;
+    for (uint16_t i = 0; i < n; i++) d |= (uint8_t)(a[i] ^ b[i]);
+    return d == 0;                                    /* constant-time compare */
+}
 
 /* RM-01 remote-learning authorisation window.                                */
 static uint32_t  s_auth_serial;     /* 0 = "accept the next new fob"          */
@@ -32,20 +64,45 @@ static bool      s_auth_active;
 /* ---- persistence ------------------------------------------------------ */
 static void persist(void) { hal_nv_write(NV_KEY_SEC, &s_nv, sizeof(s_nv)); }
 
+/* Generate a fresh salt and store the hash of `pin`. */
+static void store_pin(const char *pin, bool is_default)
+{
+    hal_rand_fill(s_nv.salt, PIN_SALT_LEN);
+    pin_hash(s_nv.salt, pin, s_nv.hash);
+    s_nv.pin_is_default = is_default ? 1 : 0;
+    persist();
+}
+
+static uint32_t lock_backoff(uint8_t fail_count)
+{
+    uint8_t over = (fail_count > PIN_FAIL_LOCK_THRESHOLD)
+                   ? (uint8_t)(fail_count - PIN_FAIL_LOCK_THRESHOLD) : 0;
+    if (over > PIN_LOCK_MAX_SHIFT) over = PIN_LOCK_MAX_SHIFT;
+    return PIN_LOCK_BASE_MS << over;
+}
+
+static void apply_lockout(void)
+{
+    if (s_nv.fail_count >= PIN_FAIL_LOCK_THRESHOLD) {
+        s_lockout_set   = true;
+        s_lockout_until = hal_millis() + lock_backoff(s_nv.fail_count);
+    }
+}
+
 void ble_sec_init(void)
 {
-    if (!hal_nv_read(NV_KEY_SEC, &s_nv, sizeof(s_nv)) || s_nv.magic != 0xA5) {
+    if (!hal_nv_read(NV_KEY_SEC, &s_nv, sizeof(s_nv)) || s_nv.magic != 0xA6) {
         memset(&s_nv, 0, sizeof(s_nv));
-        strncpy(s_nv.pin, DEFAULT_PIN, PIN_LEN);
-        s_nv.pin[PIN_LEN]    = '\0';
-        s_nv.pin_is_default  = 1;
-        s_nv.ble_enabled     = 1;        /* shipped ON; remote can disable      */
-        s_nv.magic           = 0xA5;
-        persist();
+        s_nv.ble_enabled = 1;            /* shipped ON; remote can disable      */
+        s_nv.fail_count  = 0;
+        s_nv.magic       = 0xA6;
+        store_pin(DEFAULT_PIN, true);    /* stores salt+hash, persists          */
     }
     s_window_open = false;
     s_connected   = false;
     s_auth_active = false;
+    s_lockout_set = false;
+    apply_lockout();                     /* re-arm lockout if it shipped locked */
 }
 
 /* ---- SW-04: advertise so the app shows MAC / serial ------------------- */
@@ -121,33 +178,48 @@ bool ble_sec_pin_is_default(void) { return s_nv.pin_is_default != 0; }
  * pin_is_default so a blank/erased flash reads as not-initialised.)          */
 bool ble_sec_is_initialized(void) { return s_nv.pin_is_default == 0; }
 
+bool ble_sec_pin_locked(void)
+{
+    if (!s_lockout_set) return false;
+    if ((int32_t)(hal_millis() - s_lockout_until) >= 0) { s_lockout_set = false; return false; }
+    return true;
+}
+
 bool ble_sec_verify_pin(const char *pin)
 {
     if (!pin) return false;
-    return strncmp(pin, s_nv.pin, PIN_LEN) == 0;
+    if (ble_sec_pin_locked()) return false;          /* refuse while locked     */
+
+    uint8_t h[PIN_HASH_LEN];
+    pin_hash(s_nv.salt, pin, h);
+    if (ct_equal(h, s_nv.hash, PIN_HASH_LEN)) {
+        if (s_nv.fail_count) { s_nv.fail_count = 0; persist(); }
+        s_lockout_set = false;
+        return true;
+    }
+    if (s_nv.fail_count < 255) { s_nv.fail_count++; persist(); }
+    apply_lockout();                                 /* lock after THRESHOLD     */
+    return false;
 }
 
 bool ble_sec_change_pin(const char *old_pin, const char *new_pin)
 {
-    if (!ble_sec_verify_pin(old_pin)) return false;
+    if (!ble_sec_verify_pin(old_pin)) return false;  /* counts failures + locks  */
     if (!new_pin) return false;
-    for (int i = 0; i < PIN_LEN; i++)            /* must be 6 digits           */
+    for (int i = 0; i < PIN_LEN; i++)                /* must be 6 digits         */
         if (new_pin[i] < '0' || new_pin[i] > '9') return false;
     if (new_pin[PIN_LEN] != '\0') return false;
-    strncpy(s_nv.pin, new_pin, PIN_LEN);
-    s_nv.pin[PIN_LEN]   = '\0';
-    s_nv.pin_is_default = 0;             /* §2: is_initialized = 1               */
-    persist();
+
+    store_pin(new_pin, false);           /* new salt+hash; §2: is_initialized=1  */
+    s_nv.fail_count = 0; s_lockout_set = false; persist();
     ble_sec_close_pairing_window();      /* §2: safely close the pairing window  */
     return true;
 }
 
 void ble_sec_reset_pin_to_default(void)
 {
-    strncpy(s_nv.pin, DEFAULT_PIN, PIN_LEN);
-    s_nv.pin[PIN_LEN]   = '\0';
-    s_nv.pin_is_default = 1;
-    persist();
+    store_pin(DEFAULT_PIN, true);        /* salt+hash of default; is_initialized=0 */
+    s_nv.fail_count = 0; s_lockout_set = false; persist();
 }
 
 /* ---- RM-01 remote-learning authorisation ------------------------------ */

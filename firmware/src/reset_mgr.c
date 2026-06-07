@@ -6,6 +6,7 @@
 #include "rf_remote.h"
 #include "ble_security.h"
 #include "remote_store.h"
+#include "events.h"
 #include "led.h"
 #include "app_config.h"
 #include "board_hal.h"
@@ -35,6 +36,7 @@ void reset_mgr_task(void)
         s_clear_fired     = false;
         s_emergency_fired = false;
         rf_remote_set_reset_arming(true);
+        events_post_tamper(TAMPER_ENCLOSURE_RST);   /* box opened / RST pressed  */
     }
     else if (now_pressed && s_pressed) {
         uint32_t held = now - s_press_start;
