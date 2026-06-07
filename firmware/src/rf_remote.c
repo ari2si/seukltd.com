@@ -75,15 +75,25 @@ static void middle_on_repeat(uint32_t now)
 /* --- main frame handler ----------------------------------------------- */
 static void on_frame(uint64_t raw, uint8_t nbits)
 {
+    int            idx = remote_store_find(keeloq_serial_of(raw));
     keeloq_frame_t f;
-    if (!keeloq_decode(raw, nbits, &f)) return;   /* bad / foreign fob         */
+#if KEELOQ_SECURE_LEARNING
+    /* Secure learning: a normal frame is only decodable with the fob's stored
+     * device key, so unknown fobs can't be decoded here — they are learned via
+     * rf_remote_learn_secure() from the fob's seed transmission.             */
+    if (idx < 0 ||
+        !keeloq_decode_with_key(raw, nbits, remote_store_get(idx)->device_key, &f))
+        return;
+#else
+    if (!keeloq_decode(raw, nbits, &f)) return;   /* Normal learning           */
+    idx = remote_store_find(f.serial);
+#endif
 
     uint32_t now      = hal_millis();
     bool     is_repeat_tx = (f.serial == s_last_serial &&
                              f.counter == s_last_counter &&
                              (now - s_last_frame_ms) < 800u);
 
-    int      idx       = remote_store_find(f.serial);
     bool     is_paired = (idx >= 0);
     bool     is_master = (f.serial == INSTALLER_MASTER_SERIAL);
 
@@ -154,6 +164,19 @@ void rf_remote_init(const rf_remote_cb_t *cb)
 }
 
 void rf_remote_set_reset_arming(bool armed) { s_reset_armed = armed; }
+
+void rf_remote_learn_secure(uint32_t serial, uint32_t seed_lo, uint32_t seed_hi)
+{
+    serial &= 0x0FFFFFFFu;
+    if (!ble_sec_remote_is_authorised(serial)) return;   /* RM-01: PIN-authorised */
+    if (remote_store_find(serial) >= 0) return;          /* already paired        */
+    int ni = remote_store_add(serial, false);
+    if (ni < 0) return;
+    remote_store_set_key(ni, keeloq_derive_key_secure(seed_lo, seed_hi));
+    remote_store_update_counter(ni, 0);
+    ble_sec_clear_authorisation();
+    led_set(LED_FLASH_SUCCESS);
+}
 
 void rf_remote_task(void)
 {

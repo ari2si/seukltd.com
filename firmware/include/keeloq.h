@@ -28,7 +28,21 @@ typedef struct {
     uint8_t  repeat;       /* repeat flag (button held)                      */
 } keeloq_frame_t;
 
-/* Decrypt a raw captured frame using the manufacturer key (app_config.h).
+/* Pull just the 28-bit serial out of a raw frame (no crypto needed). */
+uint32_t keeloq_serial_of(uint64_t raw_frame);
+
+/* Normal-learning device key: derived from the fob serial + manufacturer key. */
+uint64_t keeloq_derive_key_normal(uint32_t serial);
+
+/* Secure-learning device key: derived from the 60-bit seed the fob transmits
+ * during learning + manufacturer key. The result is stored per-fob.          */
+uint64_t keeloq_derive_key_secure(uint32_t seed_lo, uint32_t seed_hi);
+
+/* Decode a frame using an explicit per-fob device key (secure learning).      */
+bool keeloq_decode_with_key(uint64_t raw_frame, uint8_t nbits,
+                            uint64_t device_key, keeloq_frame_t *out);
+
+/* Convenience: Normal-learning decode (derives the key from the serial).
  * Returns true and fills *out when the frame is structurally valid.          */
 bool keeloq_decode(uint64_t raw_frame, uint8_t nbits, keeloq_frame_t *out);
 

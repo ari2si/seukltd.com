@@ -40,6 +40,9 @@ void     hal_ble_adv_start(uint32_t window_ms);  /* SW-02 timed adv window   */
 void     hal_ble_adv_stop(void);
 void     hal_ble_disconnect(void);
 void     hal_ble_set_scan_rsp_name(const char *name); /* SW-04 show MAC/SN   */
+/* True only when the Tuya BLE secure (encrypted + authenticated) session is up.
+ * Used to refuse PIN exchange over an unencrypted link.                      */
+bool     hal_ble_link_is_encrypted(void);
 
 /* ---- RF receiver ------------------------------------------------------ */
 /* The HAL captures complete KeeLoq frames (in an ISR or decoder IC driver)

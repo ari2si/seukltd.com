@@ -85,6 +85,14 @@ even when BLE was switched off and all fobs were lost.
 - **Tamper alerts:** `tamper` is pushed when the anti-tamper re-drive fires
   (forced push-down) or the enclosure/RST button is pressed, so the owner gets
   an intrusion notification.
+- **Encrypted link required for the PIN:** with `REQUIRE_ENCRYPTED_LINK` the
+  firmware refuses `verify_pin` / `change_pin` (and drops the link) unless the
+  Tuya BLE **secure, encrypted** session is established — so the PIN can't be
+  sniffed over the air. The factory wires `hal_ble_link_is_encrypted()` to the
+  Tuya secure-session state.
+- **KeeLoq secure learning (option):** `KEELOQ_SECURE_LEARNING` selects
+  Normal (key from serial) or Secure (key from the fob's transmitted seed,
+  stored per-fob). Keep the KeeLoq manufacturer key secret.
 
 > Concurrent multi-phone access (§3): the firmware imposes no single-phone
 > binding — any phone presenting the correct custom PIN is admitted. *Truly

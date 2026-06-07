@@ -30,4 +30,9 @@ void rf_remote_task(void);   /* services hold timers; call from main loop     */
  * next valid fob press is interpreted as a reset combo (SEC-01).             */
 void rf_remote_set_reset_arming(bool armed);
 
+/* Secure-learning hook (KEELOQ_SECURE_LEARNING): the HAL calls this when a new
+ * fob's learning transmission (carrying its 60-bit seed) is captured during an
+ * app-authorised learn window. The per-fob device key is derived and stored.  */
+void rf_remote_learn_secure(uint32_t serial, uint32_t seed_lo, uint32_t seed_hi);
+
 #endif /* RF_REMOTE_H */

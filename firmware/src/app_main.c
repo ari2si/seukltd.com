@@ -134,6 +134,15 @@ static void handle_dp(const uint8_t *p, uint16_t len)
 
     power_mgr_notify_activity();          /* any app traffic keeps us awake §7  */
 
+    /* Item #3: the PIN must only travel over a Tuya secure (encrypted) session.
+     * Refuse PIN exchange — and drop the link — on an unencrypted connection.  */
+#if REQUIRE_ENCRYPTED_LINK
+    if ((id == DP_VERIFY_PIN || id == DP_CHANGE_PIN) && !hal_ble_link_is_encrypted()) {
+        hal_ble_disconnect();
+        return;
+    }
+#endif
+
     /* SW-03 hard gate: while the PIN is still the factory default
      * (is_initialized == 0), the only thing the app may do is change the PIN. */
     bool default_pin = ble_sec_pin_is_default();

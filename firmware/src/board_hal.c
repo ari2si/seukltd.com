@@ -112,6 +112,17 @@ void hal_ble_adv_start(uint32_t window_ms)
 void hal_ble_adv_stop(void)        { /* tuya_ble_gap_advertising_stop();   */ }
 void hal_ble_disconnect(void)      { /* tuya_ble_gap_disconnect();         */ }
 
+bool hal_ble_link_is_encrypted(void)
+{
+    /* >>> FACTORY: MUST return true only when the Tuya BLE secure session is
+     * established (link encrypted + device authenticated with the bound key).
+     * On the Tuya BLE SDK this is the secure-connection / paired state. While
+     * this returns false, PIN exchange is blocked (see REQUIRE_ENCRYPTED_LINK).
+     * Hard-coding a value defeats the protection — wire the real SDK state.
+     * During bring-up only, set REQUIRE_ENCRYPTED_LINK to 0.                 */
+    return false;
+}
+
 void hal_ble_set_scan_rsp_name(const char *name)
 {
     (void)name;

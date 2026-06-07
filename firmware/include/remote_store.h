@@ -16,6 +16,7 @@ typedef struct {
     uint16_t sync_counter;  /* last accepted rolling counter                 */
     uint8_t  flags;         /* bit0 = valid, bit1 = added-at-factory         */
     uint8_t  rsvd;
+    uint64_t device_key;    /* per-fob KeeLoq key (Secure learning only)     */
 } remote_record_t;
 
 #define REMOTE_FLAG_VALID    0x01
@@ -34,6 +35,9 @@ bool  remote_store_remove(uint32_t serial);
 
 /* Update the stored rolling counter after an accepted press.                */
 void  remote_store_update_counter(int index, uint16_t counter);
+
+/* Store the per-fob device key (Secure learning).                           */
+void  remote_store_set_key(int index, uint64_t device_key);
 
 /* Wipe all remotes (used by a full factory reset).                          */
 void  remote_store_clear_all(void);

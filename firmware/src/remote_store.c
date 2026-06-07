@@ -71,6 +71,13 @@ void remote_store_update_counter(int index, uint16_t counter)
     persist();
 }
 
+void remote_store_set_key(int index, uint64_t device_key)
+{
+    if (index < 0 || index >= MAX_REMOTES) return;
+    s_tbl[index].device_key = device_key;
+    persist();
+}
+
 void remote_store_clear_all(void)
 {
     for (int i = 0; i < MAX_REMOTES; i++) {

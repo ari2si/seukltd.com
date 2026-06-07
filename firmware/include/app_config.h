@@ -152,6 +152,18 @@
 #define TAMPER_FORCED_PUSHDOWN      1
 #define TAMPER_ENCLOSURE_RST        2
 
+/* Only accept the PIN (and control) over a Tuya secure/encrypted session so   */
+/* it cannot be sniffed over the air. Set 0 ONLY for bench bring-up.          */
+#define REQUIRE_ENCRYPTED_LINK      1
+
+/* ------------------------------------------------------------------------- */
+/*  KeeLoq learning scheme  >>> FACTORY: match your fob encoder <<<           */
+/*  0 = Normal learning (device key derived from the serial).                 */
+/*  1 = Secure learning   (device key derived from a 60-bit seed the fob      */
+/*      transmits during learning; the per-fob key is then stored).           */
+/* ------------------------------------------------------------------------- */
+#define KEELOQ_SECURE_LEARNING      0
+
 /* ------------------------------------------------------------------------- */
 /*  LED-strip timing profiles (spec §6)   milliseconds                       */
 /* ------------------------------------------------------------------------- */
