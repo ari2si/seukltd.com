@@ -195,6 +195,10 @@ h2 .site-palette-gold, h2 [class*="palette"]{color:inherit !important;-webkit-te
 #seuk-hard-mobile-cta .seuk-hard-mobile-touch{background:var(--ink) !important;color:#fff !important;border:1px solid var(--ink) !important;}
 /* cookie bar */
 section.fixed.inset-x-0.bottom-0{background:rgba(21,23,27,.97) !important;border-top:0 !important;}
+/* on phones the cookie notice sits above the Call / Get in touch bar so its Accept button can be tapped */
+@media (max-width:767px){section[aria-label="Cookie consent"]{bottom:69px !important;}}
+/* the Accept button was dark on a dark bar; give it a white fill so it reads as a button */
+#root section[aria-label="Cookie consent"] button[class~="bg-gold-500"],#root section[aria-label="Cookie consent"] button[class~="bg-gold-500"]:hover{background:#fff !important;color:var(--ink) !important;border-color:#fff !important;}
 /* project window detail boxes */
 div.mt-6.grid.gap-4 > div.border.bg-slate-50, div.mt-6.grid.gap-4 > div[class*="border-slate-100"]{background:transparent !important;border:0 !important;border-top:1px solid var(--ink) !important;padding:1rem 0 0 !important;}
 div.mt-6.grid.gap-4 > div[class*="border-slate-100"] svg{display:none;}
