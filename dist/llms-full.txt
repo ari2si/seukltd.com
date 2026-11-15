@@ -1,0 +1,451 @@
+# Smart Environment Group: full site text
+
+Source: https://seukltd.com/ . Last updated 2026-11-15. This file repeats the public content of the website in plain text for AI assistants and search tools.
+
+## Company facts
+- Trading name: Smart Environment Group (also known as SEUK). Three divisions: Development, Construction and Property Services.
+- Legal entity: Smart Environment Property Developments Ltd, registered in England and Wales, company number 10469032.
+- Office: 720 Centennial Court, Centennial Park, Elstree WD6 3SY, United Kingdom.
+- Phone: +44 20 8163 4044. Email: info@seukltd.com. Hours: Monday to Friday, 8:00 to 18:00.
+- Trading since 2009. Area: London, Hertfordshire and the Home Counties, with selected projects elsewhere in the UK.
+- Accreditation: SSIP-recognised PQS Health and Safety Approved (valid to July 2027).
+- Track record: more than 460 responsive repairs for housing associations between 2023 and 2026, across seven housing associations and co-operatives.
+
+## Services
+
+The group works through three divisions: Property Development, Construction and Property Services.
+
+### Construction: project types
+
+**Basement Construction.** Design and construction of new basements, basement extensions and below-ground spaces, including excavation, structure, waterproofing, drainage, services and internal fit-out.
+- Excavation & Structure: Basement excavation and underpinning; Temporary works and structural propping; Retaining walls, concrete works and structural slabs; Structural openings and steelwork.
+- Waterproofing & Drainage: Waterproofing and tanking systems; Cavity drain membranes; Drainage and sump pump systems; Below-ground services coordination.
+- Fit-Out & Finishes: Light wells, access openings and ventilation; MEP installation and internal fit-out; Cinema rooms, gyms, kitchens, bathrooms and utility areas; Decoration, flooring, joinery and final finishes.
+
+**Commercial Refurbishment.** Refurbishment and fit-out of commercial buildings, including offices, retail, hospitality and leisure spaces, with structural works, services coordination, finishes and handover.
+- Commercial Fit-Out: Office, retail, hotel and leisure refurbishment; CAT A and CAT B fit-out works; Partitions, ceilings, flooring and finishes; Reception, workspace and customer-facing areas.
+- Building Works: Strip-out, enabling works and dilapidations; Structural alterations and builders work; Fire stopping and compliance works; Phased works in occupied or live commercial premises.
+- Services & Systems: Mechanical, electrical and data coordination; Lighting, small power and distribution; Access control and security interfaces; Testing, commissioning and handover.
+
+**Design & Build.** Design and construction delivery under one managed route, coordinating consultants, pricing, programme, procurement, construction, finishes and handover from concept to completion.
+- Design Coordination: Initial brief review and feasibility advice; Design coordination with architects and consultants; Planning and building control coordination; Structural, MEP and specification coordination.
+- Cost & Programme: Budget development and value engineering; Programme planning and procurement; Scope clarification and package planning; Risk review and buildability advice.
+- Construction Delivery: Main contractor project management; Site setup and subcontractor coordination; Construction, finishing and quality checks; Handover documentation and aftercare.
+
+**Extensions, Vertical Extensions & Loft Conversions.** Construction of home extensions, vertical extensions and loft conversions, including structural alterations, roof works, dormers, glazing, services, insulation and internal finishes.
+- Extensions: Single-storey and double-storey extensions; Vertical extensions and additional floor construction; Steelwork, structural openings and load-bearing alterations; Windows, doors, glazing and external finishes.
+- Loft Conversions: Loft conversions and roof space conversions; Dormers, mansards, roof alterations and roof lights; Staircase access, insulation and fire protection; Roof structure alterations and strengthening.
+- Internal Works: Electrical, plumbing, heating and internal fit-out works; Bathrooms, bedrooms and storage areas; Plastering, decorating, flooring and joinery; Final finishes, snagging and handover.
+
+**Listed Buildings.** Careful refurbishment and alteration of listed and sensitive buildings, coordinating protection, sequencing, structural works, services upgrades and heritage-conscious finishes.
+
+**Mixed-Use Developments.** Construction and coordination of mixed-use developments, combining residential, retail, leisure, commercial and community spaces within one managed building project.
+- Mixed-Use Shell & Core: Residential, retail, leisure and commercial building areas; Structural frame, envelope and compartmentation works; Shared cores, stairs, lifts and circulation spaces; Fire strategy, access routes and compliance coordination.
+- Services & Interfaces: Separate utilities, metering and landlord services; MEP coordination across different occupancy types; Plant rooms, risers, data routes and life safety systems; Acoustic, ventilation and drainage interface management.
+- Fit-Out & Handover: Commercial unit fit-out and residential internal finishes; Public realm, entrances and communal amenity areas; Phased access, logistics and neighbour coordination; Testing, commissioning and staged handover packages.
+
+**New Design & Build.** Construction of new homes, apartments and residential developments, including groundworks, structure, envelope, services, internal fit-out, commissioning and handover.
+- Site & Groundworks: New build houses, apartments and small developments; Site setup, enabling works and groundworks; Foundations, drainage and utility connections; External works and access routes.
+- Superstructure: Structural frame, masonry and roof construction; Windows, doors, external envelope and facades; Insulation, weatherproofing and airtightness works; Internal walls, stairs and structural elements.
+- Completion: Mechanical, electrical and plumbing installation; Internal partitions, plastering, flooring and finishes; Final commissioning, snagging and handover; Client walkthrough and aftercare support.
+
+**Residential Refurbishment.** Refurbishment and renovation of residential properties, including layout changes, structural works, services upgrades, kitchens, bathrooms, flooring, joinery and final finishes.
+- Structural & Layout Works: Full house refurbishment and renovation; Structural alterations and layout reconfiguration; Open-plan living conversions; Wall removals, steelwork and builders work.
+- Services Upgrades: Electrical rewiring and lighting upgrades; Plumbing, heating and bathroom installation; Insulation, windows, doors and energy upgrades; Smart controls and data cabling coordination.
+- Internal Finishes: Kitchen, bathroom and bedroom refurbishment; Plastering, decorating, flooring and joinery; High-end finishes, detailing and final snagging; Fixtures, fittings and final presentation.
+
+**Student Accommodation.** Refurbishment, conversion and fit-out of student accommodation, including bedrooms, en-suites, shared kitchens, fire safety works, building services and handover-ready finishes.
+- Accommodation Layouts: Student accommodation refurbishment and conversion; Bedroom, en-suite and shared kitchen layouts; Bathroom pods, sanitaryware and plumbing installation; Communal areas, circulation spaces and laundry rooms.
+- Safety & Services: Fire safety upgrades and compartmentation works; Mechanical, electrical, data and access control systems; Emergency lighting, alarms and compliance works; Ventilation, heating and hot water systems.
+- Fit-Out & Handover: Flooring, decoration, furniture coordination and finishes; Programme-led delivery for occupation deadlines; Snagging, cleaning and handover preparation; Landlord and operator handover support.
+
+### Construction and property services: trades and systems
+
+**Pre-Construction & Design.** Feasibility, planning, compliance, budgeting and coordinated design services for construction, MEP and smart infrastructure projects.
+- Planning & Development: Site feasibility studies; Planning application support; Building regulation compliance; Cost planning & budgeting.
+- Design Services: Architectural design coordination; MEP design; Lighting design; Technical drawings & CAD.
+
+**Groundworks & Civil Engineering.** Site preparation, excavation, foundations, drainage and utility infrastructure for residential and commercial developments.
+- Site Preparation: Site clearance; Excavation; Demolition; Earthworks.
+- Foundations: Strip foundations; Raft foundations; Pile foundations; Concrete slabs.
+- Drainage & Utilities: Underground drainage; Sewer connections; Utility ducting; Stormwater systems.
+
+**Structural & Building Works.** Structural construction, building envelope works, roofing, waterproofing and external fabric upgrades.
+- Structural Construction: Steel frame structures; Reinforced concrete structures; Load-bearing walls; Structural alterations.
+- Building Envelope: Brickwork; Blockwork; Cladding systems; External insulation systems.
+- Roofing: Flat roofing systems; Pitched roofs; Waterproofing; Roof insulation.
+
+**Interior Construction & Finishes.** Interior partitions, plastering, ceilings, flooring, joinery, carpentry and decorative finishes.
+- Partitions & Drywall: Stud partitions; Metal framing; Acoustic partitions; Fire-rated systems.
+- Plastering & Rendering: Skimming; Rendering; Decorative plaster; External render systems.
+- Ceilings: Suspended ceilings; MF ceilings; Acoustic ceilings; Feature ceilings.
+- Flooring Systems: Screeding; Tiling; Hardwood; Vinyl; Resin flooring.
+- Joinery & Carpentry: Doors & frames; Skirting & architraves; Custom joinery; Wardrobes & storage.
+- Decorations: Painting; Spray finishes; Wall coverings; Protective coatings.
+
+**Kitchen, Bathroom & Fit-Out.** Kitchen installations, bathroom and wet room delivery, and residential, office, commercial and retail fit-out.
+- Kitchens: Kitchen design & install; Cabinetry; Worktops; Appliance integration.
+- Bathrooms: Bathroom installation; Wet rooms; Shower systems; Sanitary installations.
+- Interior Fit-Out: Residential fit-out; Commercial fit-out; Office fit-out; Retail fit-out.
+
+**Plumbing, HVAC & Mechanical.** Water systems, heating, ventilation, air conditioning, plant rooms and mechanical infrastructure.
+- Water Systems: Hot & cold water; Pressurised systems; Plant rooms; Water storage systems.
+- Heating: Boilers; Radiators; Underfloor heating; Heat pumps.
+- Ventilation & Air Conditioning: MVHR systems; Air conditioning; Ventilation systems; Ductwork installation.
+
+**Electrical Engineering.** Complete electrical engineering covering power systems, lighting, EV charging, UPS, generators, testing and certification.
+- Power Systems: Full electrical systems; Three-phase power; Distribution boards; Cable containment.
+- Lighting: Architectural lighting; Emergency lighting; External lighting; Lighting control systems.
+- Special Systems: EV charging; UPS; Generators; Testing & certification.
+
+**Security, Safety & ELV Systems.** CCTV, access control, intruder alarms, fire systems, perimeter security, gates, barriers and intercom systems.
+- CCTV: IP CCTV; 4K systems; NVR systems; Surveillance networks.
+- Access Control: Door access; Biometric systems; Keycard systems; Cloud systems.
+- Intruder Alarms: Grade 2 systems; Grade 3 systems; Perimeter protection; Integrated alarms.
+- Fire Systems: Fire alarms; Detection systems; Evacuation systems; Fire compliance systems.
+- Perimeter Security: Automatic gates; Barriers; Turnstiles; Vehicle access systems.
+- Intercom: Audio systems; Video systems; IP intercom; Multi-unit systems.
+
+**Data, Fibre & ICT Infrastructure.** Structured cabling, fibre optics, server rooms, network racks, switching systems and integrated ICT networks.
+- Structured Cabling: Cat6; Cat6A; Data outlets; Patch panels.
+- Fibre Optics: Fibre cabling; Splicing; Termination; Backbone networks.
+- IT Infrastructure: Server rooms; Network racks; Switching systems; Integrated networks.
+
+**Windows, Doors & Facades.** Supply and installation of windows, doors and facade systems for residential and commercial buildings.
+- Windows: uPVC windows; Aluminium windows; Timber windows; Double glazing; Triple glazing.
+- Doors: External doors; Internal doors; Sliding doors; Bi-fold doors; Fire doors.
+- Facade Systems: Curtain walling; Cladding systems; Glass facades; External envelope systems.
+
+**External Works & Landscaping.** Hard landscaping, external structures, drainage, surface water works, ground levelling and foundations.
+- Hard Landscaping: Driveways; Paving; Patios; Retaining walls.
+- External Structures: Fencing; Decking; Pergolas; Outbuildings.
+- Drainage: Surface water drainage; Ground levelling; Excavation; Foundations.
+
+**Smart Building & Automation.** Smart lighting, climate control, central systems, scene automation, security integration, BMS and remote monitoring.
+- Automation Systems: Smart lighting; Climate control; Central systems; Scene automation.
+- Integration: Security integration; BMS; Remote monitoring.
+
+**Maintenance & Aftercare.** Planned maintenance, reactive maintenance, system servicing, diagnostics, upgrades, support and emergency callouts.
+- Planned Preventative Maintenance: Maintenance schedules; Condition-led planning; Servicing coordination; Risk reduction.
+- Reactive Maintenance: Repair response coordination; Fault reporting; Contractor attendance; Issue close-out.
+- Building Maintenance: System servicing; Compliance checks; Condition monitoring; Asset care planning.
+- Support Services: Fault diagnostics; System upgrades; Technical support; Emergency callouts.
+
+## Service pages
+- [Property Development in London & the Home Counties](https://seukltd.com/services/property-development-london-home-counties/): Smart Environment Group delivers property development services across London and the Home Counties, including site acquisition, development appraisal, planning strategy, joint ventures, residential schemes, commercial and mixed-use development, value-add refurbishment and turnkey delivery.
+- [Residential Property Development](https://seukltd.com/services/residential-property-development-london/): High-spec residential property development, apartment schemes, urban housing, private homes, refurbishments and multi-unit residential projects delivered with modern performance, sustainability and long-term value in mind.
+- [Commercial & Mixed-Use Development](https://seukltd.com/services/commercial-mixed-use-development-london/): Integrated commercial and mixed-use development support for residential, retail, leisure, office and community spaces, coordinating planning, construction, services, occupier interfaces and long-term asset performance.
+- [Investment-Led Property Development](https://seukltd.com/services/investment-led-property-development/): Development solutions for investors, private clients, landowners and strategic partnerships, focused on sustainable growth, risk control, programme clarity and long-term property returns.
+- [Basement Construction in London & the Home Counties](https://seukltd.com/services/basement-construction-london/): Smart Environment Group delivers basement construction, excavation, structural works, waterproofing, drainage, MEP coordination and high-spec fit-out across London and the Home Counties.
+- [House Extensions, Vertical Extensions & Loft Conversions](https://seukltd.com/services/house-extensions-loft-conversions-london/): Design and construction of house extensions, loft conversions, vertical extensions, dormers, roof works and internal refurbishment across London and the Home Counties.
+- [Commercial Refurbishment & Fit-Out](https://seukltd.com/services/commercial-refurbishment-london/): Commercial refurbishment and fit-out for offices, retail, hospitality, leisure and mixed commercial buildings across London and the Home Counties.
+- [Design & Build Contractor for London Projects](https://seukltd.com/services/design-build-contractor-london/): Managed design and build delivery from feasibility and consultant coordination through pricing, procurement, construction, finishes and handover.
+- [Listed Building Refurbishment & Sensitive Works](https://seukltd.com/services/listed-building-refurbishment-london/): Careful refurbishment and alteration of listed and sensitive buildings, coordinating protection, sequencing, structural works, services upgrades and heritage-conscious finishes.
+- [Student Accommodation & HMO Conversion](https://seukltd.com/services/student-accommodation-hmo-conversion/): Student accommodation refurbishment, HMO conversion and multi-occupancy fit-out, including compliance, fire safety upgrades, en-suites, shared kitchens, services and handover-ready finishes.
+- [Property Services in London & the Home Counties](https://seukltd.com/services/property-services-london-home-counties/): Multidisciplinary property services covering pre-construction, groundworks, structural works, interiors, MEP, electrical, security, data, smart systems, external works, maintenance and aftercare.
+- [MEP, Electrical, HVAC & Plumbing Services](https://seukltd.com/services/mep-electrical-hvac-contractor-london/): Integrated property services for mechanical, electrical, HVAC, plumbing, fire, security, data and smart building systems across London and the Home Counties.
+- [Planned Preventative & Reactive Maintenance](https://seukltd.com/services/planned-reactive-maintenance/): Planned preventative maintenance, reactive maintenance, system servicing, diagnostics, upgrades, technical support and emergency callout coordination for residential, commercial and mixed-use assets.
+- [Smart Building & Automation Systems](https://seukltd.com/services/smart-building-automation-london/): Smart lighting, climate control, scene automation, BMS, security integration, remote monitoring, data infrastructure and connected building systems for modern residential and commercial assets.
+
+## Featured projects
+
+### Residential Design & Build (Catford, Lewisham, London)
+Category: Residential design and build.
+
+Comprehensive demolition and redevelopment of a former gas reduction facility, transforming the site from a single national utility structure into Prestige House, a collection of nine high-specification apartments (five one-bedroom and four two-bedroom) in Catford, South London. The scheme combined part demolition and conversion of the original building with a new three-storey L-shaped block, including piled foundations, and was completed and signed off by building control in May 2022 with a 10-year structural warranty.
+
+- Scope: Part demolition, conversion and new build creating nine high-spec apartments.
+- Challenge: Transforming a former utility site into a residential development with strong market appeal.
+- Result: A collection of modern homes with upgraded site value and residential quality.
+- Photo gallery: https://seukltd.com/projects/prestige-house-catford/
+
+### Vertical Extension - 4 Penthouses (Cricklewood, London NW2)
+Category: Roof Extension & Airspace Development.
+
+Construction of 4 new penthouse flats on the roof of a 24-flat 1930s mansion block in Cricklewood, with all residents in occupation throughout. Two new lifts were installed in the altered original shafts, staircases were extended to the new floor, and a separate Section 20 programme refurbished the communal areas, facade and electrical infrastructure under the managing agent and surveyor. JCT contract, completed 2017.
+
+- Scope: Vertical extension and construction of four penthouse flats.
+- Challenge: Working above an occupied historic building with careful logistics and tenant considerations.
+- Result: Additional residential value delivered at roof level with controlled disruption.
+- Photo gallery: https://seukltd.com/projects/rooftop-penthouses-cricklewood/
+
+### HMO Conversion (Hampstead, London)
+Category: HMO Conversion.
+
+Victorian property on Finchley Road, Hampstead, converted into a high-specification nine-bedroom HMO, combining original character with modern living standards. Each bedroom is designed as a private suite, featuring an en-suite bathroom and a compact kitchenette, providing both independence and comfort. Two communal kitchens, located on the ground and top floors, offer additional shared space for residents. The layout has been carefully planned to maximise space, functionality, and compliance with all current HMO and building regulations, resulting in a well-balanced and efficient multi-occupancy residence in a prime Hampstead location. Building control final certificate issued August 2024.
+
+- Scope: HMO conversion with en-suite rooms, kitchenettes and shared facilities.
+- Challenge: Maximising layout efficiency while meeting HMO and building regulation requirements.
+- Result: A compliant multi-occupancy residence with private suites and practical shared space.
+- Photo gallery: https://seukltd.com/projects/hmo-conversion-hampstead/
+
+### HMO Conversion (Acton, London)
+Category: HMO Conversion.
+
+Conversion and full refurbishment of a property in Acton, West London, into a high-specification licensed six-bedroom HMO. Works started in March 2026 and were completed in October 2026. Works included new FD30 fire doors with intumescent seals and self-closers, a fully designed and commissioned fire alarm with emergency lighting and escape signage, a new three-phase electrical supply and consumer unit, new flooring and redecoration throughout. Building control final certificate issued November 2026.
+
+- Scope: HMO conversion with fire doors, fire alarm and emergency lighting, electrical upgrade, flooring and decoration.
+- Challenge: Delivering a six-bedroom HMO to current fire safety and licensing standards with a full building control sign-off.
+- Result: A compliant, fully certified six-bedroom HMO with new finishes throughout.
+- Photo gallery: https://seukltd.com/projects/hmo-conversion-acton/
+
+### Student Accommodation - Mercia Lodge (Coventry, West Midlands)
+Category: Student Accommodation.
+
+Design and build conversion of the unused second floor of a former Travelodge hotel in Coventry city centre into 19 self-contained student rooms, taking the building to 169 rooms. Works included heavy demolition of the old kitchen and cold rooms, 21 new roof lights cut through the concrete roof on new steelwork, metal stud partitions, new hot and cold water and drainage for every room, and active smoke ventilation linked to the fire alarm. Delivered to a fixed deadline for student arrivals, with the building control final certificate issued August 2016.
+
+- Scope: Student accommodation upgrade and refurbishment works.
+- Challenge: Delivering robust, comfortable spaces suited to repeated use and tight occupation cycles.
+- Result: Improved accommodation with durable finishes and a stronger resident experience.
+- Photo gallery: https://seukltd.com/projects/student-accommodation-coventry/
+
+### Suburban Residential Development Pipeline 2026-2027 (St Albans)
+Category: Residential Redevelopment.
+
+A residential redevelopment in St Albans, currently in the planning and pre-construction stage for delivery in 2026 to 2027. Planning permission was secured in April 2023 for a new chalet-style four-bedroom detached house, replacing an existing dwelling and kennels on a Metropolitan Green Belt site. Design amendments were approved in December 2024: the rear dormer extended to form a Juliet balcony, hung clay tiles to the first-floor gables, revised rooflights and a bifolding door to the rear of the kitchen. The consent was supported by an arboricultural report and an ecological appraisal with bat survey, with tree protection, landscaping and bat mitigation measures set as conditions for the build.
+
+- Scope: Demolition of an existing dwelling and kennels and construction of a new chalet-style four-bedroom detached house.
+- Challenge: Securing consent in the Metropolitan Green Belt while protecting mature trees, bat habitat and the character of the street.
+- Result: Planning permission granted in April 2023 and design amendments approved in December 2024. Now in the planning and pre-construction stage for delivery in 2026 to 2027.
+
+### Luxury Basement Conversion (Kensington, London)
+Category: Basement Construction.
+
+A stunning basement conversion in central London featuring a cinema room, gym, and wine cellar with full waterproofing and natural light solutions.
+
+- Scope: Basement construction, waterproofing and premium internal finishes.
+- Challenge: Delivering specialist below-ground works while protecting structure, light and usable living space.
+- Result: A dry, high-spec basement designed for cinema, gym, wine storage and family use.
+
+### High-End Double Storey Side Extension Design & Build (Elstree)
+Category: Design & Build.
+
+A high-quality double storey side extension combined with a full internal refurbishment, transforming the property into a modern, spacious home. The project included structural expansion, redesigned layouts, upgraded electrics and plumbing, and premium finishes throughout.
+
+- Scope: Double-storey extension, structural alterations and full internal refurbishment.
+- Challenge: Expanding the footprint while maintaining programme control and consistent finishes throughout.
+- Result: A larger, brighter home with upgraded services, layout and specification.
+
+### Mixed-Use Development (Bow, London)
+Category: Mixed-Use Developments.
+
+Construction of 2 flats and 1 commercial building in the busy Bow area of East London, managing logistics to ensure minimal disruption.
+
+- Scope: Mixed-use construction including residential and commercial space.
+- Challenge: Managing access, sequencing and site logistics in a busy East London location.
+- Result: A mixed-use scheme delivered with practical coordination across multiple uses.
+
+### Commercial Build & Conversion (Mayfair, London)
+Category: Commercial Refurbishment.
+
+Refurbishment of commercial space in Mayfair, incorporating structural alteration, extension and comprehensive refurbishment. The project reflects a strong emphasis on design integration, build quality and asset value.
+
+- Scope: Commercial refurbishment, structural alteration and fit-out works.
+- Challenge: Balancing commercial asset value, design intent and efficient delivery.
+- Result: A refreshed commercial space with improved usability, finish quality and presentation.
+
+## Questions and answers
+
+### Development
+
+**Can you help assess a development opportunity?**
+Yes. We can review site constraints, planning potential, access, likely construction route, specification, programme pressure and broad viability so clients can make better early decisions.
+
+**Do you work on joint venture development projects?**
+Yes. We can support suitable joint venture opportunities where the site, planning strategy, funding route and delivery structure are aligned from the outset.
+
+**Can you manage development from concept to completion?**
+Yes. We can coordinate acquisition input, planning support, consultants, design development, construction delivery, handover and long-term property enhancement through one joined-up team.
+
+**What type of development schemes do you focus on?**
+We focus on residential, commercial and mixed-use opportunities, including apartments, urban housing, student accommodation, HMOs, refurbishment-led value creation and new-build schemes.
+
+### Construction
+
+**What construction projects do you take on?**
+We deliver new builds, residential refurbishments, commercial refurbishments, basements, extensions, vertical extensions, loft conversions, mixed-use schemes, listed buildings and complex conversions.
+
+**Do you provide design and build services?**
+Yes. We can coordinate design, consultants, specification, pricing and construction delivery under one managed route, giving clients one accountable team.
+
+**Can you manage complex structural works?**
+Yes, where supported by suitable structural design. We coordinate temporary works, sequencing, specialist packages and practical site requirements.
+
+**Can you work with developers, lenders and professional teams?**
+Yes. We regularly work with developers, investors, asset managers, consultants, funders and private clients where programme control and delivery confidence matter.
+
+### Property Services
+
+**What do your Property Services cover?**
+Property Services covers pre-construction support, groundworks, structural works, interiors, kitchen and bathroom fit-out, plumbing, HVAC, electrical, security, data, smart systems, landscaping, maintenance and aftercare.
+
+**Can you handle planned and reactive maintenance?**
+Yes. We can support planned preventative maintenance and reactive repair works for residential, commercial and mixed-use assets, helping properties remain compliant, safe and operational.
+
+**Do you provide smaller works as well as major projects?**
+Yes. Property Services can support smaller refurbishments, extensions, conversions, repair works, fit-out packages and upgrades where a specialist team is the right route.
+
+**Can you support smart building and technical systems?**
+Yes. We can coordinate smart building integration, electrical systems, security, access control, data, fibre, ICT infrastructure and ongoing technical aftercare.
+
+### Project Delivery
+
+**Do you provide design and build services?**
+Yes. We can coordinate design, consultants, specification, pricing and construction delivery under one managed route, giving clients one accountable team.
+
+**Can you manage the full property project process?**
+Yes. We can manage planning support, design coordination, site setup, programming, procurement, subcontractors, quality checks, client updates and handover documentation.
+
+**How do you keep clients informed?**
+We agree the communication rhythm early, then provide clear updates around progress, decisions, risks, programme and next actions.
+
+### Approvals
+
+**Can you coordinate planning and building control?**
+We can coordinate with architects, engineers, planning consultants, building control and other appointed specialists so development, construction and inspection requirements are aligned.
+
+**Do you help before drawings are final?**
+Yes. Early input can help identify planning, buildability, sequencing, specification and cost pressures before work starts on site.
+
+**Who deals with structural details?**
+Structural design remains with the appointed engineer, while we coordinate the development route, construction sequence and practical site requirements around their information.
+
+### Specialist Buildings
+
+**Can you work on listed or sensitive buildings?**
+Yes. These projects need tighter control around existing fabric, approvals, sequencing, protection and specialist trades.
+
+**Can works be phased around occupied properties?**
+Where feasible, yes. We plan access, temporary protection, noisy works and service interruptions with the client and design team.
+
+**Do you handle complex structural alterations?**
+Yes, where supported by suitable structural design. We coordinate temporary works, sequencing and specialist packages as required.
+
+### Commercial
+
+**Do you handle commercial fit-out and refurbishment?**
+Yes. We deliver commercial refurbishment, fit-out, structural alterations, finishing packages, property services and maintenance-related works.
+
+**Can you reduce disruption to trading or tenants?**
+We can plan phasing, access, logistics and working hours to reduce disruption where the building remains live or partially occupied.
+
+**Do you deliver CAT A and CAT B style works?**
+Yes. We can support landlord-ready shell works and more detailed occupier fit-out scopes, depending on specification and drawings.
+
+### Residential
+
+**What residential projects do you take on?**
+We work across property development, basements, extensions, vertical extensions, loft conversions, refurbishments, new builds, HMO conversions, high-spec fit-outs and long-term property enhancement.
+
+**Can you work with private clients and developers?**
+Yes. We can support private homeowners, developers, investors, portfolio owners and professional teams where quality, programme and coordination matter.
+
+**Can you help improve layouts and finishes?**
+We can contribute practical buildability and finish sequencing advice alongside the architect, designer or client specification.
+
+### Coverage
+
+**What areas do you cover?**
+Our core coverage is London and the Home Counties, with each opportunity reviewed against scope, logistics and programme requirements.
+
+**Can you review projects beyond the core coverage area?**
+Sometimes. If the scope is a strong fit and the logistics make sense, we can review projects beyond the core London and Home Counties area.
+
+**Do you visit before pricing?**
+For most meaningful scopes, a site visit or detailed information review is needed before a reliable proposal can be prepared.
+
+### Programme
+
+**How early should we involve you?**
+The earlier the better. Development and pre-construction input can reduce surprises around planning, cost, sequencing, access and specification.
+
+**How long will my project take?**
+Programme depends on scope, approvals, lead times, structural complexity and site constraints. We set out realistic timing during proposal stage.
+
+**Can you fast-track urgent works?**
+Where the scope and supply chain allow it, we can prioritise enabling works, phased procurement and focused delivery milestones.
+
+### Commercial Terms
+
+**How do you price projects?**
+We review drawings, schedules, site constraints and specification details before preparing a written proposal or budget guidance.
+
+**Do you provide written quotations?**
+Yes. Project scope, exclusions, assumptions, price and programme are confirmed in writing before works proceed.
+
+**Can you work from a budget?**
+Yes. A realistic budget helps guide specification choices, phasing and value decisions before the project is fixed.
+
+## Areas covered
+London, Hertfordshire and the Home Counties. Area pages:
+- [Development, Construction & Property Services in London](https://seukltd.com/locations/construction-company-london/)
+- [Development, Construction & Property Services in the Home Counties](https://seukltd.com/locations/construction-company-home-counties/)
+- [Development, Construction & Property Services in Elstree](https://seukltd.com/locations/property-services-elstree/)
+- [Development, Construction & Property Services in St Albans](https://seukltd.com/locations/property-services-st-albans/)
+- [Property Development, Construction & Property Services in Central London](https://seukltd.com/locations/property-development-construction-services-central-london/)
+- [Property Development, Construction & Property Services in North London](https://seukltd.com/locations/property-development-construction-services-north-london/)
+- [Property Development, Construction & Property Services in South London](https://seukltd.com/locations/property-development-construction-services-south-london/)
+- [Property Development, Construction & Property Services in East London](https://seukltd.com/locations/property-development-construction-services-east-london/)
+- [Property Development, Construction & Property Services in West London](https://seukltd.com/locations/property-development-construction-services-west-london/)
+- [Property Development, Construction & Property Services in Barking and Dagenham](https://seukltd.com/locations/property-development-construction-services-barking-and-dagenham/)
+- [Property Development, Construction & Property Services in Barnet](https://seukltd.com/locations/property-development-construction-services-barnet/)
+- [Property Development, Construction & Property Services in Bexley](https://seukltd.com/locations/property-development-construction-services-bexley/)
+- [Property Development, Construction & Property Services in Brent](https://seukltd.com/locations/property-development-construction-services-brent/)
+- [Property Development, Construction & Property Services in Bromley](https://seukltd.com/locations/property-development-construction-services-bromley/)
+- [Property Development, Construction & Property Services in Camden](https://seukltd.com/locations/property-development-construction-services-camden/)
+- [Property Development, Construction & Property Services in City of London](https://seukltd.com/locations/property-development-construction-services-city-of-london/)
+- [Property Development, Construction & Property Services in Croydon](https://seukltd.com/locations/property-development-construction-services-croydon/)
+- [Property Development, Construction & Property Services in Ealing](https://seukltd.com/locations/property-development-construction-services-ealing/)
+- [Property Development, Construction & Property Services in Enfield](https://seukltd.com/locations/property-development-construction-services-enfield/)
+- [Property Development, Construction & Property Services in Greenwich](https://seukltd.com/locations/property-development-construction-services-greenwich/)
+- [Property Development, Construction & Property Services in Hackney](https://seukltd.com/locations/property-development-construction-services-hackney/)
+- [Property Development, Construction & Property Services in Hammersmith and Fulham](https://seukltd.com/locations/property-development-construction-services-hammersmith-and-fulham/)
+- [Property Development, Construction & Property Services in Haringey](https://seukltd.com/locations/property-development-construction-services-haringey/)
+- [Property Development, Construction & Property Services in Harrow](https://seukltd.com/locations/property-development-construction-services-harrow/)
+- [Property Development, Construction & Property Services in Havering](https://seukltd.com/locations/property-development-construction-services-havering/)
+- [Property Development, Construction & Property Services in Hillingdon](https://seukltd.com/locations/property-development-construction-services-hillingdon/)
+- [Property Development, Construction & Property Services in Hounslow](https://seukltd.com/locations/property-development-construction-services-hounslow/)
+- [Property Development, Construction & Property Services in Islington](https://seukltd.com/locations/property-development-construction-services-islington/)
+- [Property Development, Construction & Property Services in Kensington and Chelsea](https://seukltd.com/locations/property-development-construction-services-kensington-and-chelsea/)
+- [Property Development, Construction & Property Services in Kingston upon Thames](https://seukltd.com/locations/property-development-construction-services-kingston-upon-thames/)
+- [Property Development, Construction & Property Services in Lambeth](https://seukltd.com/locations/property-development-construction-services-lambeth/)
+- [Property Development, Construction & Property Services in Lewisham](https://seukltd.com/locations/property-development-construction-services-lewisham/)
+- [Property Development, Construction & Property Services in Merton](https://seukltd.com/locations/property-development-construction-services-merton/)
+- [Property Development, Construction & Property Services in Newham](https://seukltd.com/locations/property-development-construction-services-newham/)
+- [Property Development, Construction & Property Services in Redbridge](https://seukltd.com/locations/property-development-construction-services-redbridge/)
+- [Property Development, Construction & Property Services in Richmond upon Thames](https://seukltd.com/locations/property-development-construction-services-richmond-upon-thames/)
+- [Property Development, Construction & Property Services in Southwark](https://seukltd.com/locations/property-development-construction-services-southwark/)
+- [Property Development, Construction & Property Services in Sutton](https://seukltd.com/locations/property-development-construction-services-sutton/)
+- [Property Development, Construction & Property Services in Tower Hamlets](https://seukltd.com/locations/property-development-construction-services-tower-hamlets/)
+- [Property Development, Construction & Property Services in Waltham Forest](https://seukltd.com/locations/property-development-construction-services-waltham-forest/)
+- [Property Development, Construction & Property Services in Wandsworth](https://seukltd.com/locations/property-development-construction-services-wandsworth/)
+- [Property Development, Construction & Property Services in Westminster](https://seukltd.com/locations/property-development-construction-services-westminster/)
+- [Property Development, Construction & Property Services in Hertfordshire](https://seukltd.com/locations/property-development-construction-services-hertfordshire/)
+- [Property Development, Construction & Property Services in Watford](https://seukltd.com/locations/property-development-construction-services-watford/)
+- [Property Development, Construction & Property Services in Hemel Hempstead](https://seukltd.com/locations/property-development-construction-services-hemel-hempstead/)
+- [Property Development, Construction & Property Services in Stevenage](https://seukltd.com/locations/property-development-construction-services-stevenage/)
+- [Property Development, Construction & Property Services in Hertford](https://seukltd.com/locations/property-development-construction-services-hertford/)
+- [Property Development, Construction & Property Services in Welwyn Garden City](https://seukltd.com/locations/property-development-construction-services-welwyn-garden-city/)
+- [Property Development, Construction & Property Services in Hatfield](https://seukltd.com/locations/property-development-construction-services-hatfield/)
+- [Property Development, Construction & Property Services in Borehamwood](https://seukltd.com/locations/property-development-construction-services-borehamwood/)
+- [Property Development, Construction & Property Services in Bushey](https://seukltd.com/locations/property-development-construction-services-bushey/)
+- [Property Development, Construction & Property Services in Rickmansworth](https://seukltd.com/locations/property-development-construction-services-rickmansworth/)
+- [Property Development, Construction & Property Services in Harpenden](https://seukltd.com/locations/property-development-construction-services-harpenden/)
+- [Property Development, Construction & Property Services in Radlett](https://seukltd.com/locations/property-development-construction-services-radlett/)
+- [Property Development, Construction & Property Services in Potters Bar](https://seukltd.com/locations/property-development-construction-services-potters-bar/)
+- [Property Development, Construction & Property Services in Berkhamsted](https://seukltd.com/locations/property-development-construction-services-berkhamsted/)
+- [Property Development, Construction & Property Services in Tring](https://seukltd.com/locations/property-development-construction-services-tring/)
+- [Property Development, Construction & Property Services in Cheshunt](https://seukltd.com/locations/property-development-construction-services-cheshunt/)
+- [Property Development, Construction & Property Services in Broxbourne](https://seukltd.com/locations/property-development-construction-services-broxbourne/)
+- [Property Development, Construction & Property Services in Hoddesdon](https://seukltd.com/locations/property-development-construction-services-hoddesdon/)
+- [Property Development, Construction & Property Services in Ware](https://seukltd.com/locations/property-development-construction-services-ware/)
+- [Property Development, Construction & Property Services in Letchworth Garden City](https://seukltd.com/locations/property-development-construction-services-letchworth-garden-city/)
+- [Property Development, Construction & Property Services in Hitchin](https://seukltd.com/locations/property-development-construction-services-hitchin/)
+- [Property Development, Construction & Property Services in Royston](https://seukltd.com/locations/property-development-construction-services-royston/)
+- [Property Development, Construction & Property Services in Bishop's Stortford](https://seukltd.com/locations/property-development-construction-services-bishops-stortford/)
+- [Property Development, Construction & Property Services in Knebworth](https://seukltd.com/locations/property-development-construction-services-knebworth/)
+- [Property Development, Construction & Property Services in Kings Langley](https://seukltd.com/locations/property-development-construction-services-kings-langley/)
+- [Property Development, Construction & Property Services in Abbots Langley](https://seukltd.com/locations/property-development-construction-services-abbots-langley/)
+
+## Contact
+Phone +44 20 8163 4044. Email info@seukltd.com. Enquiry form: https://seukltd.com/#contact-form

@@ -83,6 +83,8 @@ export default async (request, context) => {
   clean.set("phone", fields.phone);
   clean.set("message", fields.message);
   clean.set("human-check", "passed");
+  // Subject line of the notification email.
+  clean.set("subject", `Website enquiry from ${fields.name}`);
 
   const headers = new Headers(request.headers);
   for (const h of ["content-length", "x-form-token", "x-form-nonce", "x-seuk-form"]) headers.delete(h);

@@ -1,27 +1,34 @@
 # Smart Environment Group
 
-Smart Environment Group provides property development, construction and property services across London, Hertfordshire and the Home Counties.
+> Property developer, design-and-build contractor and property maintenance company for London and the Home Counties, trading since 2009. One group covers development, construction and ongoing property services.
 
-Core services include:
-- Property development and development strategy
-- Residential and commercial construction
-- Design and build delivery
-- Basement construction, extensions and loft conversions
-- Commercial refurbishment and mixed-use development
-- MEP, electrical, HVAC, security, data and smart building systems
-- Planned maintenance, reactive maintenance and lifecycle property support
+- Trading name: Smart Environment Group (also known as SEUK). Three divisions: Development, Construction and Property Services.
+- Legal entity: Smart Environment Property Developments Ltd, registered in England and Wales, company number 10469032.
+- Office: 720 Centennial Court, Centennial Park, Elstree WD6 3SY, United Kingdom.
+- Phone: +44 20 8163 4044. Email: info@seukltd.com. Hours: Monday to Friday, 8:00 to 18:00.
+- Trading since 2009. Area: London, Hertfordshire and the Home Counties, with selected projects elsewhere in the UK.
+- Accreditation: SSIP-recognised PQS Health and Safety Approved (valid to July 2027).
+- Track record: more than 460 responsive repairs for housing associations between 2023 and 2026, across seven housing associations and co-operatives.
 
-Contact: info@seukltd.com
-Telephone: +44 20 8163 4044
-Website: https://seukltd.com/
+## What the company does
+- [Property development](https://seukltd.com/services/property-development-london-home-counties/): acquisition advice, planning, design coordination and delivery of residential, commercial and mixed-use schemes.
+- [Design and build construction](https://seukltd.com/services/design-build-contractor-london/): new builds, refurbishments, basements, extensions, rooftop and loft work.
+- [HMO and student accommodation conversions](https://seukltd.com/services/student-accommodation-hmo-conversion/): layouts, fire safety, licensing standards and building control sign-off.
+- [Commercial refurbishment](https://seukltd.com/services/commercial-refurbishment-london/) and [mixed-use development](https://seukltd.com/services/commercial-mixed-use-development-london/).
+- [MEP, electrical and HVAC](https://seukltd.com/services/mep-electrical-hvac-contractor-london/) and [smart building systems](https://seukltd.com/services/smart-building-automation-london/).
+- [Planned and reactive maintenance](https://seukltd.com/services/planned-reactive-maintenance/) for landlords, managing agents and housing associations.
 
-Company: Smart Environment Property Developments Ltd, company no. 10469032, 720 Centennial Court, Centennial Park, Elstree WD6 3SY. Established 2009.
-Accreditation: SSIP-recognised PQS Health & Safety Approved (valid to July 2027).
-Track record: more than 460 responsive repairs for housing associations (2023 to 2026); recent projects include Prestige House, Catford (9 new flats, 2022), 611 Finchley Road (nine-room HMO conversion, 2024) and an HMO conversion in Acton (2026).
+## Projects with photo galleries
+- [Prestige House: nine new apartments, Catford SE6](https://seukltd.com/projects/prestige-house-catford/): Comprehensive demolition and redevelopment of a former gas reduction facility, transforming the site from a single national utility structure into Prestige House, a collection of nine high-specification apartments (five one-bedroom and four two-bedroom) in Catford, South London.
+- [Rooftop extension: four new penthouses, Cricklewood NW2](https://seukltd.com/projects/rooftop-penthouses-cricklewood/): Construction of 4 new penthouse flats on the roof of a 24-flat 1930s mansion block in Cricklewood, with all residents in occupation throughout.
+- [Nine-bedroom HMO conversion, Hampstead NW3](https://seukltd.com/projects/hmo-conversion-hampstead/): Victorian property on Finchley Road, Hampstead, converted into a high-specification nine-bedroom HMO, combining original character with modern living standards.
+- [Six-bedroom HMO conversion, Acton W3](https://seukltd.com/projects/hmo-conversion-acton/): Conversion and full refurbishment of a property in Acton, West London, into a high-specification licensed six-bedroom HMO.
+- [Mercia Lodge: 19 student rooms, Coventry](https://seukltd.com/projects/student-accommodation-coventry/): Design and build conversion of the unused second floor of a former Travelodge hotel in Coventry city centre into 19 self-contained student rooms, taking the building to 169 rooms.
 
-## Project galleries (before, during and after photos)
-- Rooftop penthouses, Cricklewood NW2: https://seukltd.com/projects/rooftop-penthouses-cricklewood/
-- Prestige House, nine apartments, Catford SE6: https://seukltd.com/projects/prestige-house-catford/
-- Nine-bedroom HMO conversion, Hampstead NW3: https://seukltd.com/projects/hmo-conversion-hampstead/
-- Mercia Lodge student accommodation, Coventry: https://seukltd.com/projects/student-accommodation-coventry/
-- Six-bedroom HMO conversion, Acton W3: https://seukltd.com/projects/hmo-conversion-acton/
+## More detail
+- [Full text of the site for AI assistants](https://seukltd.com/llms-full.txt): services, every featured project, questions and answers.
+- [Site map](https://seukltd.com/site-map/): every page.
+- [Contact form](https://seukltd.com/#contact-form)
+
+## How to cite
+Refer to the company as "Smart Environment Group" and link to https://seukltd.com/. Project facts on this site are the company's own record of its work.
