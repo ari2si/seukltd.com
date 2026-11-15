@@ -21,7 +21,7 @@
   function fetchToken(force) {
     if (guard.pending) return guard.pending;
     if (guard.token && !force) return Promise.resolve(guard);
-    guard.pending = fetch(TOKEN_PATH, { cache: 'no-store', credentials: 'same-origin', headers: { Accept: 'application/json' } })
+    guard.pending = timedFetch(TOKEN_PATH, { cache: 'no-store', credentials: 'same-origin', headers: { Accept: 'application/json' } })
       .then(function (r) { if (!r.ok) throw new Error('token ' + r.status); return r.json(); })
       .then(function (d) {
         guard.token = d.token; guard.bits = d.bits || 16; guard.wait = d.wait || 4000;
@@ -120,6 +120,7 @@
       function onMainThread() {
         var next = 0;
         (function step() {
+          if (settled) return;
           var found = sha.search(prefix, bits, next, 4000);
           if (found !== null) { settled = true; resolve(found); return; }
           next += 4000;
@@ -131,9 +132,13 @@
           'while(f===null){f=sha.search(e.data.prefix,e.data.bits,n,20000);n+=20000;}postMessage(f);};';
         var url = URL.createObjectURL(new Blob([src], { type: 'application/javascript' }));
         var worker = new Worker(url);
-        worker.onmessage = function (e) { settled = true; worker.terminate(); URL.revokeObjectURL(url); resolve(e.data); };
-        worker.onerror = function () { worker.terminate(); if (!settled) onMainThread(); };
+        var fellBack = false;
+        var fallback = function () { if (settled || fellBack) return; fellBack = true; worker.terminate(); onMainThread(); };
+        worker.onmessage = function (e) { if (settled || fellBack) return; settled = true; worker.terminate(); URL.revokeObjectURL(url); resolve(e.data); };
+        worker.onerror = fallback;
         worker.postMessage({ prefix: prefix, bits: bits });
+        // If the background worker is blocked or stalls, do the work on the page instead.
+        setTimeout(fallback, 6000);
       } catch (err) {
         onMainThread();
       }
@@ -141,6 +146,15 @@
   }
 
   function sleep(ms) { return new Promise(function (r) { setTimeout(r, Math.max(0, ms)); }); }
+
+  // fetch that gives up after 20 seconds instead of hanging
+  function timedFetch(url, options) {
+    if (typeof AbortController === 'undefined') return fetch(url, options);
+    var ctl = new AbortController();
+    var timer = setTimeout(function () { ctl.abort(); }, 20000);
+    options.signal = ctl.signal;
+    return fetch(url, options).then(function (r) { clearTimeout(timer); return r; }, function (e) { clearTimeout(timer); throw e; });
+  }
 
   /* ---- messages on the page ---- */
   function showSuccess() {
@@ -224,7 +238,7 @@
         body.set('phone', v.phone);
         body.set('message', v.message);
         body.set('human-check', v.human);
-        return fetch(FORM_PATH, {
+        return timedFetch(FORM_PATH, {
           method: 'POST',
           credentials: 'same-origin',
           headers: {

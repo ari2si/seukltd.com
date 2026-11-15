@@ -48,7 +48,7 @@ export default async (request, context) => {
   if ((params.get("bot-field") || "").trim()) return json(200, { ok: true });
 
   const token = request.headers.get("x-form-token") || "";
-  const verdict = await checkToken(token);
+  const verdict = await checkToken(token, Date.now(), context?.ip || "");
   if (!verdict.ok) {
     return json(verdict.reason === "early" ? 425 : 403, { ok: false, error: verdict.reason, wait: verdict.wait });
   }

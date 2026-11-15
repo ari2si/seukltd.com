@@ -42,20 +42,22 @@ function safeEqual(a, b) {
   return diff === 0;
 }
 
-export async function issueToken(now = Date.now()) {
+// The token is signed together with the visitor's IP address, so a token
+// handed to one machine is useless on another.
+export async function issueToken(now = Date.now(), ip = "") {
   const rand = b64url(crypto.getRandomValues(new Uint8Array(12)));
   const body = `${now.toString(36)}.${rand}`;
-  return `${body}.${await sign(body)}`;
+  return `${body}.${await sign(`${body}.${ip}`)}`;
 }
 
 // Returns { ok } or { ok:false, reason, wait }.
-export async function checkToken(token, now = Date.now()) {
+export async function checkToken(token, now = Date.now(), ip = "") {
   if (typeof token !== "string" || token.length > 200) return { ok: false, reason: "token" };
   const parts = token.split(".");
   if (parts.length !== 3) return { ok: false, reason: "token" };
   const [ts, rand, sig] = parts;
   if (!/^[0-9a-z]{6,12}$/.test(ts) || !/^[\w-]{10,24}$/.test(rand)) return { ok: false, reason: "token" };
-  if (!safeEqual(sig, await sign(`${ts}.${rand}`))) return { ok: false, reason: "token" };
+  if (!safeEqual(sig, await sign(`${ts}.${rand}.${ip}`))) return { ok: false, reason: "token" };
   const issued = parseInt(ts, 36);
   const age = now - issued;
   if (age > MAX_AGE_MS || age < -60000) return { ok: false, reason: "expired" };

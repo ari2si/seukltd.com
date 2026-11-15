@@ -3,7 +3,8 @@
 // valid token which is at least a few seconds old.
 import { issueToken, json, MIN_WAIT_MS, POW_BITS } from "../edge-lib/guard.js";
 
-export default async () => json(200, { token: await issueToken(), bits: POW_BITS, wait: MIN_WAIT_MS });
+export default async (request, context) =>
+  json(200, { token: await issueToken(Date.now(), context?.ip || ""), bits: POW_BITS, wait: MIN_WAIT_MS });
 
 export const config = {
   path: "/api/form-token",
