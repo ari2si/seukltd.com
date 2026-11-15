@@ -15,4 +15,6 @@ h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:2rem;l
 .cta{display:inline-block;background:#15171b;color:#fff;text-decoration:none;font-weight:500;padding:.9rem 1.5rem}.cta:hover{background:#000}
 .links{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid rgba(21,23,27,.14)}.links a{font-size:.92rem;color:#3a3d44;text-decoration:none}.links a:hover{color:#000;text-decoration:underline}
 footer{margin-top:3rem;padding-top:1.25rem;border-top:1px solid rgba(21,23,27,.14);color:#6b6e75;font-size:.88rem}
-@media (max-width:560px){header nav a{margin-left:.9rem}.brand{font-size:.68rem}main{padding-top:2.5rem}}
+header nav a{display:inline-block;padding:.65rem 0}.links a,.more{display:inline-block;padding:.45rem 0}
+h1{overflow-wrap:break-word}img{max-width:100%}
+@media (max-width:560px){header .in{flex-wrap:wrap;gap:0 1rem;padding:.6rem 1.1rem}header nav{display:flex;gap:1.25rem}header nav a{margin-left:0}.brand{font-size:.7rem;letter-spacing:.1em}.brand img{width:34px;height:34px}main{padding:2.5rem 1.1rem 4rem}h1{font-size:2.5rem}.grid{margin:2rem 0}}

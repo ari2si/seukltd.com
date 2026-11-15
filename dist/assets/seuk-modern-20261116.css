@@ -277,3 +277,51 @@ footer ul li a{text-decoration:none;}
 footer ul li a:hover{color:var(--ink) !important;text-decoration:underline;}
 /* hero text is visible on first paint (no entrance animation) */
 #home [class*="animate-fade"]{animation:none !important;opacity:1 !important;transform:none !important;}
+
+/* ---------- Phones and tablets ---------- */
+section[aria-label="Cookie consent"]{background:rgba(21,23,27,.97) !important;border-top:0 !important;}
+@media (max-width:767px){
+  #home{height:100svh !important;min-height:34rem;}
+  #home div.inline-flex[class*="rounded-full"] span{font-size:11px !important;}
+  section[aria-label="Cookie consent"]{padding:.85rem 1rem !important;}
+  section[aria-label="Cookie consent"] > div{gap:.6rem !important;}
+  section[aria-label="Cookie consent"] p{font-size:.8rem !important;line-height:1.45 !important;padding-right:2.25rem;}
+  section[aria-label="Cookie consent"] > div > div{flex-direction:row !important;align-items:center !important;justify-content:space-between;gap:.75rem !important;}
+  section[aria-label="Cookie consent"] button[class~="bg-gold-500"]{padding:.6rem 1.1rem !important;background:#fff !important;color:var(--ink) !important;border-color:#fff !important;}
+  section[aria-label="Cookie consent"] button[aria-label^="Close"]{top:.35rem !important;right:.35rem !important;}
+  #faq div.rounded-2xl.border.bg-white.p-3 button span[class*="text-"]{font-size:.78rem !important;}
+  #faq div.rounded-2xl.border.bg-white.p-3 button *{font-size:max(.78rem,1em);}
+  footer ul li a{display:inline-block;padding:.5rem 0;}
+  footer ul li{margin:0 !important;}
+  footer div.flex.flex-wrap button{padding:.8rem .4rem !important;}
+  #contact div.scroll-mt-24{padding:1.5rem !important;}
+  #projects div.mt-8.flex.flex-col.gap-4 a{width:100%;}
+}
+@media (min-width:768px) and (max-width:960px){
+  nav.z-50 a.relative.isolate, nav.z-50 button.relative.isolate{padding-left:.4rem !important;padding-right:.4rem !important;font-size:.8rem !important;}
+  nav.z-50 a[class~="bg-gold-500"]{margin-left:.35rem !important;padding:.5rem .75rem !important;font-size:.8rem !important;}
+  nav.z-50 a.group img{height:2.5rem !important;width:2.5rem !important;}
+}
+@media (max-width:1023px){
+  footer ul li a{display:inline-block;padding:.5rem 0;}
+  footer div.flex.flex-wrap button{padding:.8rem .4rem !important;}
+}
+/* cookie notice sits above the phone contact bar so its buttons are reachable */
+@media (max-width:767px){
+  section[aria-label="Cookie consent"]{bottom:69px !important;}
+  #faq div.rounded-2xl.border.bg-white.p-3 span.rounded-full{display:none !important;}
+}
+/* gallery filters as plain tabs, square photos */
+.sg-tab{border:0 !important;border-bottom:2px solid transparent !important;border-radius:0 !important;background:transparent !important;padding:.45rem .1rem !important;margin-right:.9rem;color:#6b6e75 !important;}
+.sg-tab[aria-pressed="true"]{color:#15171b !important;border-bottom-color:#15171b !important;}
+.sg-tabs{gap:.2rem !important;}
+.sg-item{border-radius:0 !important;}
+#root section[aria-label="Cookie consent"] button[class~="bg-gold-500"]{background:#fff !important;color:var(--ink) !important;border-color:#fff !important;}
+@media (max-width:360px){
+  #home h1{font-size:2.15rem !important;margin-bottom:1.1rem !important;}
+  #home div.inline-flex[class*="rounded-full"] span{letter-spacing:.06em !important;}
+  #home div.inline-flex[class*="rounded-full"]{margin-bottom:.9rem !important;}
+}
+@media (max-width:360px){
+  #home div.grid.grid-cols-2{grid-template-columns:1fr !important;max-width:11.5rem;gap:.5rem !important;}
+}
