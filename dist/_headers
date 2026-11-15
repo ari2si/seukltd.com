@@ -1,0 +1,4 @@
+/images/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=2592000
+/branding/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=2592000
