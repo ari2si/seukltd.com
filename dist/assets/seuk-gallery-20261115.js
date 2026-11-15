@@ -75,7 +75,7 @@
     items.forEach(function (it, n) {
       var fig = el('figure', { 'class': 'sg-item', tabindex: '0', role: 'button', 'data-s': it.s, 'data-i': n, 'aria-label': 'Enlarge: ' + it.c });
       fig.innerHTML = '<img src="' + it.t + '" alt="' + esc(it.a) + '" loading="lazy" decoding="async" width="' + Math.round(it.w * 640 / Math.max(it.w, it.h)) + '" height="' + Math.round(it.h * 640 / Math.max(it.w, it.h)) + '">' +
-        '<span class="sg-badge ' + it.s + '">' + LABEL[it.s] + '</span><figcaption>' + esc(it.c) + '</figcaption>';
+        '<figcaption>' + esc(it.c) + '</figcaption>';
       grid.appendChild(fig);
     });
     wrap.appendChild(grid);
