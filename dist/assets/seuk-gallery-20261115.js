@@ -75,7 +75,7 @@
     items.forEach(function (it, n) {
       var fig = el('figure', { 'class': 'sg-item', tabindex: '0', role: 'button', 'data-s': it.s, 'data-i': n, 'aria-label': 'Enlarge: ' + it.c });
       fig.innerHTML = '<img src="' + it.t + '" alt="' + esc(it.a) + '" loading="lazy" decoding="async" width="' + Math.round(it.w * 640 / Math.max(it.w, it.h)) + '" height="' + Math.round(it.h * 640 / Math.max(it.w, it.h)) + '">' +
-        '<figcaption>' + esc(it.c) + '</figcaption>';
+        '';
       grid.appendChild(fig);
     });
     wrap.appendChild(grid);
@@ -108,7 +108,7 @@
       idx = (i + list.length) % list.length;
       var it = list[idx];
       img.src = it.f; img.alt = it.a;
-      cap.innerHTML = '<b>' + LABEL[it.s] + '</b>' + esc(it.c);
+      cap.innerHTML = esc(it.c);
       n.textContent = (idx + 1) + ' / ' + list.length;
       var nx = list[(idx + 1) % list.length]; (new Image()).src = nx.f;
     }
