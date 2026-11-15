@@ -1,6 +1,7 @@
-// Contact form guard. Every POST to the site passes through here before
-// Netlify Forms sees it. Anything that is not a genuine submission from the
-// contact form is refused, so it is never stored or emailed.
+// Contact form guard. Every POST to the form endpoint passes through here
+// before Netlify Forms sees it. Anything that is not a genuine submission from
+// the contact form is refused, so it is never stored or emailed. POSTs to any
+// other address are refused by post-block.js.
 import {
   checkPow,
   checkToken,
@@ -95,4 +96,9 @@ export default async (request, context) => {
   return json(502, { ok: false, error: "upstream", status: upstream.status });
 };
 
-export const config = { path: "/*", method: "POST" };
+// One visitor may make six attempts a minute; after that Netlify answers 429.
+export const config = {
+  path: "/__forms.html",
+  method: "POST",
+  rateLimit: { windowLimit: 6, windowSize: 60, aggregateBy: ["ip", "domain"] },
+};
