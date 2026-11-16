@@ -2,6 +2,9 @@
 // Run `node scripts/build.mjs` once first (creates the signing secret), then
 // `node scripts/dev-server.mjs` and open http://localhost:8765/ .
 // A submission that passes the guard is logged at /__log instead of being sent.
+// Stand-in for Cloudflare when testing Turnstile offline: accepts the documented dummy token.
+const realFetch=globalThis.fetch;
+globalThis.fetch=async (url,opts)=>{ if(String(url).includes('challenges.cloudflare.com/turnstile/v0/siteverify')){ const ok=String(opts&&opts.body||'').includes('XXXX.DUMMY.TOKEN.XXXX'); return new Response(JSON.stringify({success:ok,'error-codes':ok?[]:['invalid-input-response']}),{headers:{'content-type':'application/json'}}); } return realFetch(url,opts); };
 import http from 'node:http'; import fs from 'node:fs'; import path from 'node:path'; import { fileURLToPath } from 'node:url';
 import gate from '../netlify/edge-functions/form-gate.js';
 import postBlock from '../netlify/edge-functions/post-block.js';
@@ -25,5 +28,7 @@ http.createServer(async (req,res)=>{
   let p=path.join(ROOT,decodeURIComponent(url.pathname)); 
   if(fs.existsSync(p)&&fs.statSync(p).isDirectory()) p=path.join(p,'index.html');
   if(!fs.existsSync(p)){ res.writeHead(404,{'content-type':'text/html; charset=utf-8'}); res.end(fs.readFileSync(path.join(ROOT,'404.html'))); return; }
-  res.writeHead(200,{'content-type':TYPES[path.extname(p)]||'application/octet-stream'}); res.end(fs.readFileSync(p));
+  let data=fs.readFileSync(p);
+  if(path.extname(p)==='.html'){ const cfg=path.join(ROOT,'..','netlify','edge-lib','page-config.html'); data=Buffer.from(data.toString('utf8').split('<!--SEUK_FORM_CONFIG-->').join(fs.existsSync(cfg)?fs.readFileSync(cfg,'utf8'):'')); }
+  res.writeHead(200,{'content-type':TYPES[path.extname(p)]||'application/octet-stream'}); res.end(data);
 }).listen(PORT,()=>console.log('dev server on',PORT));

@@ -1,7 +1,7 @@
 // Shared logic for the contact form guard.
 // Runs at the edge, in front of Netlify Forms, so a request that fails
 // these checks is never stored, never emailed and never counted.
-import { SECRET } from "./secret.js";
+import { SECRET, TURNSTILE_SECRET } from "./secret.js";
 
 export const FORM_PATH = "/__forms.html";
 export const FORM_NAME = "website-enquiry";
@@ -9,6 +9,17 @@ export const POW_BITS = 16; // average 65,536 hashes per submission
 export const MIN_WAIT_MS = 4000; // a person cannot fill the form faster than this
 export const MAX_AGE_MS = 3 * 60 * 60 * 1000; // a token lasts three hours
 export const MAX_BODY = 20000;
+
+// Cloudflare Turnstile is on when the build found a secret key for it
+// (see scripts/build.mjs). While it is on, it replaces the sum on the form.
+export const TURNSTILE_ON = Boolean(TURNSTILE_SECRET);
+
+// Which page the enquiry came from. Anything else is ignored.
+export const DIVISIONS = {
+  "property-development": "Property Development",
+  construction: "Construction",
+  "property-services": "Property Services",
+};
 
 const enc = new TextEncoder();
 let keyPromise;
@@ -107,8 +118,8 @@ export function validateFields(f) {
   if (!f.name || f.name.length < 2 || f.name.length > 80) return "name";
   if (!EMAIL_RE.test(f.email) || f.email.length > 120) return "email";
   const digits = f.phone.replace(/\D/g, "");
-  if (digits.length < 10 || digits.length > 15 || f.phone.length > 24) return "phone";
-  if (f.message.length < 50 || f.message.length > 5000) return "message";
+  if (digits.length < 7 || digits.length > 15 || f.phone.length > 24 || !/^[0-9+() -]+$/.test(f.phone)) return "phone";
+  if (f.message.length < 20 || f.message.length > 5000) return "message";
   return "";
 }
 
@@ -130,6 +141,23 @@ export function spamReason(f) {
   if (/<a\s|\[url=|\[link=/i.test(f.message)) return "markup";
   if (/(.)\1{14,}/.test(f.message)) return "repeat";
   return "";
+}
+
+// Asks Cloudflare whether the Turnstile token from the browser is genuine.
+// Each token works once and for five minutes. Any doubt counts as a failure.
+export async function verifyTurnstile(token, ip = "") {
+  if (typeof token !== "string" || token.length < 10 || token.length > 2100) return false;
+  try {
+    const body = new URLSearchParams({ secret: TURNSTILE_SECRET, response: token });
+    if (ip) body.set("remoteip", ip);
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body });
+    const data = await res.json();
+    if (!data.success) console.log(`turnstile: refused (${(data["error-codes"] || []).join(",")})`);
+    return data.success === true;
+  } catch (err) {
+    console.log(`turnstile: check failed (${err && err.message})`);
+    return false;
+  }
 }
 
 export function json(status, body) {

@@ -1,0 +1,147 @@
+{
+ "faqs": {
+  "property-development": [
+   {
+    "q": "Can you help assess a development opportunity?",
+    "a": "Yes. We can review site constraints, planning potential, access, likely construction route, specification, programme pressure and broad viability so clients can make better early decisions."
+   },
+   {
+    "q": "Do you work on joint venture development projects?",
+    "a": "Yes. We can support suitable joint venture opportunities where the site, planning strategy, funding route and delivery structure are aligned from the outset."
+   },
+   {
+    "q": "Can you manage development from concept to completion?",
+    "a": "Yes. We can coordinate acquisition input, planning support, consultants, design development, construction delivery, handover and long-term property enhancement through one joined-up team."
+   },
+   {
+    "q": "What type of development schemes do you focus on?",
+    "a": "We focus on residential, commercial and mixed-use opportunities, including apartments, urban housing, student accommodation, HMOs, refurbishment-led value creation and new-build schemes."
+   },
+   {
+    "q": "Can you coordinate planning and building control?",
+    "a": "We can coordinate with architects, engineers, planning consultants, building control and other appointed specialists so development, construction and inspection requirements are aligned."
+   },
+   {
+    "q": "Do you help before drawings are final?",
+    "a": "Yes. Early input can help identify planning, buildability, sequencing, specification and cost pressures before work starts on site."
+   },
+   {
+    "q": "Who deals with structural details?",
+    "a": "Structural design remains with the appointed engineer, while we coordinate the development route, construction sequence and practical site requirements around their information."
+   },
+   {
+    "q": "How early should we involve you?",
+    "a": "The earlier the better. Development and pre-construction input can reduce surprises around planning, cost, sequencing, access and specification."
+   },
+   {
+    "q": "How long will my project take?",
+    "a": "Programme depends on scope, approvals, lead times, structural complexity and site constraints. We set out realistic timing during proposal stage."
+   },
+   {
+    "q": "Can you fast-track urgent works?",
+    "a": "Where the scope and supply chain allow it, we can prioritise enabling works, phased procurement and focused delivery milestones."
+   }
+  ],
+  "construction": [
+   {
+    "q": "What construction projects do you take on?",
+    "a": "We deliver new builds, residential refurbishments, commercial refurbishments, basements, extensions, vertical extensions, loft conversions, mixed-use schemes, listed buildings and complex conversions."
+   },
+   {
+    "q": "Do you provide design and build services?",
+    "a": "Yes. We can coordinate design, consultants, specification, pricing and construction delivery under one managed route, giving clients one accountable team."
+   },
+   {
+    "q": "Can you manage complex structural works?",
+    "a": "Yes, where supported by suitable structural design. We coordinate temporary works, sequencing, specialist packages and practical site requirements."
+   },
+   {
+    "q": "Can you work with developers, lenders and professional teams?",
+    "a": "Yes. We regularly work with developers, investors, asset managers, consultants, funders and private clients where programme control and delivery confidence matter."
+   },
+   {
+    "q": "Can you work on listed or sensitive buildings?",
+    "a": "Yes. These projects need tighter control around existing fabric, approvals, sequencing, protection and specialist trades."
+   },
+   {
+    "q": "Can works be phased around occupied properties?",
+    "a": "Where feasible, yes. We plan access, temporary protection, noisy works and service interruptions with the client and design team."
+   },
+   {
+    "q": "Do you handle commercial fit-out and refurbishment?",
+    "a": "Yes. We deliver commercial refurbishment, fit-out, structural alterations, finishing packages, property services and maintenance-related works."
+   },
+   {
+    "q": "Can you reduce disruption to trading or tenants?",
+    "a": "We can plan phasing, access, logistics and working hours to reduce disruption where the building remains live or partially occupied."
+   },
+   {
+    "q": "Do you deliver CAT A and CAT B style works?",
+    "a": "Yes. We can support landlord-ready shell works and more detailed occupier fit-out scopes, depending on specification and drawings."
+   },
+   {
+    "q": "What residential projects do you take on?",
+    "a": "We work across property development, basements, extensions, vertical extensions, loft conversions, refurbishments, new builds, HMO conversions, high-spec fit-outs and long-term property enhancement."
+   },
+   {
+    "q": "Can you work with private clients and developers?",
+    "a": "Yes. We can support private homeowners, developers, investors, portfolio owners and professional teams where quality, programme and coordination matter."
+   },
+   {
+    "q": "Can you help improve layouts and finishes?",
+    "a": "We can contribute practical buildability and finish sequencing advice alongside the architect, designer or client specification."
+   },
+   {
+    "q": "Can you manage the full property project process?",
+    "a": "Yes. We can manage planning support, design coordination, site setup, programming, procurement, subcontractors, quality checks, client updates and handover documentation."
+   },
+   {
+    "q": "How do you keep clients informed?",
+    "a": "We agree the communication rhythm early, then provide clear updates around progress, decisions, risks, programme and next actions."
+   }
+  ],
+  "property-services": [
+   {
+    "q": "What do your Property Services cover?",
+    "a": "Property Services covers pre-construction support, groundworks, structural works, interiors, kitchen and bathroom fit-out, plumbing, HVAC, electrical, security, data, smart systems, landscaping, maintenance and aftercare."
+   },
+   {
+    "q": "Can you handle planned and reactive maintenance?",
+    "a": "Yes. We can support planned preventative maintenance and reactive repair works for residential, commercial and mixed-use assets, helping properties remain compliant, safe and operational."
+   },
+   {
+    "q": "Do you provide smaller works as well as major projects?",
+    "a": "Yes. Property Services can support smaller refurbishments, extensions, conversions, repair works, fit-out packages and upgrades where a specialist team is the right route."
+   },
+   {
+    "q": "Can you support smart building and technical systems?",
+    "a": "Yes. We can coordinate smart building integration, electrical systems, security, access control, data, fibre, ICT infrastructure and ongoing technical aftercare."
+   },
+   {
+    "q": "What areas do you cover?",
+    "a": "Our core coverage is London and the Home Counties, with each opportunity reviewed against scope, logistics and programme requirements."
+   },
+   {
+    "q": "Can you review projects beyond the core coverage area?",
+    "a": "Sometimes. If the scope is a strong fit and the logistics make sense, we can review projects beyond the core London and Home Counties area."
+   },
+   {
+    "q": "Do you visit before pricing?",
+    "a": "For most meaningful scopes, a site visit or detailed information review is needed before a reliable proposal can be prepared."
+   },
+   {
+    "q": "How do you price projects?",
+    "a": "We review drawings, schedules, site constraints and specification details before preparing a written proposal or budget guidance."
+   },
+   {
+    "q": "Do you provide written quotations?",
+    "a": "Yes. Project scope, exclusions, assumptions, price and programme are confirmed in writing before works proceed."
+   },
+   {
+    "q": "Can you work from a budget?",
+    "a": "Yes. A realistic budget helps guide specification choices, phasing and value decisions before the project is fixed."
+   }
+  ]
+ },
+ "whatsappIcon": "M16.02 3.2A12.75 12.75 0 0 0 5.1 22.5L3.6 28.8l6.45-1.5A12.73 12.73 0 1 0 16.02 3.2Zm0 22.95a10.1 10.1 0 0 1-5.15-1.4l-.37-.22-3.82.9.92-3.72-.24-.39a10.16 10.16 0 1 1 8.66 4.83Zm5.58-7.6c-.3-.15-1.8-.9-2.08-1-.28-.1-.48-.15-.68.15-.2.3-.78 1-.95 1.17-.18.2-.35.22-.65.08-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.68-2.08-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.68-1.64-.93-2.25-.25-.59-.5-.5-.68-.51h-.58c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.5s1.08 2.9 1.23 3.1c.15.2 2.12 3.24 5.13 4.54.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.7.25-1.3.18-1.44-.08-.13-.28-.2-.58-.35Z"
+}

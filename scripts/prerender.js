@@ -45,6 +45,8 @@ const FILE=require('path').join(__dirname,'..','dist','index.html');
   // the stored hero video stays empty: the live script loads and fades in the real one, as it always has
   snap=snap.replace(/<video([^>]*)>/g,(m,attrs)=>'<video'+attrs.replace(/\ssrc="[^"]*"/,'').replace(/\sautoplay(="")?/,'').replace(/\spreload="[^"]*"/,' preload="none"')+'>');
   // mark the stored copy so the page can tell it from the live one
+  // scroll-in states set by seuk-polish must never be stored, or text could stay hidden without scripts
+  snap=snap.replace(/\sdata-reveal="[^"]*"/g,'');
   if(!/^<div/.test(snap)) throw new Error('unexpected snapshot root');
   snap=snap.replace(/^<div/,'<div data-pre="1"');
   if(/aria-label="Cookie consent"/.test(snap)) throw new Error('cookie notice leaked into the snapshot');

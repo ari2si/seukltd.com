@@ -8,7 +8,10 @@
   var FORM_NAME = 'website-enquiry';
   var FORM_PATH = '/__forms.html';
   var TOKEN_PATH = '/api/form-token';
-  var PHONE_HELP = 'Please enter a phone number with at least 11 digits and no spaces.';
+  var PHONE_HELP = 'Please enter a valid phone number.';
+  var MESSAGE_HELP = 'Please tell us a little more about your project (at least 20 characters).';
+  var TS_KEY = (window.SEUK_FORM && window.SEUK_FORM.turnstile) || '';
+  var TS_HELP = 'The security check could not run. Switch off any content blocker for this page and try again.';
   var FALLBACK = ' You can also call 020 8163 4044 or email info@seukltd.com.';
 
   var guard = { token: '', bits: 16, wait: 4000, at: 0, pending: null };
@@ -35,8 +38,68 @@
   // Ask for the token as soon as someone starts using the form.
   document.addEventListener('focusin', function (event) {
     var form = event.target && event.target.closest ? event.target.closest('form') : null;
-    if (isContactForm(form)) fetchToken(false).catch(function () {});
+    if (isContactForm(form)) { fetchToken(false).catch(function () {}); startTurnstile(form); }
   }, true);
+
+  /* ---- Cloudflare Turnstile: an invisible check that replaces the sum when it is switched on ---- */
+  var ts = { loading: null, id: null, token: '', waiters: [], failed: false };
+
+  function loadTurnstile() {
+    if (ts.loading) return ts.loading;
+    ts.loading = new Promise(function (resolve, reject) {
+      if (window.turnstile) { resolve(); return; }
+      var el = document.createElement('script');
+      el.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      el.async = true;
+      el.onload = function () { resolve(); };
+      el.onerror = function () { ts.loading = null; reject(new Error('turnstile script')); };
+      document.head.appendChild(el);
+    });
+    return ts.loading;
+  }
+
+  function startTurnstile(form) {
+    if (!TS_KEY || ts.id !== null) return Promise.resolve();
+    return loadTurnstile().then(function () {
+      if (ts.id !== null) return;
+      var box = form.querySelector('.seuk-turnstile');
+      if (!box) {
+        box = document.createElement('div');
+        box.className = 'seuk-turnstile';
+        var button = form.querySelector('button[type="submit"]');
+        form.insertBefore(box, button);
+      }
+      ts.id = window.turnstile.render(box, {
+        sitekey: TS_KEY,
+        action: 'enquiry',
+        theme: 'light',
+        size: 'flexible',
+        appearance: 'interaction-only',
+        callback: function (token) { ts.token = token; ts.failed = false; ts.waiters.splice(0).forEach(function (w) { w(token); }); },
+        'expired-callback': function () { ts.token = ''; },
+        'error-callback': function () { ts.token = ''; ts.failed = true; ts.waiters.splice(0).forEach(function (w) { w(''); }); return true; }
+      });
+    }).catch(function () { ts.failed = true; });
+  }
+
+  // Resolves with a Turnstile token, or '' if the check cannot run within 20 seconds.
+  function turnstileToken(form) {
+    if (!TS_KEY) return Promise.resolve('');
+    return startTurnstile(form).then(function () {
+      if (ts.token) return ts.token;
+      if (ts.id === null) return '';
+      return new Promise(function (resolve) {
+        var timer = setTimeout(function () { resolve(''); }, 20000);
+        ts.waiters.push(function (token) { clearTimeout(timer); resolve(token); });
+        if (ts.failed) { try { window.turnstile.reset(ts.id); } catch (e) {} ts.failed = false; }
+      });
+    });
+  }
+
+  function resetTurnstile() {
+    ts.token = '';
+    if (ts.id !== null && window.turnstile) { try { window.turnstile.reset(ts.id); } catch (e) {} }
+  }
 
   /* ---- SHA-256 (synchronous, bytes in, hex out). Shared with the worker. ---- */
   function shaSource() {
@@ -157,20 +220,16 @@
   }
 
   /* ---- messages on the page ---- */
-  function showSuccess() {
-    var container = document.getElementById('contact-form');
+  function showSuccess(form) {
+    var container = (form && form.closest('#contact-form')) || document.getElementById('contact-form');
     if (!container) return;
-    container.innerHTML = '<div class="flex min-h-[520px] flex-col justify-center text-center">' +
-      '<div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">' +
-      '<svg aria-hidden="true" viewBox="0 0 24 24" class="h-8 w-8 text-green-700" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>' +
-      '</div>' +
-      '<h3 class="mt-6 text-3xl font-bold text-green-700">Thank you</h3>' +
-      '<p class="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-green-800">Your enquiry has been received. A member of our team will review your message and respond within 1 business day.</p>' +
-      '<div class="mt-8 rounded-lg border border-green-300 bg-green-50 px-4 py-4 text-left">' +
-      '<p class="text-sm font-semibold text-green-900">What happens next</p>' +
-      '<ul class="mt-3 space-y-2 text-sm text-green-800"><li>We review your project brief and contact details.</li><li>We may ask for drawings, photos or a site address.</li><li>We agree the most useful next step for your project.</li></ul>' +
-      '</div>' +
-      '</div>';
+    container.innerHTML = '<div style="min-height:420px;display:flex;flex-direction:column;justify-content:center;color:#15171b">' +
+      '<p style="font-family:\'Instrument Serif\',Georgia,serif;font-size:2.6rem;line-height:1.05;margin:0 0 .9rem">Thank you</p>' +
+      '<p style="margin:0 0 1.75rem;max-width:30rem;font-size:1rem;line-height:1.6;color:#3a3d44">Your enquiry has been received. A member of our team will review your message and respond within 1 business day.</p>' +
+      '<div style="border-top:1px solid #15171b;padding-top:1.1rem;max-width:30rem">' +
+      '<p style="margin:0 0 .6rem;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:#8a6420">What happens next</p>' +
+      '<ol style="margin:0;padding-left:1.1rem;font-size:.95rem;line-height:1.7;color:#3a3d44"><li>We review your project brief and contact details.</li><li>We may ask for drawings, photos or a site address.</li><li>We agree the most useful next step for your project.</li></ol>' +
+      '</div></div>';
     container.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
@@ -180,7 +239,7 @@
       box = document.createElement('p');
       box.setAttribute('data-seuk-form-error', 'true');
       box.setAttribute('role', 'alert');
-      box.className = 'rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700';
+      box.setAttribute('style', 'margin:0 0 1.25rem;padding:.85rem 1rem;background:#f5f2ec;border-left:2px solid #8a2c20;color:#15171b;font-size:.92rem;line-height:1.5;font-weight:500');
       form.insertBefore(box, form.firstChild);
     }
     box.textContent = message;
@@ -209,9 +268,10 @@
     if (!v.email) return 'Please enter your email address.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.email)) return 'Please enter a valid email address.';
     if (!v.phone) return 'Please enter your phone number.';
-    if (v.phone.replace(/\D/g, '').length < 11) return PHONE_HELP;
-    if (v.message.length < 50) return 'Please tell us a little more about your project. Your message must be at least 50 characters.';
-    if (!v.human) return 'Please complete the quick anti-spam check.';
+    var digits = v.phone.replace(/\D/g, '').length;
+    if (digits < 7 || digits > 15 || !/^[0-9+() -]+$/.test(v.phone)) return PHONE_HELP;
+    if (v.message.length < 20) return MESSAGE_HELP;
+    if (!TS_KEY && !v.human) return 'Please complete the quick anti-spam check.';
     return '';
   }
 
@@ -219,7 +279,7 @@
     name: 'Please enter your full name.',
     email: 'Please enter a valid email address.',
     phone: PHONE_HELP,
-    message: 'Please tell us a little more about your project. Your message must be between 50 and 5,000 characters.'
+    message: MESSAGE_HELP
   };
 
   function send(form, v, attempt) {
@@ -230,6 +290,11 @@
         return solve(guard.token + '.' + contentHash + '.', guard.bits);
       })
       .then(function (nonce) {
+        return turnstileToken(form).then(function (tsToken) { return { nonce: nonce, ts: tsToken }; });
+      })
+      .then(function (proof) {
+        if (TS_KEY && !proof.ts) return { blocked: true };
+        var nonce = proof.nonce;
         var body = new URLSearchParams();
         body.set('form-name', FORM_NAME);
         body.set('bot-field', v.bot);
@@ -238,22 +303,30 @@
         body.set('phone', v.phone);
         body.set('message', v.message);
         body.set('human-check', v.human);
+        body.set('division', v.division);
+        var extra = proof.ts ? { 'X-Turnstile': proof.ts } : {};
         return timedFetch(FORM_PATH, {
           method: 'POST',
           credentials: 'same-origin',
-          headers: {
+          headers: Object.assign({
             'Content-Type': 'application/x-www-form-urlencoded',
             'X-SEUK-Form': '1',
             'X-Form-Token': guard.token,
             'X-Form-Nonce': nonce
-          },
+          }, extra),
           body: body.toString()
         });
       })
       .then(function (response) {
+        if (response.blocked) return { ok: false, message: TS_HELP + FALLBACK };
         return response.json().catch(function () { return {}; }).then(function (data) {
           if (response.ok && data.ok) return { ok: true };
           var code = data.error || '';
+          resetTurnstile();
+          if (code === 'turnstile') {
+            if (attempt < 1) return send(form, v, attempt + 1);
+            return { ok: false, message: TS_HELP + FALLBACK };
+          }
           // A stale or too-new token is replaced and the send is retried once, unseen.
           if (attempt < 2 && (code === 'token' || code === 'expired' || code === 'early' || code === 'pow')) {
             return send(form, v, attempt + 1);
@@ -281,7 +354,8 @@
       phone: el.phone.value.trim(),
       message: el.message.value.trim(),
       bot: el['bot-field'] ? el['bot-field'].value.trim() : '',
-      human: el['human-check'] ? el['human-check'].value.trim().toLowerCase() : ''
+      human: el['human-check'] ? el['human-check'].value.trim().toLowerCase() : '',
+      division: form.getAttribute('data-division') || ''
     };
 
     var problem = validate(v);
@@ -290,7 +364,7 @@
     clearError(form);
     setBusy(form, true);
     send(form, v, 0).then(function (result) {
-      if (result.ok) { showSuccess(); return; }
+      if (result.ok) { showSuccess(form); return; }
       setBusy(form, false);
       showError(form, result.message);
     }).catch(function () {
