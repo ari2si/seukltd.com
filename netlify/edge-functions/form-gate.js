@@ -5,12 +5,15 @@
 import {
   checkPow,
   checkToken,
+  DIVISIONS,
   FORM_NAME,
   FORM_PATH,
   json,
   MAX_BODY,
   spamReason,
+  TURNSTILE_ON,
   validateFields,
+  verifyTurnstile,
 } from "../edge-lib/guard.js";
 
 const HUMAN_ANSWERS = new Set(["7", "seven", "build"]);
@@ -62,8 +65,11 @@ export default async (request, context) => {
   const invalid = validateFields(fields);
   if (invalid) return json(422, { ok: false, error: "invalid", field: invalid });
 
-  const human = (params.get("human-check") || "").trim().toLowerCase();
-  if (!HUMAN_ANSWERS.has(human)) return json(422, { ok: false, error: "human" });
+  // Without Turnstile the visitor answers the sum on the form.
+  if (!TURNSTILE_ON) {
+    const human = (params.get("human-check") || "").trim().toLowerCase();
+    if (!HUMAN_ANSWERS.has(human)) return json(422, { ok: false, error: "human" });
+  }
 
   if (!(await checkPow(token, fields.email, fields.message, request.headers.get("x-form-nonce") || ""))) {
     return json(403, { ok: false, error: "pow" });
@@ -73,6 +79,11 @@ export default async (request, context) => {
   if (spam) {
     console.log(`form-gate: blocked as spam (${spam})`);
     return json(422, { ok: false, error: "content" });
+  }
+
+  // Last check, because a Turnstile token can only be used once.
+  if (TURNSTILE_ON && !(await verifyTurnstile(request.headers.get("x-turnstile") || "", context?.ip || ""))) {
+    return json(403, { ok: false, error: "turnstile" });
   }
 
   // Genuine submission: hand a clean copy to Netlify Forms.
@@ -85,10 +96,12 @@ export default async (request, context) => {
   clean.set("message", fields.message);
   clean.set("human-check", "passed");
   // Subject line of the notification email.
-  clean.set("subject", `Website enquiry from ${fields.name}`);
+  const division = DIVISIONS[(params.get("division") || "").trim()] || "";
+  clean.set("division", division);
+  clean.set("subject", `${division ? `${division} enquiry` : "Website enquiry"} from ${fields.name}`);
 
   const headers = new Headers(request.headers);
-  for (const h of ["content-length", "x-form-token", "x-form-nonce", "x-seuk-form"]) headers.delete(h);
+  for (const h of ["content-length", "x-form-token", "x-form-nonce", "x-seuk-form", "x-turnstile"]) headers.delete(h);
 
   const upstream = await context.next(new Request(request, { headers, body: clean.toString() }));
   if (upstream.ok || (upstream.status >= 300 && upstream.status < 400)) return json(200, { ok: true });

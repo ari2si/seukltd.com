@@ -1,3 +1,4 @@
 netlify/edge-lib/secret.js
+netlify/edge-lib/page-config.html
 .DS_Store
 node_modules/
