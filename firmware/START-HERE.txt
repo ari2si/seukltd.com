@@ -1,0 +1,26 @@
+BLOC Bollard — control firmware (reference) for the YET8542BTR (Tuya BLE SoC)
+===========================================================================
+
+This is plain C built around the Tuya BLE SDK — the same framework YET already
+use. The task is to MERGE these modules into your existing Tuya project and wire
+up three callbacks. Nothing here needs rewriting.
+
+READ FIRST:  docs/INTEGRATION-GUIDE-YET.md   (step-by-step + file map + tests)
+             docs/BLOC-Bollard-Firmware-Specification.docx (full spec, Section 10 = same guide)
+             docs/tuya_dp_protocol.md         (the data points to create on the Tuya product)
+             README.md                        (module overview + requirement traceability)
+
+WHAT YOU EDIT ON-SITE (everything else is portable C):
+  1. include/app_config.h   - GPIO/pin map + active levels; KeeLoq manufacturer key
+                              + learning scheme; thresholds if your mechanics differ.
+  2. src/board_hal.c        - implement the function bodies for the YET8542BTR
+                              (GPIO/ADC/flash/BLE/RF/sleep/RNG). Search ">>> FACTORY <<<".
+  3. Route 3 Tuya SDK callbacks to:
+       app_on_ble_connected() / app_on_ble_disconnected() / app_on_dp_received()
+     and call app_init() once + app_loop_once() in your loop.
+
+QUICK SYNTAX CHECK ON A PC (no SDK needed):
+  cc -std=c99 -Wall -Wextra -fsyntax-only -Iinclude src/*.c
+
+Search the whole tree for ">>> FACTORY <<<" to find every point that needs your
+hardware-specific value or implementation.

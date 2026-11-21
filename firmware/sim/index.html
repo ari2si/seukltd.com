@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BLOC Bollard Simulator</title>
+<style>
+  :root{
+    --bg:#eef0ee; --hex:#e7e9e6; --ink:#2b2f33; --muted:#9aa0a6;
+    --btn-up:#3a3f45; --btn-dark:#1c2230; --accent:#7cc7ff;
+    --led-move:#39d0ff; --led-fault:#ff5a4d; --led-ok:#37d39a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink);
+    display:flex; align-items:stretch; justify-content:center; gap:0;
+    min-height:100vh;
+  }
+  .wrap{display:flex; width:100%; max-width:1460px}
+  @media (max-width:820px){ .wrap{flex-direction:column} }
+
+  /* ---------- App panel (mirrors the BLOC screenshot) ---------- */
+  .app{
+    width:440px; flex:0 0 440px; padding:22px 26px 26px;
+    background:
+      radial-gradient(circle at 20% 12%, rgba(255,255,255,.6), transparent 40%),
+      repeating-linear-gradient(60deg, var(--hex) 0 2px, transparent 2px 26px),
+      var(--bg);
+    display:flex; flex-direction:column; align-items:center;
+    border-right:1px solid #dcdedb;
+  }
+  @media (max-width:820px){ .app{width:100%; flex-basis:auto; border-right:none; border-bottom:1px solid #dcdedb} }
+  .app-top{width:100%; display:flex; align-items:center; justify-content:space-between; color:var(--muted)}
+  .app-top .title{flex:1; text-align:center; font-size:18px; font-weight:600; color:#4b5158; letter-spacing:1px}
+  .chev{font-size:22px; opacity:.5}
+  .batt{display:flex; align-items:center; gap:8px; margin:18px 0 6px; align-self:flex-end}
+  .batt .glyph{width:26px; height:14px; border:2px solid #8a9097; border-radius:3px; position:relative; padding:1px}
+  .batt .glyph:after{content:""; position:absolute; right:-5px; top:3px; width:3px; height:6px; background:#8a9097; border-radius:0 1px 1px 0}
+  .batt .fill{height:100%; background:#6b7177; border-radius:1px; transition:width .4s, background .4s}
+  .batt .pct{font-size:30px; color:#7a8087; font-weight:300}
+
+  .pad{display:flex; flex-direction:column; align-items:center; gap:34px; margin-top:30px}
+  .hexbtn{
+    width:120px; height:108px; border:0; cursor:pointer; background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    filter:drop-shadow(0 10px 16px rgba(20,26,40,.28));
+    transition:transform .08s ease;
+  }
+  .hexbtn:active{transform:scale(.95)}
+  .hexbtn .face{
+    width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
+    background:linear-gradient(160deg,#454b53,#2a2f37);
+  }
+  #btnUp   .face{background:linear-gradient(160deg,#464c54,#33383f)}
+  #btnStop .face{background:linear-gradient(160deg,#222838,#161b27)}
+  #btnDown .face{background:linear-gradient(160deg,#222838,#161b27)}
+  .hexbtn svg{width:42px; height:42px; stroke:#fff; stroke-width:6; fill:none; stroke-linecap:round; stroke-linejoin:round}
+  .hexbtn.hot .face{outline:3px solid var(--accent); outline-offset:-3px}
+  .hexbtn:disabled{opacity:.4; cursor:not-allowed; filter:none}
+
+  .brand{margin-top:auto; display:flex; align-items:center; gap:14px; padding-top:26px}
+  .brand .logo{width:62px; height:62px; border-radius:16px; background:#15171b; display:flex; align-items:center; justify-content:center}
+  .brand .logo svg{width:26px;height:34px;stroke:#fff;stroke-width:5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .brand .name{font-size:40px; color:#7a8087; font-weight:600; line-height:.9}
+  .brand .url{font-size:17px; color:#a7adb3}
+
+  /* ---------- Bollard stage ---------- */
+  .stage{flex:1; display:flex; flex-direction:column; padding:20px 24px}
+  .statusbar{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:8px}
+  .badge{padding:6px 12px; border-radius:999px; font-size:13px; font-weight:600; background:#dfe3e6; color:#3a3f45}
+  .badge.rising,.badge.lowering{background:#d4ecff; color:#1f6fb0}
+  .badge.raised{background:#d8f5e6; color:#1d885c}
+  .badge.lowered{background:#e7eaed; color:#566069}
+  .badge.stopped{background:#fdedc7; color:#8a6d12}
+  .badge.obstructed{background:#ffd9d4; color:#b23527}
+  .badge.locked{background:#ffd9d4; color:#b23527}
+  .led-dot{width:14px;height:14px;border-radius:50%;background:#cfd4d8;box-shadow:0 0 0 0 transparent;transition:background .05s,box-shadow .15s}
+  .banner{margin:4px 0 10px; padding:10px 14px; border-radius:10px; background:#ffe3df; color:#b23527; font-size:13px; font-weight:600; display:none}
+  .banner.show{display:block}
+
+  .scene{
+    position:relative; flex:1; min-height:540px; border-radius:16px; overflow:hidden;
+    background:linear-gradient(#cfe8f5 0%, #e9f4fb 55%, #eef0ee 56%);
+    border:1px solid #dcdedb;
+  }
+  .sky-hint{position:absolute;top:14px;left:16px;font-size:12px;color:#8aa7b6}
+  /* buried well behind the post */
+  .well{position:absolute; left:50%; transform:translateX(-50%); width:96px; background:#12161d; border-radius:6px 6px 0 0}
+  .post{
+    position:absolute; left:50%; transform:translateX(-50%); width:78px; height:230px;
+    border-radius:14px 14px 6px 6px;
+    background:linear-gradient(90deg,#6b7480 0%,#aab4c0 18%,#e8eef4 42%,#aab4c0 70%,#727b87 100%);
+    box-shadow:inset 0 2px 4px rgba(255,255,255,.6), inset 0 -10px 18px rgba(0,0,0,.25);
+    transition:top .02s linear;
+  }
+  .post .cap{position:absolute;top:0;left:0;right:0;height:14px;border-radius:12px 12px 4px 4px;
+    background:linear-gradient(90deg,#5b636e,#cfd6de,#5b636e)}
+  .post .led{position:absolute;left:6px;right:6px;top:26px;height:12px;border-radius:8px;
+    background:#1c2230; box-shadow:0 0 10px 1px transparent; transition:background .05s, box-shadow .1s}
+  .post .stripe{position:absolute;left:8px;right:8px;top:64px;height:10px;background:repeating-linear-gradient(45deg,#f4c20d 0 10px,#222 10px 20px);border-radius:3px;opacity:.92}
+  /* road / front lip that hides the buried part */
+  .ground{position:absolute; left:0; right:0; bottom:0; height:44%;
+    background:linear-gradient(#c9cdc9,#b9bdb9 30%,#a9ada9); z-index:5}
+  .ground:before{content:""; position:absolute; top:0; left:0; right:0; height:6px; background:linear-gradient(#9aa09a,#c9cdc9)}
+  .slot{position:absolute; left:50%; transform:translateX(-50%); top:-3px; width:108px; height:12px;
+    background:#0c0f14; border-radius:50%/100%; box-shadow:0 2px 6px rgba(0,0,0,.5) inset; z-index:6}
+  .lane{position:absolute; left:50%; transform:translateX(-50%); bottom:22px; width:14px; height:60%;
+    background:repeating-linear-gradient(#f3f4f0 0 18px, transparent 18px 40px); opacity:.5; z-index:4}
+  /* obstacle */
+  .obstacle{position:absolute; left:50%; transform:translateX(-50%); width:150px; height:18px;
+    background:repeating-linear-gradient(45deg,#ff5a4d 0 12px,#2a2f37 12px 24px); border-radius:4px;
+    z-index:7; display:none; box-shadow:0 4px 10px rgba(0,0,0,.3)}
+  .obstacle.show{display:block}
+
+  /* ---------- Engineering panel ---------- */
+  .eng{margin-top:14px; background:#fff; border:1px solid #e2e5e2; border-radius:14px; padding:14px 16px}
+  .eng h3{margin:0 0 10px; font-size:13px; letter-spacing:.5px; color:#6b7177; text-transform:uppercase}
+  .row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:8px 0; font-size:14px; color:#454b53}
+  .row label{display:flex; align-items:center; gap:8px}
+  input[type=range]{width:200px}
+  .kv{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; color:#566069}
+  .pill{padding:2px 8px;border-radius:6px;background:#eef0ee;font-family:ui-monospace,monospace;font-size:12px}
+  .hint{font-size:12px;color:#9aa0a6;margin-top:6px}
+  a{color:#1f6fb0}
+  .pushbtn{padding:9px 16px;border-radius:10px;border:0;cursor:pointer;font-size:14px;font-weight:600;
+    color:#fff;background:linear-gradient(160deg,#3a4150,#222838);box-shadow:0 4px 10px rgba(20,26,40,.25);
+    user-select:none;touch-action:none}
+  .pushbtn:active,.pushbtn.held{background:linear-gradient(160deg,#b23527,#7d2018);transform:translateY(1px)}
+  .pushbtn:disabled{opacity:.4;cursor:not-allowed}
+  /* downward "force" arrow shown over the post while it is being pushed */
+  .push-arrow{position:absolute;left:50%;transform:translateX(-50%);z-index:8;display:none;
+    color:#ff5a4d;font-size:34px;font-weight:900;text-shadow:0 2px 4px rgba(0,0,0,.3);
+    animation:bob .5s ease-in-out infinite}
+  .push-arrow.show{display:block}
+  @keyframes bob{0%,100%{margin-top:0}50%{margin-top:7px}}
+
+  /* ---------- Connectivity / pairing panel ---------- */
+  .conn{margin-top:14px; background:#fff; border:1px solid #e2e5e2; border-radius:14px; padding:14px 16px}
+  .conn h3{margin:0 0 12px; font-size:13px; letter-spacing:.5px; color:#6b7177; text-transform:uppercase}
+  .conn-grid{display:flex; gap:18px; flex-wrap:wrap}
+  .conn-left{flex:1 1 320px; min-width:300px}
+  .conn-right{flex:0 0 240px; display:flex; justify-content:center}
+  .fobs{display:flex; gap:22px; flex-wrap:wrap; align-items:flex-start}
+  .fob{width:96px; text-align:center}
+  /* glossy black "pebble" key fob (matches the reference fob) */
+  .pebble{position:relative; width:84px; height:128px; margin:0 auto;
+    border-radius:46px/52px;
+    background:
+      radial-gradient(120% 60% at 50% 8%, rgba(255,255,255,.55), rgba(255,255,255,0) 38%),
+      radial-gradient(140% 120% at 50% 120%, #2a2f37 0%, #0c0e12 70%);
+    box-shadow:0 10px 20px rgba(10,12,16,.45), inset 0 2px 3px rgba(255,255,255,.25),
+      inset 0 -10px 16px rgba(0,0,0,.6);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px;
+    border:1px solid #000}
+  .pebble .pled{position:absolute; top:12px; left:50%; transform:translateX(-50%); pointer-events:none;
+    width:7px; height:7px; border-radius:50%; background:#11151b; box-shadow:0 0 0 1px #000 inset}
+  .pebble.new{filter:hue-rotate(-18deg) saturate(.6) brightness(.95)}
+  .pbtn{border:0; cursor:pointer; color:#e9eef5; background:rgba(255,255,255,.06);
+    width:46px; height:30px; border-radius:8px; font-size:14px; font-weight:800;
+    box-shadow:inset 0 1px 1px rgba(255,255,255,.25), inset 0 -2px 4px rgba(0,0,0,.5)}
+  .pbtn:active{transform:scale(.93); background:rgba(124,199,255,.25)}
+  .pbtn.mid{width:46px; height:46px; border-radius:50%; font-size:13px; color:#fff;
+    background:radial-gradient(circle at 40% 35%, #4a525e, #1a1e25);
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.35), inset 0 -3px 6px rgba(0,0,0,.6)}
+  .pbtn.mid.flash{box-shadow:0 0 14px 3px #7cc7ff, inset 0 -3px 6px rgba(0,0,0,.6)}
+  .fob-label{font-size:11px; color:#8a9097; margin-top:8px}
+  .conn-row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:12px 0}
+  /* hold-to-act pill with progress fill */
+  .holdpill{position:relative; overflow:hidden; padding:6px 12px; border-radius:8px; border:1px solid #d3d8dd;
+    background:#eef0ee; font-family:ui-monospace,monospace; font-size:12px; cursor:pointer; color:#3a3f45}
+  .holdpill .fillbar{position:absolute; left:0; top:0; bottom:0; width:0%; background:rgba(124,199,255,.45); z-index:0}
+  .holdpill span{position:relative; z-index:1}
+  .blepill{padding:3px 9px;border-radius:6px;font-family:ui-monospace,monospace;font-size:12px;font-weight:700}
+  .blepill.on{background:#d8f5e6;color:#1d885c}
+  .blepill.off{background:#ffd9d4;color:#b23527}
+  .blepill.pairing{background:#d4ecff;color:#1f6fb0}
+  .pcb{margin-top:6px;padding:8px 10px;border:1px dashed #c7ccd1;border-radius:10px;background:#fafbfa}
+  .pcb b{font-size:11px;color:#6b7177;text-transform:uppercase;letter-spacing:.4px}
+  /* Firmware event console (left column) */
+  .console{width:100%; flex:1 1 auto; display:flex; flex-direction:column; align-self:stretch; margin:16px 0 4px}
+  .console-title{font-size:12px; letter-spacing:.6px; color:#6b7177; text-transform:uppercase;
+    margin-bottom:8px; display:flex; align-items:center; gap:8px; font-weight:700}
+  .console-title:before{content:""; width:9px; height:9px; border-radius:50%; background:#37d39a; box-shadow:0 0 9px #37d39a}
+  .log{flex:1 1 auto; min-height:420px; overflow:auto; background:#0f1217; color:#cfe3d6;
+    border-radius:12px; padding:14px 16px; font-family:ui-monospace,monospace; font-size:13px; line-height:1.65;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 10px 24px rgba(20,26,40,.18)}
+  .log .t{color:#5f6b75}
+  .log .ok{color:#5fe0a0}
+  .log .warn{color:#ffb35a}
+
+  /* phone mock */
+  .phone{width:248px; height:508px; border-radius:34px; background:#0f1217; padding:13px;
+    box-shadow:0 12px 30px rgba(20,26,40,.35)}
+  .phone-screen{width:100%; height:100%; border-radius:20px; background:#f3f5f7; overflow:hidden;
+    display:flex; flex-direction:column; position:relative}
+  .ph-bar{height:34px; background:#fff; display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700; color:#3a3f45; border-bottom:1px solid #e7e9ec; gap:6px}
+  .ph-body{flex:1; padding:14px; display:flex; flex-direction:column; gap:10px; font-size:12.5px; color:#3a3f45}
+  .ph-title{font-size:13px; font-weight:700; color:#2b2f33}
+  .ph-card{background:#fff; border:1px solid #e6e9ec; border-radius:12px; padding:10px 12px; box-shadow:0 2px 6px rgba(0,0,0,.04)}
+  .ph-card.sel{border-color:#7cc7ff; box-shadow:0 0 0 2px #cfeaff}
+  .ph-mac{font-family:ui-monospace,monospace; font-size:10.5px; color:#8a9097}
+  .ph-input{font-family:ui-monospace,monospace; font-size:20px; letter-spacing:6px; text-align:center;
+    background:#fff; border:1px solid #d8dde1; border-radius:10px; padding:10px; color:#2b2f33}
+  .ph-btn{margin-top:auto; background:#1c2230; color:#fff; border:0; border-radius:10px; padding:11px;
+    font-size:13px; font-weight:700; cursor:pointer}
+  .ph-btn.ghost{background:#e7eaed; color:#3a3f45}
+  .ph-spin{width:34px;height:34px;border-radius:50%;border:3px solid #d8dde1;border-top-color:#7cc7ff;
+    margin:18px auto; animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ph-3state{display:flex; gap:8px; margin-top:6px}
+  .ph-3state button{flex:1; border:0; border-radius:10px; padding:12px 0; font-size:16px; cursor:pointer;
+    background:#1c2230; color:#fff}
+  .ph-note{font-size:11px; color:#9aa0a6}
+  .ph-toast{position:absolute; left:10px; right:10px; bottom:10px; background:#1d885c; color:#fff;
+    border-radius:10px; padding:8px 10px; font-size:11.5px; text-align:center; opacity:0; transition:opacity .3s}
+  .ph-toast.show{opacity:1}
+  .badge.resisting{background:#ffd9d4;color:#b23527}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ BLOC app UI ============ -->
+  <div class="app">
+    <div class="app-top">
+      <span class="chev">‹</span>
+      <span class="title">升降机 · Bollard</span>
+      <span class="chev">✎</span>
+    </div>
+
+    <div class="batt">
+      <span class="glyph"><span class="fill" id="battFill" style="width:76%"></span></span>
+      <span class="pct" id="battPct">76%</span>
+    </div>
+
+    <div class="console">
+      <div class="console-title">Firmware event log · live</div>
+      <div class="log" id="log"></div>
+    </div>
+
+    <div class="brand">
+      <span class="logo"><svg viewBox="0 0 32 40"><polyline points="20,4 12,4 12,20 20,20 20,36 12,36"/></svg></span>
+      <div><div class="name">BLOC</div><div class="url">mybloc.co.uk</div></div>
+    </div>
+  </div>
+
+  <!-- ============ Bollard stage ============ -->
+  <div class="stage">
+    <div class="statusbar">
+      <span class="led-dot" id="ledDot" title="LED strip"></span>
+      <span class="badge lowered" id="statusBadge">Lowered</span>
+      <span class="kv">DP109 status · DP110 battery · DP111 state</span>
+    </div>
+    <div class="banner" id="banner">Battery Depleted — Operation Locked (UP disabled below 18&nbsp;V)</div>
+
+    <div class="scene" id="scene">
+      <div class="sky-hint">Control from the phone app or a remote →</div>
+      <div class="well"  id="well"></div>
+      <div class="post"  id="post">
+        <div class="cap"></div>
+        <div class="led"    id="postLed"></div>
+        <div class="stripe"></div>
+      </div>
+      <div class="lane"></div>
+      <div class="obstacle" id="obstacle"></div>
+      <div class="push-arrow" id="pushArrow">▼</div>
+      <div class="ground"><div class="slot"></div></div>
+    </div>
+
+    <!-- Engineering panel: exercises §5 obstruction, §7 battery, §8 anti-tamper -->
+    <div class="eng">
+      <h3>Engineering / demo controls</h3>
+      <div class="row">
+        <label><input type="checkbox" id="obsToggle"> Obstacle on the road (tests §5 auto-reverse)</label>
+      </div>
+      <div class="row">
+        <label>Battery
+          <input type="range" id="battSlider" min="17000" max="25200" value="23600" step="100">
+        </label>
+        <span class="kv" id="battKv">23.60 V</span>
+      </div>
+      <div class="row">
+        <button id="pushBtn" class="pushbtn">⤓ Hold to force the bollard DOWN</button>
+        <span class="kv" id="phaseKv">phase: IDLE</span>
+      </div>
+      <div class="hint">Faithful to the firmware state machine in <span class="pill">firmware/src/bollard.c</span>:
+        300&nbsp;ms reversing dead-time, 1&nbsp;s limit-stop pad, &gt;3&nbsp;A/1&nbsp;s obstruction trip → 500&nbsp;ms pause → retract,
+        UP-lockout under 18&nbsp;V, and anti-tamper re-drive (§8): while raised, forcing it down makes the
+        motor fight back up and re-lock when released. Travel is sped up for viewing.</div>
+    </div>
+
+    <!-- ============ Bluetooth pairing & remotes ============ -->
+    <div class="conn">
+      <h3>Bluetooth pairing &amp; remotes</h3>
+      <div class="conn-grid">
+        <div class="conn-left">
+          <div class="fobs">
+            <div class="fob">
+              <div class="pebble">
+                <span class="pled"></span>
+                <button class="pbtn" id="fobUp" title="A · Up">▲</button>
+                <button class="pbtn mid" id="fobMid" title="Middle · STOP">STOP</button>
+                <button class="pbtn" id="fobDown" title="B · Down">▼</button>
+              </div>
+              <div class="fob-label">Paired remote</div>
+            </div>
+            <div class="fob">
+              <div class="pebble new">
+                <span class="pled"></span>
+                <button class="pbtn" id="fobNew" style="height:46px;font-size:10px">NEW<br>fob</button>
+              </div>
+              <div class="fob-label">Unpaired remote</div>
+            </div>
+            <div style="flex:1; min-width:230px">
+              <div class="conn-row">
+                <span class="kv">BLE:</span> <span class="blepill off" id="blePill">OFF</span>
+                <span class="kv">PIN: <span id="pinState">default 123456</span></span>
+                <span class="kv">Fobs: <span id="fobCount">2</span>/10</span>
+              </div>
+              <div class="conn-row">
+                <button class="pill" id="btnTriple" style="cursor:pointer">● ×3 → open pairing</button>
+                <button class="holdpill" id="btnBleHold"><span class="fillbar"></span><span>● hold 10&nbsp;s → BLE on/off</span></button>
+              </div>
+              <div class="pcb">
+                <b>PCB internal RST/pair button</b>
+                <div class="conn-row" style="margin:8px 0 0">
+                  <button class="holdpill" id="btnRstWipe"><span class="fillbar"></span><span>RST hold 5&nbsp;s → wipe fobs</span></button>
+                  <button class="holdpill" id="btnRstRecover"><span class="fillbar"></span><span>RST hold 10&nbsp;s → BLE recovery</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="conn-right">
+          <div class="phone"><div class="phone-screen" id="screen"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   Bollard simulator — JS port of firmware/src/bollard.c + battery.c.
+   Position model: pos 0.0 = fully lowered (down limit), 1.0 = raised
+   (up limit). Timings mirror app_config.h (travel sped up for the demo).
+   ===================================================================== */
+const TRAVEL_MS      = 3000;   // demo speed for full 0->1 (real: limit-switch bound)
+const DEADTIME_MS    = 300;    // BOLLARD_DIR_DEADTIME_MS
+const LIMIT_PAD_MS   = 1000;   // BOLLARD_LIMIT_STOP_DELAY_MS  (§4)
+const OBSTR_DEBOUNCE = 1000;   // OBSTRUCT_DEBOUNCE_MS         (§5)
+const OBSTR_PAUSE_MS = 500;    // OBSTRUCT_REVERSE_PAUSE_MS    (§5)
+const OBSTACLE_POS   = 0.62;   // where the obstacle blocks upward travel
+const BATT_LOCKOUT   = 18000;  // BATT_LOCKOUT_MV  (§7)
+const BATT_LOW_WARN  = 19000;  // BATT_LOW_WARN_MV (§7)
+const ANTI_TAMPER    = true;   // ANTI_TAMPER_RESTORE (§8)
+const MOTOR_UP_MS    = 2200;   // §8: motor re-drive speed when resisting
+const FORCE_DOWN_MS  = 1500;   // demo: how fast a manual push lowers it
+
+// SoC anchors from battery.c (mV -> %)
+const SOC=[[25200,100],[24000,85],[22800,70],[21000,50],[20000,30],[19000,12],[18000,0]];
+function soc(mv){
+  if(mv>=SOC[0][0])return 100; if(mv<=SOC[SOC.length-1][0])return 0;
+  for(let i=0;i<SOC.length-1;i++){const[a,ap]=SOC[i],[b,bp]=SOC[i+1];
+    if(mv<=a&&mv>b)return Math.round(bp+(ap-bp)*(mv-b)/(a-b));}
+  return 0;
+}
+
+const el=id=>document.getElementById(id);
+const post=el('post'), well=el('well'), scene=el('scene'), obstacleEl=el('obstacle');
+const postLed=el('postLed'), ledDot=el('ledDot'), badge=el('statusBadge'), banner=el('banner');
+
+let phase='IDLE', status='LOWERED', pos=0.0, pending=null, obstructing=false;
+let phaseT0=performance.now(), overT0=0, over=false;
+let battMv=parseInt(el('battSlider').value,10);
+let obstacleOn=false;
+let pushing=false;                       // §8: a manual push-down is being applied
+let last=performance.now();
+
+const atTop    =()=>pos>=0.999;
+const atBottom =()=>pos<=0.001;
+const battAllowedUp=()=>battMv>=BATT_LOCKOUT;          // §7
+const battState=()=> battMv<BATT_LOCKOUT?2 : battMv<BATT_LOW_WARN?1 : 0;
+
+function setStatus(s){status=s;}
+function beginMove(dir){
+  phase=dir; phaseT0=performance.now();
+  setStatus(obstructing?'OBSTRUCTED':(dir==='UP'?'RISING':'LOWERING'));
+}
+function command(cmd){
+  if(cmd==='STOP'){ phase='IDLE'; pending=null; obstructing=false;
+    setStatus(atTop()?'RAISED':atBottom()?'LOWERED':'STOPPED'); return; }
+  if(cmd==='UP'){
+    if(!battAllowedUp()){ phase='IDLE'; setStatus('LOCKED'); return; }  // §7
+    if(atTop()){ setStatus('RAISED'); return; }
+  } else { if(atBottom()){ setStatus('LOWERED'); return; } }
+  obstructing=false; pending=cmd; phase='DEADTIME'; phaseT0=performance.now();
+}
+
+function tick(now){
+  const dt=Math.min(now-last,50); last=now;
+  const step=dt/TRAVEL_MS;
+
+  // §8 manual push-down force: lowers the post while the button is held
+  if(pushing && pos>0){ pos=Math.max(0, pos - dt/FORCE_DOWN_MS); }
+
+  switch(phase){
+    case 'IDLE':
+      // §8 anti-tamper: at rest raised, if forced off the upper limit, fight back up
+      if(ANTI_TAMPER && status==='RAISED' && pos<0.998 && battAllowedUp()){
+        obstructing=false; phase='RESIST'; phaseT0=now;
+      }
+      break;
+    case 'RESIST':{                                    // §8 motor re-drives up
+      pos += dt/MOTOR_UP_MS;                            // motor pushing up
+      pos = Math.min(1, Math.max(0, pos));
+      setStatus(pushing ? 'RESISTING' : 'RISING');
+      if(!battAllowedUp()){ phase='IDLE'; setStatus('LOCKED'); break; }
+      if(pos>=1){ pos=1; phase='LIMIT_PAD'; phaseT0=now; setStatus('RAISED'); }
+      break;
+    }
+    case 'DEADTIME':
+      if(now-phaseT0>=DEADTIME_MS) beginMove(pending);
+      break;
+    case 'UP':{
+      let blocked = obstacleOn && (pos+step>=OBSTACLE_POS);
+      if(blocked){
+        pos=Math.min(pos,OBSTACLE_POS);
+        if(!over){over=true; overT0=now;}
+        else if(now-overT0>=OBSTR_DEBOUNCE){            // §5 trip
+          setStatus('OBSTRUCTED'); phase='OBSTR_PAUSE'; phaseT0=now; over=false; break;
+        }
+      } else {
+        over=false; pos+=step;
+        if(pos>=1){ pos=1; phase='LIMIT_PAD'; phaseT0=now; setStatus('RAISED'); }
+      }
+      break;
+    }
+    case 'DOWN':
+      pos-=step;
+      if(pos<=0){ pos=0; phase='LIMIT_PAD'; phaseT0=now; setStatus('LOWERED'); obstructing=false; }
+      break;
+    case 'LIMIT_PAD':                                   // §4 1 s padding
+      if(now-phaseT0>=LIMIT_PAD_MS) phase='IDLE';
+      break;
+    case 'OBSTR_PAUSE':                                 // §5 pause then retract
+      if(now-phaseT0>=OBSTR_PAUSE_MS){ obstructing=true; beginMove('DOWN'); }
+      break;
+  }
+
+  render(now);
+  requestAnimationFrame(tick);
+}
+
+/* ---------- rendering ---------- */
+const SURFACE=0.56;            // fraction of scene height that is ground top
+function render(now){
+  const H=scene.clientHeight;
+  const surfaceY=H*SURFACE;
+  const visible=180;           // px of post visible when fully raised
+  const top=surfaceY - visible*pos;
+  post.style.top=top+'px';
+  post.style.height=(H-top)+'px';        // extend below ground so it never floats
+  well.style.top=(surfaceY-6)+'px'; well.style.height=(H-surfaceY+6)+'px';
+  obstacleEl.style.top=(surfaceY - visible*OBSTACLE_POS - 8)+'px';
+
+  // push-down force arrow
+  const pa=el('pushArrow');
+  pa.classList.toggle('show', pushing);
+  if(pushing){ pa.style.top=(top-44)+'px'; }
+
+  // status badge
+  const map={RAISED:'raised',LOWERED:'lowered',RISING:'rising',LOWERING:'lowering',
+             STOPPED:'stopped',OBSTRUCTED:'obstructed',LOCKED:'locked',RESISTING:'obstructed'};
+  const label={RAISED:'Raised',LOWERED:'Lowered',RISING:'Rising',LOWERING:'Lowering',
+               STOPPED:'Stopped',OBSTRUCTED:'Obstructed',LOCKED:'Locked',RESISTING:'Resisting force'};
+  badge.className='badge '+map[status]; badge.textContent=label[status];
+  banner.classList.toggle('show', status==='LOCKED' || battState()===2);
+
+  // LED profile (§6): moving 0.5/1.0, pairing solid, fault 0.2/0.2, else off
+  const moving=(phase==='UP'||phase==='DOWN'||phase==='RESIST');
+  let ledOn=false, color;
+  if(moving){ color='var(--led-move)'; ledOn=(now % 1500) < 500; }      // 0.5 on /1.0 off
+  else if(pairingOpen()){ color='var(--accent)'; ledOn=true; }          // §2 solid while pairing
+  else if(battState()!==0){ color='var(--led-fault)'; ledOn=(now % 400) < 200; } // 0.2/0.2
+  else { color='var(--led-ok)'; ledOn=(now % 2000) < 100; }             // idle blip
+  postLed.style.background = ledOn?color:'#1c2230';
+  postLed.style.boxShadow  = ledOn?('0 0 12px 2px '+color):'none';
+  ledDot.style.background  = ledOn?color:'#cfd4d8';
+
+  // battery UI
+  const pct=soc(battMv);
+  el('battPct').textContent=pct+'%';
+  el('battFill').style.width=pct+'%';
+  el('battFill').style.background = battState()===2?'#c0392b':battState()===1?'#d68910':'#6b7177';
+  el('battKv').textContent=(battMv/1000).toFixed(2)+' V';
+  el('phaseKv').textContent='phase: '+phase;
+
+  // connectivity live updates — BLE state pill
+  const bp=el('blePill');
+  if(bp){ const st = !blePower?'off':(pairingOpen()?'pairing':'on');
+    bp.className='blepill '+st;
+    bp.textContent = st==='off'?'OFF':(st==='pairing'?'PAIRING':'ON (hidden)'); }
+  const ps=el('phStatus'); if(ps) ps.textContent=label[status];
+  if(windowWasOpen && !pairingOpen()){ windowWasOpen=false; logLine('Pairing window closed','warn'); }
+  if(pairingOpen()) windowWasOpen=true;
+
+  // push only meaningful when there's height to push
+  const pb=el('pushBtn');
+  pb.disabled = !(pos>0.1);
+  pb.classList.toggle('held', pushing);
+}
+
+/* ---------- wiring ---------- */
+el('obsToggle').onchange=e=>{ obstacleOn=e.target.checked; obstacleEl.classList.toggle('show',obstacleOn); };
+el('battSlider').oninput=e=>{ battMv=parseInt(e.target.value,10); };
+
+/* §8 hold-to-push: while held, a manual force lowers the post; releasing lets
+   the anti-tamper motor drive it back up to the locked position. */
+const startPush=e=>{ e.preventDefault(); if(!el('pushBtn').disabled) pushing=true; };
+const endPush  =e=>{ if(e) e.preventDefault(); pushing=false; };
+el('pushBtn').addEventListener('pointerdown', startPush);
+window.addEventListener('pointerup', endPush);
+el('pushBtn').addEventListener('pointerleave', endPush);
+el('pushBtn').addEventListener('pointercancel', endPush);
+
+/* ===================================================================
+   Connectivity / pairing — spec §2 (app over BLE) and §3 (new remote).
+   Mirrors the firmware: hidden advertising, triple-press window, default
+   123456 -> forced custom PIN (is_initialized), and app-authorised learning.
+   =================================================================== */
+const PAIR_WINDOW_MS  = 30000;   // demo (real BLE_PAIRING_WINDOW_MS = 180000 = 3 min)
+const LEARN_WINDOW_MS = 30000;
+let blePower=true, isInit=false, customPin=null;    // §8 BLE radio master on/off (ships ON, hidden)
+let pairUntil=0, learnUntil=0, fobs=2, screen='scan';
+let midCount=0, midT0=0, windowWasOpen=false;
+const MAC='SEUK-Bollard A1B2', MACFULL='DC:0D:30:A1:B2:7F';
+
+function pairingOpen(){ return performance.now() < pairUntil; }
+function learningOpen(){ return performance.now() < learnUntil; }
+
+function logLine(msg, cls){
+  const L=el('log'); if(!L) return;
+  const t=new Date().toLocaleTimeString('en-GB');
+  L.insertAdjacentHTML('afterbegin',
+    `<div><span class="t">${t}</span> <span class="${cls||''}">${msg}</span></div>`);
+}
+
+function openPairing(){
+  if(!blePower){ logLine('BLE is OFF — cannot open pairing','warn'); return; }
+  pairUntil=performance.now()+PAIR_WINDOW_MS;
+  logLine('Middle ×3 → 3-min pairing window OPEN · LED solid (§2)','ok');
+}
+function midPress(){
+  const now=performance.now();
+  if(midCount===0 || now-midT0>1500){ midCount=1; midT0=now; } else midCount++;
+  if(midCount>=3){ midCount=0; openPairing(); }
+}
+/* §8 BLE radio on/off (remote 10 s hold, or PCB recovery) */
+function setBle(on){
+  if(blePower===on) return;
+  blePower=on;
+  if(!on){ pairUntil=0; logLine('BLE radio OFF (middle held 10 s) — app link blocked','warn');
+           if(screen!=='scan') setScreen('scan'); }
+  else   { logLine('BLE radio ON (middle held 10 s)','ok'); }
+}
+function setScreen(s){ screen=s; renderScreen(s); }
+
+function renderScreen(s){
+  const S=el('screen'); if(!S) return;
+  const bar='<div class="ph-bar">📶 Tuya · BLE</div>'; let h='';
+  if(s==='scan'||s==='scan-empty'){
+    h=bar+`<div class="ph-body"><div class="ph-title">Add Device</div>
+      <div class="ph-note">Scan for nearby Bluetooth devices.</div>
+      ${s==='scan-empty'?'<div class="ph-card">No devices found.<div class="ph-note">Open the pairing window on the bollard first.</div></div>':''}
+      <button class="ph-btn" id="phScan">Scan</button></div>`;
+  } else if(s==='found'){
+    h=bar+`<div class="ph-body"><div class="ph-title">Devices found</div>
+      <div class="ph-card sel">${MAC}<div class="ph-mac">${MACFULL}</div></div>
+      <div class="ph-note">SW-04: MAC shown so you pick your own unit.</div>
+      <button class="ph-btn" id="phConnect">Connect</button></div>`;
+  } else if(s==='pin'){
+    h=bar+`<div class="ph-body"><div class="ph-title">Enter PIN</div>
+      <div class="ph-note">${isInit?'Enter your 6-digit PIN':'Default factory PIN required'}</div>
+      <input class="ph-input" id="phPin" value="${isInit?'':'123456'}" maxlength="6">
+      <button class="ph-btn" id="phPinOk">Connect</button></div>`;
+  } else if(s==='setpin'){
+    h=bar+`<div class="ph-body"><div class="ph-title">Set a new PIN</div>
+      <div class="ph-note">First connection — choose a new 6-digit code (SW-03).</div>
+      <input class="ph-input" id="phNew" value="481922" maxlength="6">
+      <button class="ph-btn" id="phNewOk">Save PIN</button></div>`;
+  } else if(s==='dash'){
+    h=bar+`<div class="ph-body"><div class="ph-title">升降机 · Connected</div>
+      <div class="ph-3state"><button id="phUp">▲</button><button id="phStop">▌▌</button><button id="phDown">▼</button></div>
+      <div class="ph-note">Status: <b id="phStatus">—</b></div>
+      <button class="ph-btn ghost" id="phManage">Manage remotes</button></div>`;
+  } else if(s==='manage'){
+    h=bar+`<div class="ph-body"><div class="ph-title">Manage remotes</div>
+      <div class="ph-card">Paired remotes: <b>${fobs}</b> / 10</div>
+      <div class="ph-note">Tap Add, then press a button on the new remote.</div>
+      <button class="ph-btn" id="phAdd">Add remote</button>
+      <button class="ph-btn ghost" id="phBack">Back</button></div>`;
+  } else if(s==='learning'){
+    h=bar+`<div class="ph-body"><div class="ph-title">Learning…</div>
+      <div class="ph-spin"></div>
+      <div class="ph-note" style="text-align:center">Press any button on the<br>new remote now.</div>
+      <button class="ph-btn ghost" id="phCancel">Cancel</button></div>`;
+  }
+  S.innerHTML=h+'<div class="ph-toast" id="phToast"></div>';
+  const on=(id,fn)=>{ const e=el(id); if(e) e.onclick=fn; };
+  on('phScan',()=>{ if(blePower && pairingOpen()){ logLine('App scan → found '+MAC,'ok'); setScreen('found'); }
+                    else { logLine(blePower?'App scan → no devices (window closed)':'App scan → BLE is OFF','warn'); setScreen('scan-empty'); } });
+  on('phConnect',()=>{ logLine('App connecting to '+MAC); setScreen('pin'); });
+  on('phPinOk',()=>{ const v=(el('phPin').value||'').trim();
+    if(!isInit){ if(v==='123456'){ logLine('Default PIN 123456 accepted (is_initialized=0)','ok'); setScreen('setpin'); }
+                 else { logLine('Wrong default PIN → link dropped (§2)','warn'); setScreen('scan'); } }
+    else { if(v===customPin){ logLine('Custom PIN accepted','ok'); setScreen('dash'); }
+           else { logLine('Wrong PIN → link dropped (§2)','warn'); setScreen('scan'); } } });
+  on('phNewOk',()=>{ const v=(el('phNew').value||'').trim(); if(!/^\d{6}$/.test(v)){ logLine('PIN must be 6 digits','warn'); return; }
+    customPin=v; isInit=true; pairUntil=0; updateConnKv();
+    logLine('Custom PIN set ('+v+') · is_initialized=1 · window closed','ok'); setScreen('dash'); });
+  on('phManage',()=> setScreen('manage'));
+  on('phBack',()=> setScreen('dash'));
+  on('phAdd',()=>{ learnUntil=performance.now()+LEARN_WINDOW_MS;
+    logLine('App authorised learn window (RM-01) — press the new fob','ok'); setScreen('learning'); });
+  on('phCancel',()=>{ learnUntil=0; setScreen('manage'); });
+  on('phUp',()=>{ command('UP'); logLine('App ▲ Up'); });
+  on('phStop',()=>{ command('STOP'); logLine('App ▌▌ Stop'); });
+  on('phDown',()=>{ command('DOWN'); logLine('App ▼ Down'); });
+}
+function toast(msg){ const t=el('phToast'); if(!t) return; t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
+
+function learnNewFob(){
+  if(learningOpen()){ fobs++; learnUntil=0; updateConnKv();
+    logLine('New remote learned — rolling-code serial saved · fobs='+fobs+' (§3)','ok');
+    setScreen('manage'); toast('Remote added'); }
+  else { logLine('Unpaired remote ignored (not in a learn window) (SEC-02)','warn'); }
+}
+function updateConnKv(){
+  el('fobCount').textContent=fobs;
+  el('pinState').textContent = isInit?('custom '+customPin):'default 123456';
+}
+
+el('fobUp').onclick   =()=>{ command('UP');   logLine('Remote ▲ Up (button A)'); };
+el('fobDown').onclick =()=>{ command('DOWN'); logLine('Remote ▼ Down (button B)'); };
+el('fobMid').onclick  =()=>{ const m=el('fobMid'); m.classList.add('flash'); setTimeout(()=>m.classList.remove('flash'),150);
+                             command('STOP'); logLine('Remote ■ STOP (middle button)'); midPress(); };
+el('btnTriple').onclick=()=>{ midPress(); midPress(); midPress(); };
+el('fobNew').onclick  = learnNewFob;
+
+/* ----- hold-to-act buttons (BLE toggle + PCB recovery/wipe) -------------
+   Labelled "10 s"/"5 s" but completed in HOLD_DEMO_MS for the demo. */
+const HOLD_DEMO_MS=2200;
+function holdButton(id, onComplete){
+  const b=el(id); if(!b) return; const bar=b.querySelector('.fillbar');
+  let t0=0, raf=0, done=false;
+  const step=()=>{ const p=Math.min(1,(performance.now()-t0)/HOLD_DEMO_MS);
+    bar.style.width=(p*100)+'%';
+    if(p>=1 && !done){ done=true; onComplete(); reset(); return; }
+    raf=requestAnimationFrame(step); };
+  const start=e=>{ e.preventDefault(); done=false; t0=performance.now(); raf=requestAnimationFrame(step); };
+  const reset=()=>{ cancelAnimationFrame(raf); bar.style.width='0%'; };
+  b.addEventListener('pointerdown', start);
+  b.addEventListener('pointerup',   reset);
+  b.addEventListener('pointerleave',reset);
+  b.addEventListener('pointercancel',reset);
+}
+holdButton('btnBleHold', ()=> setBle(!blePower));                          // §8 remote 10 s toggle
+holdButton('btnRstWipe', ()=>{ fobs=0; updateConnKv();                     // §3 RST 5 s wipe
+    logLine('PCB RST held 5 s → all paired fobs wiped (§3)','warn'); });
+holdButton('btnRstRecover', ()=>{ setBle(true); openPairing();             // §8 PCB 10 s recovery
+    logLine('PCB RST held 10 s → BLE forced ON + pairing window opened (§8 recovery)','ok'); });
+
+/* Optional starting state via URL (used by the "lost all remotes" demo):
+   ?pin=482922  -> device already initialised with this custom PIN
+   ?fobs=0      -> number of paired remotes
+   ?ble=off     -> Bluetooth radio starts OFF/hidden                         */
+(function initFromURL(){
+  const q=new URLSearchParams(location.search);
+  if(q.has('pin')){ customPin=q.get('pin'); isInit=true; }
+  if(q.has('fobs')){ fobs=parseInt(q.get('fobs'),10)||0; }
+  if(q.get('ble')==='off'){ blePower=false; }
+})();
+
+renderScreen('scan');
+updateConnKv();
+
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>
